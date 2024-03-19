@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  width: 378px;
+  padding: 24px;
+
+  color: var(--dark-100);
+
+  & > h1 {
+    font-weight: var(--font-weight-bold);
+    color: var(--light-100);
+    text-align: center;
+  }
+}
+
+.socialBlock {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  margin: 24px 0;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 15px;
+
+  background-color: var(--dark-900);
+  border-radius: 50%;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 6px 10px;
+
+  color: var(--dark-100);
+
+  background: inherit;
+  border: 1px solid var(--dark-100);
+  border-radius: 4px;
+  outline: var(--info-500);
+
+  &:focus-visible {
+    border: 1px solid var(--info-500);
+  }
+
+  &:focus {
+    border: 1px solid var(--info-500);
+  }
+}

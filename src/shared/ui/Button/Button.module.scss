@@ -1,0 +1,40 @@
+.primary,
+.text,
+.red,
+.outline {
+  cursor: pointer;
+
+  padding: 0 24px;
+
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-l);
+
+  background: inherit;
+  border: none;
+  border-radius: 4px;
+
+  transition: 0.2s all;
+
+  &:hover {
+    background-color: var(--info-100);
+  }
+
+  &:active {
+    background-color: var(--info-700);
+  }
+
+  &:disabled {
+    color: var(--light-900);
+    background-color: var(--info-900);
+  }
+}
+
+.primary {
+  color: var(--light-100);
+  background: var(--info-500);
+}
+
+.fullWidth {
+  width: 100%;
+}
