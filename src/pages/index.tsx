@@ -1,4 +1,7 @@
-import { Button } from '@/shared/ui/Button/Button'
+import { ReactElement } from 'react'
+
+import { NewMovie } from '@/features/movies/ui/NewMovie/NewMovie'
+import Layout from '@/widgets/layout/ui/layout'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 
@@ -13,9 +16,11 @@ export default function Home() {
         <meta content={'width=device-width, initial-scale=1'} name={'viewport'} />
         <link href={'/favicon.ico'} rel={'icon'} />
       </Head>
-      <main>
-        <Button variant={'primary'}>Sign Up</Button>
-      </main>
+      <NewMovie />
     </>
   )
+}
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>
 }

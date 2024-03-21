@@ -2,6 +2,8 @@ import { ReactNode } from 'react'
 
 import { Header } from '@/widgets/header'
 
+import s from './Layuot.module.scss'
+
 type Props = {
   children: ReactNode
 }
@@ -9,7 +11,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className={s.main}>{children}</main>
     </>
   )
 }

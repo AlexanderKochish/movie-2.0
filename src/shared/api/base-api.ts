@@ -4,7 +4,6 @@ import { getCookie, setCookie } from 'cookies-next'
 export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_API,
-    credentials: 'include',
     prepareHeaders: headers => {
       const accessToken = getCookie('accessToken')
 

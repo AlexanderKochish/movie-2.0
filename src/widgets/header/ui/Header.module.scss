@@ -3,15 +3,39 @@
   top: 0;
   left: 0;
 
-  display: flex;
-  align-items: center;
-
   width: 100%;
   min-height: 60px;
   padding: 0 20px;
 
   color: var(--light-100);
 
-  background-color: var(--dark-900);
-  border-bottom: 1px solid var(--dark-500);
+  background: inherit;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 1400px;
+  min-height: 60px;
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+
+  & li {
+    margin: 0 20px;
+  }
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+
+  & li {
+    margin: 0 20px;
+  }
 }
