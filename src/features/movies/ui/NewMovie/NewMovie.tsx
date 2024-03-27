@@ -14,7 +14,7 @@ export const NewMovie = (props: Props) => {
 
   return (
     <div className={s.container}>
-      <Slider className={s.sliderContainer} slidesPerView={1.8} spaceBetween={30}>
+      <Slider className={s.sliderContainer} slidesPerView={3} spaceBetween={30}>
         {data?.results &&
           data.results?.map((movie: MovieArgs) => (
             <SwiperSlide key={movie.id}>

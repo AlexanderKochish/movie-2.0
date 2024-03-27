@@ -21,3 +21,11 @@ export type MovieArgs = {
   vote_average: number
   vote_count: number
 }
+export type GenresArgs = {
+  id: number
+  name: string
+}
+
+export type GenreResponse = {
+  genres: GenresArgs[]
+}

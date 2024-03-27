@@ -5,6 +5,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { Provider } from 'react-redux'
 
 import { store } from '@/app/store/store'
+import { useLoader } from '@/shared/hooks/useLoader'
 
 import '../app/styles/index.scss'
 
@@ -17,7 +18,7 @@ type AppPropsWithLayout = AppProps & {
 }
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
+  useLoader()
   const getLayout = Component.getLayout ?? (page => page)
 
   return getLayout(

@@ -1,5 +1,6 @@
 import { ReactElement } from 'react'
 
+import { Genres } from '@/features/movies/ui/Genres/Genres'
 import { NewMovie } from '@/features/movies/ui/NewMovie/NewMovie'
 import Layout from '@/widgets/layout/ui/layout'
 import { Inter } from 'next/font/google'
@@ -17,6 +18,7 @@ export default function Home() {
         <link href={'/favicon.ico'} rel={'icon'} />
       </Head>
       <NewMovie />
+      <Genres />
     </>
   )
 }

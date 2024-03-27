@@ -1,32 +1,27 @@
 import { ReactNode } from 'react'
 
+import clsx from 'clsx'
 import { A11y, Navigation } from 'swiper/modules'
-import { Swiper } from 'swiper/react'
+import { Swiper, SwiperProps } from 'swiper/react'
 
-import './Slider.module.scss'
+// eslint-disable-next-line import/extensions
+import './Slider.scss'
 // eslint-disable-next-line import/extensions
 import 'swiper/css'
 // eslint-disable-next-line import/extensions
 import 'swiper/css/navigation'
-// eslint-disable-next-line import/extensions
-import 'swiper/css/pagination'
-// eslint-disable-next-line import/extensions
-import 'swiper/css/scrollbar'
-// eslint-disable-next-line import/extensions
-import 'swiper/css/effect-cube'
 
 type Props = {
   children: ReactNode
-  className?: string
-  slidesPerView: number
-  spaceBetween: number
-}
+} & SwiperProps
+
 export const Slider = ({ children, className, slidesPerView, spaceBetween }: Props) => {
   return (
     <Swiper
       centeredSlides
-      className={className}
+      className={clsx('single-slider', className)}
       effect={'slide'}
+      loop
       modules={[Navigation, A11y]}
       navigation
       onSlideChange={() => console.log('slide change')}

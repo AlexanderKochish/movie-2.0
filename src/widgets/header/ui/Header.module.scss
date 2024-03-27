@@ -1,5 +1,6 @@
 .header {
   position: fixed;
+  z-index: 10;
   top: 0;
   left: 0;
 
@@ -9,7 +10,7 @@
 
   color: var(--light-100);
 
-  background: inherit;
+  background: var(--dark-900);
 }
 
 .container {
@@ -25,9 +26,37 @@
 .nav {
   display: flex;
   align-items: center;
+  min-height: 60px;
 
   & li {
     margin: 0 20px;
+  }
+}
+
+.navItem {
+  cursor: pointer;
+  position: relative;
+  color: var(--light-900);
+  transition: all 0.3s;
+}
+
+.navItem.active {
+  cursor: pointer;
+  position: relative;
+  color: var(--light-100);
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: linear-gradient(to right, rgb(69 58 133 / 49%), #0ff, rgb(69 58 133 / 49%));
+    border-radius: 10px;
   }
 }
 
