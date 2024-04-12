@@ -1,12 +1,12 @@
 import { ReactElement } from 'react'
 
 import { SignUpForm } from '@/features/auth/ui/SignUpForm/SignUpForm'
-import { NextPageWithLayout } from '@/pages/_app'
+import { Page } from '@/shared/types/layout'
 import Layout from '@/widgets/layout/ui/layout'
 
 import s from './SignUpPage.module.scss'
 
-const SignUp: NextPageWithLayout = () => {
+const SignUp: Page = () => {
   return (
     <section className={s.signup}>
       <SignUpForm />

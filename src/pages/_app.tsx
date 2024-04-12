@@ -1,29 +1,32 @@
-import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
-import type { ReactElement, ReactNode } from 'react'
 import { Provider } from 'react-redux'
 
-import { store } from '@/app/store/store'
+import { wrapper } from '@/app/store/store'
 import { useLoader } from '@/shared/hooks/useLoader'
+import { Page } from '@/shared/types/layout'
+import { Inter } from 'next/font/google'
 
 import '../app/styles/index.scss'
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode
+type Props = AppProps & {
+  Component: Page
 }
+const inter = Inter({ subsets: ['latin'] })
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+const App = ({ Component, pageProps }: Props) => {
+  const { props, store } = wrapper.useWrappedStore(pageProps)
 
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useLoader()
   const getLayout = Component.getLayout ?? (page => page)
 
-  return getLayout(
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+  return (
+    <>
+      <Provider store={store}>
+        {getLayout(<Component className={inter.className} {...props.pageProps} />)}
+      </Provider>
+    </>
   )
 }
+
+export default App

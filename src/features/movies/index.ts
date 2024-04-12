@@ -1,1 +1,1 @@
-export { useGetPopularQuery } from './api/movie-api'
+export { useGetMovieByNameQuery, useGetPopularQuery } from './api/movie-api'

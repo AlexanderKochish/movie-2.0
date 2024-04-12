@@ -1,9 +1,9 @@
 import { ReactElement } from 'react'
 
-import { NextPageWithLayout } from '@/pages/_app'
+import { Page } from '@/shared/types/layout'
 import Layout from '@/widgets/layout/ui/layout'
 
-const Cartoons: NextPageWithLayout = () => {
+const Cartoons: Page = () => {
   return <div>Cartoons</div>
 }
 

@@ -3,6 +3,7 @@ import {
   ComponentPropsWithoutRef,
   ForwardedRef,
   forwardRef,
+  useRef,
   useState,
 } from 'react'
 
@@ -15,15 +16,23 @@ type Props = {
   onValueChange?: () => void
   options?: string[]
   value?: string
-}
+} & ComponentPropsWithoutRef<'select'>
 
 export const Select = (props: Props) => {
+  const refName = useRef(null)
+  const [value, setValue] = useState('')
   const [open, setOpen] = useState(false)
+
+  console.log(value)
 
   return (
     <div className={s.select} onClick={() => setOpen(prev => !prev)}>
       <IoIosArrowDown className={!open ? s.arrow : clsx(s.arrow, s.active)} />
-      <div className={open ? s.dropDawn : clsx(s.dropDawn, s.active)}></div>
+      <div className={open ? s.dropDawn : clsx(s.dropDawn, s.active)} ref={refName}>
+        <option onClick={() => setValue(value)} value={value}>
+          hello
+        </option>
+      </div>
     </div>
   )
 }

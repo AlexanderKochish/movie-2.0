@@ -2,6 +2,7 @@ import { useGetPopularQuery } from '@/features/movies'
 import { MovieArgs } from '@/features/movies/types/movies.types'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FaStar } from 'react-icons/fa6'
 import { SwiperSlide } from 'swiper/react'
 
@@ -13,12 +14,12 @@ export const NewMovie = (props: Props) => {
   const { data } = useGetPopularQuery()
 
   return (
-    <div className={s.container}>
-      <Slider className={s.sliderContainer} slidesPerView={3} spaceBetween={30}>
-        {data?.results &&
-          data.results?.map((movie: MovieArgs) => (
-            <SwiperSlide key={movie.id}>
-              {({ isActive }) => (
+    <Slider className={s.sliderContainer} slidesPerView={3} spaceBetween={30}>
+      {data?.results &&
+        data.results?.map((movie: MovieArgs) => (
+          <SwiperSlide key={movie.id}>
+            {({ isActive }) => (
+              <Link href={`/movies/${movie.id}`}>
                 <div className={isActive ? `${s.imgWrapper} ${s.active}` : s.imgWrapper}>
                   <Image
                     alt={movie.title}
@@ -36,10 +37,10 @@ export const NewMovie = (props: Props) => {
                     </ul>
                   </div>
                 </div>
-              )}
-            </SwiperSlide>
-          ))}
-      </Slider>
-    </div>
+              </Link>
+            )}
+          </SwiperSlide>
+        ))}
+    </Slider>
   )
 }

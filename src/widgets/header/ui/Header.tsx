@@ -1,16 +1,19 @@
-import clsx from 'clsx'
+import { useState } from 'react'
+
+import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
+import Modal from '@/shared/ui/Modal/Modal'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { IoIosSearch } from 'react-icons/io'
-import { LiaAdn } from 'react-icons/lia'
+import { IoSearch } from 'react-icons/io5'
 import { RiMovie2Line } from 'react-icons/ri'
 
 import s from './Header.module.scss'
 
 export const Header = () => {
+  const [name, setName] = useState('')
+  const [open, setOpen] = useState(false)
   const { pathname } = useRouter()
-
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
 
   return (
@@ -38,11 +41,33 @@ export const Header = () => {
 
         <ul className={s.auth}>
           <li>
-            <IoIosSearch />
+            <Modal
+              className={s.dialog}
+              disabled={false}
+              onClose={setOpen}
+              open={open}
+              trigger={<IoSearch className={s.icon} onClick={() => setOpen(!open)} />}
+            >
+              <div>
+                <form className={s.searchForm}>
+                  <h2 className={s.title}>Search</h2>
+                  <label className={s.label} htmlFor={'search'}>
+                    Movies, serials, cartoons
+                  </label>
+                  <input
+                    className={s.search}
+                    id={'search'}
+                    onChange={e => setName(e.target.value)}
+                    type={'text'}
+                  />
+                </form>
+                <SearchMovie name={name} onOpen={setOpen} open={open} />
+              </div>
+            </Modal>
           </li>
           <li>
             <Link href={'/auth/sign-in'}>
-              <FaRegUserCircle />
+              <FaRegUserCircle className={s.icon} />
             </Link>
           </li>
         </ul>

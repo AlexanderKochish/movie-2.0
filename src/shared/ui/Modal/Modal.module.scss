@@ -1,0 +1,87 @@
+.DialogOverlay {
+  position: fixed;
+  z-index: 99;
+  inset: 0;
+
+  min-height: 100vh;
+
+  background-color: rgb(0 0 0 / 90%);
+
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn {
+  color: var(--light-100);
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+
+.DialogContent:focus {
+  outline: none;
+}
+
+.DialogDescription {
+  margin: 10px 0 20px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--accent-700);
+}
+
+.closeIcon {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.IconButton {
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 99;
+  top: 40px;
+  right: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  font-family: inherit;
+  color: var(--light-100);
+
+  background-color: inherit;
+  border: none;
+}
+
+.IconButton:hover {
+  background-color: var(--info-500);
+}
+
+.IconButton:focus {
+  box-shadow: 0 0 0 2px var(--info-700);
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    transform: translate(-50%, -48%) scale(0.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}

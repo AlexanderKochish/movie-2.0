@@ -1,8 +1,13 @@
 .block {
-  overflow: hidden;
+  scrollbar-width: none;
+
+  overflow: scroll hidden;
   display: flex;
   align-items: center;
+
   padding: 10px 0 0 50px;
+
+  -ms-overflow-style: none;
 }
 
 .item {
