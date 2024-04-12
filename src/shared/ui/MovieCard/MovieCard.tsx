@@ -19,7 +19,7 @@ export const MovieCard = ({ movie }: Props) => {
           width={200}
         />
         <div className={s.cardInfo}>
-          <div className={s.cardRating}>{movie.popularity.toFixed(1)}</div>
+          <div className={s.cardRating}>{movie.vote_average.toFixed(1)}</div>
           <div className={s.infoFooter}>
             <div>{movie.title || movie.original_title}</div>
             <div className={s.year}>{movie.release_date.substring(0, 4)}</div>

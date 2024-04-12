@@ -1,5 +1,4 @@
-import { useGetPopularQuery } from '@/features/movies'
-import { MovieArgs } from '@/features/movies/types/movies.types'
+import { MovieArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,11 +7,11 @@ import { SwiperSlide } from 'swiper/react'
 
 import s from './NewMovie.module.scss'
 
-type Props = {}
+type Props = {
+  data?: MoviesResponseArgs
+}
 
-export const NewMovie = (props: Props) => {
-  const { data } = useGetPopularQuery()
-
+export const NewMovie = ({ data }: Props) => {
   return (
     <Slider className={s.sliderContainer} slidesPerView={3} spaceBetween={30}>
       {data?.results &&

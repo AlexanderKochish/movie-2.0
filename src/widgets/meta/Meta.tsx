@@ -3,7 +3,7 @@ type Props = {
   content?: string
   name?: string
 }
-export const HeadDescription = ({ content, name }: Props) => {
+export const Meta = ({ content, name }: Props) => {
   return (
     <Head>
       <title>Create Next App</title>
