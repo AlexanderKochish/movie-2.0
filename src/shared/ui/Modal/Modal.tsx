@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 
 import * as Dialog from '@radix-ui/react-dialog'
-import clsx from 'clsx'
 import { IoMdClose } from 'react-icons/io'
 
 import s from './Modal.module.scss'

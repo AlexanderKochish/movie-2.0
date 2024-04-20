@@ -1,5 +1,4 @@
 .primary,
-.text,
 .red,
 .outline {
   cursor: pointer;
@@ -33,6 +32,24 @@
 .primary {
   color: var(--light-100);
   background: var(--info-500);
+}
+
+.text {
+  cursor: pointer;
+
+  padding: 0 24px;
+
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-l);
+  color: var(--info-500);
+
+  background: inherit;
+  border: none;
+
+  &:hover {
+    color: var(--info-100);
+  }
 }
 
 .fullWidth {

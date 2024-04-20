@@ -1,11 +1,22 @@
+.container {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.btn {
+  color: var(--info-500);
+  text-align: center;
+}
+
 .form {
   display: flex;
   flex-direction: column;
 
   width: 378px;
+  min-height: 300px;
   padding: 24px;
-
-  color: var(--dark-100);
 
   & > h1 {
     font-weight: var(--font-weight-bold);
@@ -21,6 +32,11 @@
   justify-content: center;
 
   margin: 24px 0;
+
+  & > div {
+    cursor: pointer;
+    margin: 0 20px;
+  }
 }
 
 .icon {
@@ -37,7 +53,7 @@
   margin-bottom: 20px;
   padding: 6px 10px;
 
-  color: var(--dark-100);
+  color: var(--light-100);
 
   background: inherit;
   border: 1px solid var(--dark-100);
@@ -51,4 +67,9 @@
   &:focus {
     border: 1px solid var(--info-500);
   }
+}
+
+.text {
+  margin: 15px 0;
+  text-align: center;
 }

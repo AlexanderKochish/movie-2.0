@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
+import { ProfileResponse } from '@/features/profile/types/profile.types'
+import { useLocalStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
 import Modal from '@/shared/ui/Modal/Modal'
 import clsx from 'clsx'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaRegUserCircle } from 'react-icons/fa'
@@ -12,11 +15,15 @@ import { RiMovie2Line } from 'react-icons/ri'
 import s from './Header.module.scss'
 
 export const Header = () => {
+  'use client'
   const [name, setName] = useState('')
   const [scroll, setScroll] = useState(0)
   const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
+  const [currentProfile, setCurrentProfile] = useState<ProfileResponse | null>(null)
   const { pathname } = useRouter()
+  const profile = useLocalStorageProfile()
+
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
   const scrollTop = () => {
     const currentScroll = window.scrollY
@@ -37,6 +44,12 @@ export const Header = () => {
       document.removeEventListener('scroll', scrollTop)
     }
   }, [scroll, scrollDirection])
+
+  useEffect(() => {
+    if (profile) {
+      setCurrentProfile(profile)
+    }
+  }, [])
 
   return (
     <header className={scrollDirection ? clsx(s.header, s.active) : s.header}>
@@ -90,9 +103,24 @@ export const Header = () => {
             </Modal>
           </li>
           <li>
-            <Link href={'/auth/sign-in'}>
-              <FaRegUserCircle className={s.icon} />
-            </Link>
+            {currentProfile ? (
+              <div>
+                <Link href={`/profile/${currentProfile.uid}`}>
+                  {' '}
+                  <Image
+                    alt={'profile'}
+                    className={s.img}
+                    height={30}
+                    src={currentProfile?.photoURL}
+                    width={30}
+                  />
+                </Link>
+              </div>
+            ) : (
+              <Link href={'/auth/sign-in'}>
+                <FaRegUserCircle className={s.icon} />
+              </Link>
+            )}
           </li>
         </ul>
       </div>

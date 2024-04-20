@@ -15,29 +15,23 @@ export const SearchMovie = ({ name, onOpen, open }: Props) => {
   const { data, isLoading } = useGetMovieByNameQuery(name)
 
   return (
-    <>
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <ul className={s.moviesList}>
-          {data &&
-            data.results.map(movie => (
-              <Link href={`/movies/${movie.id}`} key={movie.id}>
-                <li onClick={() => onOpen(false)}>
-                  {movie.poster_path && (
-                    <div className={s.image}>
-                      <Image
-                        alt={'poster'}
-                        fill
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`}
-                      />
-                    </div>
-                  )}
-                </li>
-              </Link>
-            ))}
-        </ul>
-      )}
-    </>
+    <ul className={s.moviesList}>
+      {data &&
+        data.results.map(movie => (
+          <Link href={`/movies/${movie.id}`} key={movie.id}>
+            <li onClick={() => onOpen(false)}>
+              {movie.poster_path && (
+                <div className={s.image}>
+                  <Image
+                    alt={'poster'}
+                    fill
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`}
+                  />
+                </div>
+              )}
+            </li>
+          </Link>
+        ))}
+    </ul>
   )
 }

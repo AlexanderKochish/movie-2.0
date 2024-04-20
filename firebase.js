@@ -10,6 +10,6 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_F_STORAGE_BUCKET,
 }
 
-const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth()
