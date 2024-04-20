@@ -14,11 +14,13 @@ export const CastItem = ({ actor }: Props) => {
     : imageAvatar
 
   return (
-    <li className={s.item}>
-      <div className={s.img}>
-        <Image alt={'actor image'} fill src={img} />
-      </div>
-      <span className={s.name}>{actor.name.split(' ')}</span>
+    <li>
+      <figure className={s.item}>
+        <div className={s.img}>
+          <Image alt={'actor image'} fill src={img} />
+        </div>
+        <figcaption className={s.name}>{actor.name.split('')}</figcaption>
+      </figure>
     </li>
   )
 }

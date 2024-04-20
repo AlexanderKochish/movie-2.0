@@ -13,6 +13,7 @@ import Modal from '@/shared/ui/Modal/Modal'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FaRegStar } from 'react-icons/fa'
 import { GoShareAndroid } from 'react-icons/go'
 import { GrFavorite } from 'react-icons/gr'
@@ -57,6 +58,7 @@ export const MovieById = ({ id }: Props) => {
               <Image
                 alt={'poster'}
                 fill
+                // sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
                 src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
               />
               <div className={s.content}>
@@ -108,11 +110,13 @@ export const MovieById = ({ id }: Props) => {
               </div>
             </div>
             <ul>
-              <Slider className={s.castList} slidesPerView={9} spaceBetween={30}>
+              <Slider className={s.castList} slidesPerView={7} spaceBetween={30}>
                 {credits?.cast &&
                   credits.cast.map(actor => (
-                    <SwiperSlide key={actor.id}>
-                      <CastItem actor={actor} />
+                    <SwiperSlide className={s.item} key={actor.id}>
+                      <Link href={`/actors/${actor.id}`}>
+                        <CastItem actor={actor} />
+                      </Link>
                     </SwiperSlide>
                   ))}
               </Slider>
@@ -121,17 +125,9 @@ export const MovieById = ({ id }: Props) => {
         )
       )}
       <Modal className={s.blockYoutube} disabled={false} onClose={setOpen} open={open}>
-        {isVideoLoad ? (
-          <div>Loading...</div>
-        ) : (
-          <div onClick={() => setOpen(false)}>
-            <YouTube
-              loading={'lazy'}
-              opts={opts}
-              videoId={video?.results[0].key || video?.results[1].key}
-            />
-          </div>
-        )}
+        <div onClick={() => setOpen(false)}>
+          <YouTube opts={opts} videoId={video?.results[0].key || video?.results[1].key} />
+        </div>
       </Modal>
     </>
   )

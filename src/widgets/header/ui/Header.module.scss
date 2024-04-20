@@ -3,6 +3,7 @@
   z-index: 10;
   top: 0;
   left: 0;
+  transform: translateY(0);
 
   width: 100%;
   min-height: 60px;
@@ -10,7 +11,14 @@
 
   color: var(--light-700);
 
-  background: var(--dark-900);
+  background: rgb(0 0 0 / 80%);
+
+  transition: all 0.3s;
+}
+
+.header.active {
+  transform: translateY(-100px);
+  transition: all 0.3s;
 }
 
 .title {
@@ -51,12 +59,19 @@
 
 .icon {
   cursor: pointer;
+
   width: 26px;
   height: 26px;
+
+  color: var(--light-900);
+
   transition: all 0.3s;
 
   &:hover {
-    color: var(--light-100);
+    &:hover {
+      color: var(--light-100);
+      transition: all 0.2s;
+    }
   }
 }
 
@@ -91,6 +106,11 @@
   position: relative;
   color: var(--light-900);
   transition: all 0.3s;
+
+  &:hover {
+    color: var(--light-100);
+    transition: all 0.2s;
+  }
 }
 
 .navItem.active {

@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
 import Modal from '@/shared/ui/Modal/Modal'
+import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaRegUserCircle } from 'react-icons/fa'
@@ -12,17 +13,40 @@ import s from './Header.module.scss'
 
 export const Header = () => {
   const [name, setName] = useState('')
+  const [scroll, setScroll] = useState(0)
+  const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
   const { pathname } = useRouter()
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
+  const scrollTop = () => {
+    const currentScroll = window.scrollY
+
+    if (currentScroll > scroll) {
+      setScrollDirection(true)
+    } else {
+      setScrollDirection(false)
+    }
+
+    setScroll(currentScroll)
+  }
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollTop)
+
+    return () => {
+      document.removeEventListener('scroll', scrollTop)
+    }
+  }, [scroll, scrollDirection])
 
   return (
-    <header className={s.header}>
+    <header className={scrollDirection ? clsx(s.header, s.active) : s.header}>
       <div className={s.container}>
         <ul className={s.nav}>
           <li>
             <h1>
-              <RiMovie2Line />
+              <Link href={'/'}>
+                <RiMovie2Line />
+              </Link>
             </h1>
           </li>
           <li className={activePath('/')}>

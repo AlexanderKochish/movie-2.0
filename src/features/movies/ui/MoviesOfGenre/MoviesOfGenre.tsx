@@ -1,37 +1,43 @@
-import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
 import { Select } from '@/shared/ui/Select/Select'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import s from './MoviesOfGenre.module.scss'
 
-type Props = {}
+import ava from '../../../../../public/avatar-1577909_1280.webp'
+type Props = {
+  data: any
+  query?: any
+}
 
-export const MoviesOfGenres = (props: Props) => {
-  const { data: genres } = useGetGenresQuery()
-  const { query } = useRouter()
-  const gen = query.genre && genres?.genres.find((el: any) => el.name === query.genre)
-  const { data } = useGetMoviesOfGenresQuery(gen?.id.toString() || '12')
-
+export const MoviesOfGenres = ({ data, query }: Props) => {
   return (
     <div className={s.block}>
-      <div>
-        <h2>Фильмы: {query.genre}</h2>
-      </div>
-      <div className={s.selects}>
-        <Select />
-      </div>
+      {query && (
+        <>
+          <div>
+            <h2>Фильмы: {query.genre}</h2>
+          </div>
+          <div className={s.selects}>
+            <Select />
+          </div>
+        </>
+      )}
+
       <ul className={s.list}>
         {data &&
-          data.results.map(movie => (
+          data.map((movie: any) => (
             <Link href={`/movies/${movie.id}`} key={movie.id}>
               <li className={s.card}>
                 <Image
                   alt={movie.title || 'poster'}
                   className={s.img}
                   height={300}
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path}`}
+                  src={
+                    movie.poster_path
+                      ? `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`
+                      : ava
+                  }
                   width={200}
                 />
                 <div className={s.cardInfo}>

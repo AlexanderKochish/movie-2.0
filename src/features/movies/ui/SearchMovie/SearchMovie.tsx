@@ -1,4 +1,5 @@
 import { useGetMovieByNameQuery } from '@/features/movies'
+import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -15,25 +16,28 @@ export const SearchMovie = ({ name, onOpen, open }: Props) => {
 
   return (
     <>
-      {isLoading ? <div className={s.load}>Loading..</div> : null}
-      <ul className={s.moviesList}>
-        {data &&
-          data.results.map(movie => (
-            <Link href={`/movies/${movie.id}`} key={movie.id}>
-              <li onClick={() => onOpen(false)}>
-                {movie.poster_path && (
-                  <div className={s.image}>
-                    <Image
-                      alt={'poster'}
-                      fill
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`}
-                    />
-                  </div>
-                )}
-              </li>
-            </Link>
-          ))}
-      </ul>
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <ul className={s.moviesList}>
+          {data &&
+            data.results.map(movie => (
+              <Link href={`/movies/${movie.id}`} key={movie.id}>
+                <li onClick={() => onOpen(false)}>
+                  {movie.poster_path && (
+                    <div className={s.image}>
+                      <Image
+                        alt={'poster'}
+                        fill
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`}
+                      />
+                    </div>
+                  )}
+                </li>
+              </Link>
+            ))}
+        </ul>
+      )}
     </>
   )
 }

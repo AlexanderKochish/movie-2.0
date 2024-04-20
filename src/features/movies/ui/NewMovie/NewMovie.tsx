@@ -30,7 +30,7 @@ export const NewMovie = ({ data }: Props) => {
                     <h4>{movie.title || movie.original_title}</h4>
                     <ul className={s.infoRating}>
                       <li>
-                        <FaStar className={s.icon} /> {movie.popularity?.toFixed(1)}
+                        <FaStar className={s.icon} /> {movie.vote_average?.toFixed(1)}
                       </li>
                       <li>{movie.release_date?.substring(0, 4)}</li>
                     </ul>
