@@ -1,5 +1,8 @@
+import { useState } from 'react'
+
 import { useGetActorByIdQuery, useGetActorMoviesByIdQuery } from '@/features/actors/api/actors-api'
 import { MoviesOfGenres } from '@/features/movies/ui/MoviesOfGenre/MoviesOfGenre'
+import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -11,6 +14,7 @@ export const ActorProfile = () => {
   const { query } = useRouter()
   const { data: actor, isLoading } = useGetActorByIdQuery(Number(query.id))
   const { data } = useGetActorMoviesByIdQuery(Number(query.id), { skip: !actor })
+  const [total, setTotal] = useState([])
 
   return (
     <div className={s.container}>
@@ -49,7 +53,8 @@ export const ActorProfile = () => {
       <div className={s.name}>
         <h3>Movies with: {actor?.name}</h3>
       </div>
-      <div>{data?.cast && <MoviesOfGenres data={data?.cast} />}</div>
+      <div>{data?.cast && <MoviesOfGenres data={total} />}</div>
+      <Pagination data={data} item={12} onTotal={setTotal} />
     </div>
   )
 }
