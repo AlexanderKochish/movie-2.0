@@ -19,20 +19,21 @@ export const useAuth = () => {
   const router = useRouter()
 
   const handleSignIn = async ({ email, password }: SignInProps) => {
-    signInWithEmailAndPassword(auth, email, password).then(result => {
-      const credential = GoogleAuthProvider.credentialFromResult(result)
+    await signInWithEmailAndPassword(auth, email, password).then(result => {
+      const credential = result.user
 
-      const token = credential?.accessToken
+      const token = credential.refreshToken
 
       const user = result.user
 
-      if (token) {
+      if (token && user) {
+        toast.success(`Well come ${user.displayName || user.email}`)
         localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
         router.push('/')
       }
     })
   }
-  const enterForSocialMediate = async ({ provider }: any) => {
+  const enterForSocialMediate = async (provider: any) => {
     if (provider instanceof GoogleAuthProvider) {
       signInWithPopup(auth, provider)
         .then(result => {
@@ -42,18 +43,18 @@ export const useAuth = () => {
 
           const user = result.user
 
-          if (token) {
+          toast.success(`Well come ${user.displayName}`)
+          if (token && user) {
             localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
             router.push('/')
           }
         })
         .catch(error => {
           const errorCode = error.code
-          const errorMessage = error.message
           const email = error.customData.email
           const credential = GithubAuthProvider.credentialFromError(error)
 
-          toast.error(errorMessage)
+          toast.error(error.message)
         })
     }
 
@@ -66,19 +67,18 @@ export const useAuth = () => {
 
           const user = result.user
 
-          toast.done('Successfully registered user with email and password')
-          if (token) {
+          toast.success(`Well come ${user.displayName}`)
+          if (token && user) {
             localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
             router.push('/')
           }
         })
         .catch(error => {
           const errorCode = error.code
-          const errorMessage = error.message
           const email = error.customData.email
           const credential = GithubAuthProvider.credentialFromError(error)
 
-          toast.error(errorMessage)
+          toast.error(error.message)
         })
     }
   }
@@ -90,25 +90,17 @@ export const useAuth = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
-        console.log(userCredential)
         const user = userCredential.user
 
-        toast.done('Successfully registered user with email and password')
+        if (user) {
+          localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
+          router.push('/')
+        }
+        toast.success(`Well come ${user.displayName}`)
       })
       .catch(error => {
-        toast.error('🦄 Wow so easy!', {
-          autoClose: 5000,
-          closeOnClick: true,
-          draggable: true,
-          hideProgressBar: false,
-          pauseOnHover: true,
-          position: 'bottom-left',
-          progress: undefined,
-          theme: 'colored',
-          transition: Bounce,
-        })
+        toast.error(error.message)
         const errorCode = error.code
-        const errorMessage = error.message
       })
   }
 

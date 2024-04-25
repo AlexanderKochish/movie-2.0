@@ -10,6 +10,7 @@ import { ReactToastProvider } from '@/widgets/toast/ui/ReactToast'
 import { Inter } from 'next/font/google'
 
 import '../app/styles/index.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
 type Props = AppProps & {
   Component: Page

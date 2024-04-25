@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import { LogOut } from '@/features/auth/ui/LogOut/LogOut'
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
 import { ProfileResponse } from '@/features/profile/types/profile.types'
-import { localStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
+import { useLocalStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
 import Modal from '@/shared/ui/Modal/Modal'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -19,9 +20,10 @@ export const Header = () => {
   const [scroll, setScroll] = useState(0)
   const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
-  const [currentProfile, setCurrentProfile] = useState<ProfileResponse | null>(null)
+  const [currentProfile, setCurrentProfile] = useState<ProfileResponse | null>(() =>
+    useLocalStorageProfile()
+  )
   const { pathname } = useRouter()
-  const profile = localStorageProfile()
 
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
   const scrollTop = () => {
@@ -45,9 +47,11 @@ export const Header = () => {
   }, [scroll, scrollDirection])
 
   useEffect(() => {
-    const profile = localStorageProfile()
+    const profile = useLocalStorageProfile()
 
-    setCurrentProfile(profile)
+    if (profile) {
+      setCurrentProfile(profile)
+    }
   }, [])
 
   return (
@@ -115,6 +119,7 @@ export const Header = () => {
                     width={30}
                   />
                 </Link>
+                <LogOut />
               </div>
             ) : (
               <Link href={'/auth/sign-in'}>

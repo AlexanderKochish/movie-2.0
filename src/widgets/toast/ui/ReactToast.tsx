@@ -1,11 +1,14 @@
 import { Slide, ToastContainer } from 'react-toastify'
 
+import { ToastCloseButton } from '@/widgets/toast/ui/ToastCloseButton/ToastCloseButton'
+
 type Props = {}
 
 export const ReactToastProvider = (props: Props) => {
   return (
     <ToastContainer
-      autoClose={5000}
+      autoClose={3000}
+      closeButton={<ToastCloseButton />}
       closeOnClick
       draggable={false}
       hideProgressBar
@@ -15,7 +18,6 @@ export const ReactToastProvider = (props: Props) => {
       pauseOnHover
       position={'bottom-left'}
       rtl={false}
-      style={{ bottom: 100, height: 50, left: 100, position: 'absolute', width: 200 }}
       theme={'colored'}
       transition={Slide}
     />
