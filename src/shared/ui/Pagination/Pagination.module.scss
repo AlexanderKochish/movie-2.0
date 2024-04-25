@@ -1,0 +1,10 @@
+.paginationBtn {
+  margin-left: 10px;
+  color: var(--info-500);
+  border: 1px solid var(--info-500);
+}
+
+.paginationBtn.active {
+  color: var(--light-100);
+  background: var(--info-500);
+}

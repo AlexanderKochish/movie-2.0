@@ -2,9 +2,11 @@ import type { AppProps } from 'next/app'
 
 import { Provider } from 'react-redux'
 
+import { ErrorBoundary } from '@/app/providers/ErrorBoundary'
 import { wrapper } from '@/app/store/store'
 import { useLoader } from '@/shared/hooks/useLoader'
 import { Page } from '@/shared/types/layout'
+import { ReactToastProvider } from '@/widgets/toast/ui/ReactToast'
 import { Inter } from 'next/font/google'
 
 import '../app/styles/index.scss'
@@ -23,7 +25,10 @@ const App = ({ Component, pageProps }: Props) => {
   return (
     <>
       <Provider store={store}>
-        {getLayout(<Component className={inter.className} {...props.pageProps} />)}
+        <ErrorBoundary>
+          {getLayout(<Component className={inter.className} {...props.pageProps} />)}
+          <ReactToastProvider />
+        </ErrorBoundary>
       </Provider>
     </>
   )

@@ -1,4 +1,7 @@
-import { Select } from '@/shared/ui/Select/Select'
+import { useState } from 'react'
+import Select from 'react-select'
+
+import { MySelect } from '@/shared/ui/Select/Select'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -9,8 +12,15 @@ type Props = {
   data: any
   query?: any
 }
+const options = [
+  { label: 'Chocolate', value: 'chocolate' },
+  { label: 'Strawberry', value: 'strawberry' },
+  { label: 'Vanilla', value: 'vanilla' },
+]
 
 export const MoviesOfGenres = ({ data, query }: Props) => {
+  const [selectedOption, setSelectedOption] = useState<null | string | string[]>('Genre')
+
   return (
     <div className={s.block}>
       {query && (
@@ -19,7 +29,21 @@ export const MoviesOfGenres = ({ data, query }: Props) => {
             <h2>Фильмы: {query.genre}</h2>
           </div>
           <div className={s.selects}>
-            <Select />
+            <MySelect
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+            />
+            <MySelect
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+            />
+            <MySelect
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+            />
           </div>
         </>
       )}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
 import { ProfileResponse } from '@/features/profile/types/profile.types'
-import { useLocalStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
+import { localStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
 import Modal from '@/shared/ui/Modal/Modal'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -15,14 +15,13 @@ import { RiMovie2Line } from 'react-icons/ri'
 import s from './Header.module.scss'
 
 export const Header = () => {
-  'use client'
   const [name, setName] = useState('')
   const [scroll, setScroll] = useState(0)
   const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
   const [currentProfile, setCurrentProfile] = useState<ProfileResponse | null>(null)
   const { pathname } = useRouter()
-  const profile = useLocalStorageProfile()
+  const profile = localStorageProfile()
 
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
   const scrollTop = () => {
@@ -46,9 +45,9 @@ export const Header = () => {
   }, [scroll, scrollDirection])
 
   useEffect(() => {
-    if (profile) {
-      setCurrentProfile(profile)
-    }
+    const profile = localStorageProfile()
+
+    setCurrentProfile(profile)
   }, [])
 
   return (
@@ -111,6 +110,7 @@ export const Header = () => {
                     alt={'profile'}
                     className={s.img}
                     height={30}
+                    loading={'lazy'}
                     src={currentProfile?.photoURL}
                     width={30}
                   />

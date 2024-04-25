@@ -1,3 +1,5 @@
+import { Bounce, toast } from 'react-toastify'
+
 import { useAuth } from '@/features/auth/api/auth-api'
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
@@ -12,6 +14,20 @@ export const SignInForm = () => {
   const { handleSignIn } = useAuth()
   const github = new GithubAuthProvider()
   const google = new GoogleAuthProvider()
+
+  const hand = () => {
+    toast('🦄 Wow so easy!', {
+      autoClose: 5000,
+      closeOnClick: true,
+      draggable: true,
+      hideProgressBar: false,
+      pauseOnHover: true,
+      position: 'top-right',
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce,
+    })
+  }
 
   return (
     <div className={s.container}>
@@ -31,7 +47,13 @@ export const SignInForm = () => {
         <input className={s.input} id={'password'} type={'password'} />
         <Button variant={'primary'}>Sign In</Button>
         <p className={s.text}>Don’t have an account?</p>
-        <Button asComponent={Link} className={s.btn} href={'/auth/sign-up'} variant={'text'}>
+        <Button
+          // asComponent={Link}
+          className={s.btn}
+          // href={'/auth/sign-up'}
+          onClick={hand}
+          variant={'text'}
+        >
           Sign Up
         </Button>
       </Card>

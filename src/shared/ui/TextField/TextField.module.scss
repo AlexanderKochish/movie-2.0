@@ -1,0 +1,27 @@
+.inputBlock {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: var(--danger-500);
+}
+
+.input {
+  width: 100%;
+  padding: 6px 10px;
+
+  color: var(--light-100);
+
+  background: inherit;
+  border: 1px solid var(--dark-100);
+  border-radius: 4px;
+  outline: var(--info-500);
+
+  &:focus-visible {
+    border: 1px solid var(--info-500);
+  }
+
+  &:focus {
+    border: 1px solid var(--info-500);
+  }
+}
