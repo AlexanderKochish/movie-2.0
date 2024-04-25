@@ -1,33 +1,29 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 
 import { useAuth } from '@/features/auth/api/auth-api'
 import { signUpSchema } from '@/features/auth/model/validators/signUpSchema'
+import { SignUpValues } from '@/features/auth/types/auth.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
 import { ControlledTextField } from '@/shared/ui/ControlInput/ControlledInput'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth'
 import Link from 'next/link'
 
 import s from './SignUpForm.module.scss'
 
 import { GitHubIcon, GoogleIcon } from '../../../../../public/icons/icons'
-import onChange = toast.onChange
 
-interface ISignUpForm {
-  email: string
-  password: string
-  passwordConfirm: string
-  username: string
-}
 export const SignUpForm = () => {
-  const { handleSignUp } = useAuth()
+  const { enterForSocialMediate, handleSignUp } = useAuth()
+  const github = new GithubAuthProvider()
+  const google = new GoogleAuthProvider()
   const {
     control,
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm<ISignUpForm>({
+  } = useForm<SignUpValues>({
     defaultValues: {
       email: '',
       password: '',
@@ -37,16 +33,16 @@ export const SignUpForm = () => {
     mode: 'onTouched',
     resolver: zodResolver(signUpSchema()),
   })
-  const onSubmit: SubmitHandler<ISignUpForm> = data => console.log(data)
+  const onSubmit: SubmitHandler<SignUpValues> = data => handleSignUp(data)
 
   return (
-    <Card asComponent={'form'} className={s.form} onSubmit={handleSignUp}>
+    <Card asComponent={'form'} className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <h1>Sign Up</h1>
       <div className={s.socialBlock}>
-        <div>
+        <div onClick={() => enterForSocialMediate(github)}>
           <GitHubIcon height={34} width={34} />
         </div>
-        <div>
+        <div onClick={() => enterForSocialMediate(google)}>
           <GoogleIcon height={34} width={34} />
         </div>
       </div>

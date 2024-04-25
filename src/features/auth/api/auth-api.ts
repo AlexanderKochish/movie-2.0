@@ -1,53 +1,53 @@
-import { FormEvent } from 'react'
 import { Bounce, toast } from 'react-toastify'
 
-import { createUserWithEmailAndPassword } from '@firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth'
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useRouter } from 'next/router'
 
 import { auth } from '../../../../firebase'
 
+type SigUpProps = {
+  email: string
+  password: string
+  passwordConfirm: string
+  username: string
+}
+
+type SignInProps = Omit<SigUpProps, 'passwordConfirm' | 'username'>
+
 export const useAuth = () => {
   const router = useRouter()
 
-  const handleSignIn = async (provider: any) => {
+  const handleSignIn = async ({ email, password }: SignInProps) => {
+    signInWithEmailAndPassword(auth, email, password).then(result => {
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+
+      const token = credential?.accessToken
+
+      const user = result.user
+
+      if (token) {
+        localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
+        router.push('/')
+      }
+    })
+  }
+  const enterForSocialMediate = async ({ provider }: any) => {
     if (provider instanceof GoogleAuthProvider) {
       signInWithPopup(auth, provider)
         .then(result => {
           const credential = GoogleAuthProvider.credentialFromResult(result)
-          // @ts-ignore
-          const token = credential.accessToken
+
+          const token = credential?.accessToken
 
           const user = result.user
 
           if (token) {
-            toast('🦄 Wow so easy!', {
-              autoClose: 5000,
-              closeOnClick: true,
-              draggable: true,
-              hideProgressBar: false,
-              pauseOnHover: true,
-              position: 'top-right',
-              progress: undefined,
-              theme: 'light',
-              transition: Bounce,
-            })
             localStorage.setItem('currentProfile', JSON.stringify(user.providerData))
             router.push('/')
           }
         })
         .catch(error => {
-          toast.error('🦄 Wow so easy!', {
-            autoClose: 5000,
-            closeOnClick: true,
-            draggable: true,
-            hideProgressBar: false,
-            pauseOnHover: true,
-            position: 'bottom-left',
-            progress: undefined,
-            theme: 'colored',
-            transition: Bounce,
-          })
           const errorCode = error.code
           const errorMessage = error.message
           const email = error.customData.email
@@ -61,8 +61,8 @@ export const useAuth = () => {
       signInWithPopup(auth, provider)
         .then(result => {
           const credential = GithubAuthProvider.credentialFromResult(result)
-          // @ts-ignore
-          const token = credential.accessToken
+
+          const token = credential?.accessToken
 
           const user = result.user
 
@@ -83,13 +83,7 @@ export const useAuth = () => {
     }
   }
 
-  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // @ts-ignore
-    const email = e.target[1].value
-    // @ts-ignore
-    const password = e.target[2].value
-
+  const handleSignUp = async ({ email, password }: SigUpProps) => {
     if (!email || !password) {
       toast.error('Place enter email or password')
     }
@@ -118,5 +112,5 @@ export const useAuth = () => {
       })
   }
 
-  return { handleSignIn, handleSignUp }
+  return { enterForSocialMediate, handleSignIn, handleSignUp }
 }
