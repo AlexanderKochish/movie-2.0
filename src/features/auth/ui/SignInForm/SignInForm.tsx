@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
+import { handleLogging } from '@/features/auth/helpers/handleLogging'
 import { signInSchema } from '@/features/auth/model/validators/signInSchema'
-import { SignInValues, signInProps } from '@/features/auth/types/auth.types'
+import { SignInValues } from '@/features/auth/types/auth.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
 import { ControlledTextField } from '@/shared/ui/ControlInput/ControlledInput'
@@ -48,16 +49,6 @@ export const SignInForm = () => {
     }
   }
 
-  const handleSignIn = async ({ error, link, signIn, userName }: signInProps) => {
-    if (error) {
-      toast.error(error.message)
-    } else {
-      await signIn()
-      userGithub && toast.success(`Well come ${userName}`)
-      link('/')
-    }
-  }
-
   return (
     <div className={s.container}>
       <Card asComponent={'form'} className={s.form} onSubmit={handleSubmit(onSubmit)}>
@@ -65,10 +56,10 @@ export const SignInForm = () => {
         <div className={s.socialBlock}>
           <div
             onClick={() =>
-              handleSignIn({
+              handleLogging({
                 error: githubError,
                 link: push,
-                signIn: signInWithGithub,
+                logging: signInWithGithub,
                 userName: userGithub?.user.displayName,
               })
             }
@@ -77,10 +68,10 @@ export const SignInForm = () => {
           </div>
           <div
             onClick={() =>
-              handleSignIn({
+              handleLogging({
                 error: googleError,
                 link: push,
-                signIn: signInWithGoogle,
+                logging: signInWithGoogle,
                 userName: userGoogle?.user.displayName,
               })
             }
