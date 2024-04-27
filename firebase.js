@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { getApp, getApps, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -10,6 +10,8 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_F_STORAGE_BUCKET,
 }
 
-export const app = initializeApp(firebaseConfig)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 
-export const auth = getAuth()
+const auth = getAuth(app)
+
+export { app, auth }

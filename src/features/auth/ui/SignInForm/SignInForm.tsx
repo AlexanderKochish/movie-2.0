@@ -1,23 +1,31 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
-import { useAuth } from '@/features/auth/api/auth-api'
 import { signInSchema } from '@/features/auth/model/validators/signInSchema'
-import { SignInValues } from '@/features/auth/types/auth.types'
+import { SignInValues, signInProps } from '@/features/auth/types/auth.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
 import { ControlledTextField } from '@/shared/ui/ControlInput/ControlledInput'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from 'react-firebase-hooks/auth'
 
 import s from './SignInForm.module.scss'
 
+import { auth } from '../../../../../firebase'
 import { GitHubIcon, GoogleIcon } from '../../../../../public/icons/icons'
 
 export const SignInForm = () => {
-  const { enterForSocialMediate, handleSignIn } = useAuth()
-  const github = new GithubAuthProvider()
-  const google = new GoogleAuthProvider()
+  const [signInWithEmailAndPassword, loggedInUser, loading, error] =
+    useSignInWithEmailAndPassword(auth)
+  const [signInWithGithub, userGithub, loadGithub, githubError] = useSignInWithGithub(auth)
+  const [signInWithGoogle, userGoogle, loadGoogle, googleError] = useSignInWithGoogle(auth)
+  const { push } = useRouter()
   const {
     control,
     formState: { errors },
@@ -30,17 +38,53 @@ export const SignInForm = () => {
     mode: 'onTouched',
     resolver: zodResolver(signInSchema()),
   })
-  const onSubmit: SubmitHandler<SignInValues> = data => handleSignIn(data)
+  const onSubmit: SubmitHandler<SignInValues> = async data => {
+    if (error) {
+      toast.error(error.message)
+    } else {
+      await signInWithEmailAndPassword(data.email, data.password)
+      loggedInUser && toast.success(`Well come ${loggedInUser?.user.displayName}`)
+      void push('/')
+    }
+  }
+
+  const handleSignIn = async ({ error, link, signIn, userName }: signInProps) => {
+    if (error) {
+      toast.error(error.message)
+    } else {
+      await signIn()
+      userGithub && toast.success(`Well come ${userName}`)
+      link('/')
+    }
+  }
 
   return (
     <div className={s.container}>
       <Card asComponent={'form'} className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <h1>Sign In</h1>
         <div className={s.socialBlock}>
-          <div onClick={() => enterForSocialMediate(github)}>
+          <div
+            onClick={() =>
+              handleSignIn({
+                error: githubError,
+                link: push,
+                signIn: signInWithGithub,
+                userName: userGithub?.user.displayName,
+              })
+            }
+          >
             <GitHubIcon height={34} width={34} />
           </div>
-          <div onClick={() => enterForSocialMediate(google)}>
+          <div
+            onClick={() =>
+              handleSignIn({
+                error: googleError,
+                link: push,
+                signIn: signInWithGoogle,
+                userName: userGoogle?.user.displayName,
+              })
+            }
+          >
             <GoogleIcon height={34} width={34} />
           </div>
         </div>

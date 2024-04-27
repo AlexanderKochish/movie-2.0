@@ -2,27 +2,27 @@ import { useEffect, useState } from 'react'
 
 import { LogOut } from '@/features/auth/ui/LogOut/LogOut'
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
-import { ProfileResponse } from '@/features/profile/types/profile.types'
-import { useLocalStorageProfile } from '@/shared/hooks/useLocalStorageProfile'
 import Modal from '@/shared/ui/Modal/Modal'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { IoSearch } from 'react-icons/io5'
 import { RiMovie2Line } from 'react-icons/ri'
 
 import s from './Header.module.scss'
 
+import { auth } from '../../../../firebase'
+
 export const Header = () => {
   const [name, setName] = useState('')
   const [scroll, setScroll] = useState(0)
   const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
-  const [currentProfile, setCurrentProfile] = useState<ProfileResponse | null>(() =>
-    useLocalStorageProfile()
-  )
+  const [user, loading, error] = useAuthState(auth)
+
   const { pathname } = useRouter()
 
   const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
@@ -45,14 +45,6 @@ export const Header = () => {
       document.removeEventListener('scroll', scrollTop)
     }
   }, [scroll, scrollDirection])
-
-  useEffect(() => {
-    const profile = useLocalStorageProfile()
-
-    if (profile) {
-      setCurrentProfile(profile)
-    }
-  }, [])
 
   return (
     <header className={scrollDirection ? clsx(s.header, s.active) : s.header}>
@@ -106,25 +98,27 @@ export const Header = () => {
             </Modal>
           </li>
           <li>
-            {currentProfile ? (
+            {user ? (
               <div>
-                <Link href={`/profile/${currentProfile.uid}`}>
+                <Link href={`/profile/${user?.uid}`}>
                   {' '}
                   <Image
                     alt={'profile'}
                     className={s.img}
                     height={30}
                     loading={'lazy'}
-                    src={currentProfile?.photoURL}
+                    src={user?.photoURL || ''}
                     width={30}
                   />
                 </Link>
-                <LogOut />
               </div>
             ) : (
-              <Link href={'/auth/sign-in'}>
-                <FaRegUserCircle className={s.icon} />
-              </Link>
+              <>
+                <LogOut />
+                <Link href={'/auth/sign-in'}>
+                  <FaRegUserCircle className={s.icon} />
+                </Link>
+              </>
             )}
           </li>
         </ul>
