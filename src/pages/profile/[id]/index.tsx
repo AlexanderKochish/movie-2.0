@@ -1,12 +1,13 @@
 import { ReactElement } from 'react'
 
+import { Profile } from '@/features/profile/ui/Profile/Profile'
 import { Page } from '@/shared/types/layout'
 import Layout from '@/widgets/layout/ui/layout'
 
-export const Profile: Page = () => {
-  return <div>Profile</div>
+export const ProfilePage: Page = () => {
+  return <Profile />
 }
 
-Profile.getLayout = (page: ReactElement) => <Layout>{page}</Layout>
+ProfilePage.getLayout = (page: ReactElement) => <Layout>{page}</Layout>
 
-export default Profile
+export default ProfilePage

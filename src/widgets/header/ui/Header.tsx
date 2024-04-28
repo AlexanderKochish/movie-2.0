@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { LogOut } from '@/features/auth/ui/LogOut/LogOut'
 import { SearchMovie } from '@/features/movies/ui/SearchMovie/SearchMovie'
 import Modal from '@/shared/ui/Modal/Modal'
 import clsx from 'clsx'
@@ -114,7 +113,6 @@ export const Header = () => {
               </div>
             ) : (
               <>
-                <LogOut />
                 <Link href={'/auth/sign-in'}>
                   <FaRegUserCircle className={s.icon} />
                 </Link>

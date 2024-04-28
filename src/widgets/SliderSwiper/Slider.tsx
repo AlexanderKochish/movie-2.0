@@ -24,8 +24,8 @@ export const Slider = ({ children, className, slidesPerView, spaceBetween }: Pro
       loop
       modules={[Navigation, A11y]}
       navigation
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={swiper => console.log(swiper)}
+      // onSlideChange={() => console.log('slide change')}
+      // onSwiper={swiper => console.log(swiper)}
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
     >

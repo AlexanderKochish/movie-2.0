@@ -1,24 +1,30 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
-import { useAuth } from '@/features/auth/api/auth-api'
 import { handleLogging } from '@/features/auth/helpers/handleLogging'
 import { signUpSchema } from '@/features/auth/model/validators/signUpSchema'
 import { SignUpValues } from '@/features/auth/types/auth.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
 import { ControlledTextField } from '@/shared/ui/ControlInput/ControlledInput'
+import { UserCredential } from '@firebase/auth'
+import { doc, setDoc } from '@firebase/firestore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from 'react-firebase-hooks/auth'
 
 import s from './SignUpForm.module.scss'
 
-import { auth } from '../../../../../firebase'
+import { auth, db } from '../../../../../firebase'
 import { GitHubIcon, GoogleIcon } from '../../../../../public/icons/icons'
 
 export const SignUpForm = () => {
-  const { handleSignUp } = useAuth()
+  const [createUser, registerUser, load, error] = useCreateUserWithEmailAndPassword(auth)
   const [signInWithGithub, userGithub, loadGithub, githubError] = useSignInWithGithub(auth)
   const [signInWithGoogle, userGoogle, loadGoogle, googleError] = useSignInWithGoogle(auth)
   const { push } = useRouter()
@@ -37,7 +43,22 @@ export const SignUpForm = () => {
     mode: 'onTouched',
     resolver: zodResolver(signUpSchema()),
   })
-  const onSubmit: SubmitHandler<SignUpValues> = data => handleSignUp(data)
+  const onSubmit: SubmitHandler<SignUpValues> = async data => {
+    if (error) {
+      toast.error(error.message)
+    }
+    const user: UserCredential | undefined = await createUser(data.email, data.password)
+
+    if (user) {
+      await setDoc(doc(db, 'users', user.user.uid), {
+        email: user?.user.email,
+        name: data.username,
+      })
+
+      toast.success('User registered successfully')
+      void push('/')
+    }
+  }
 
   return (
     <Card asComponent={'form'} className={s.form} onSubmit={handleSubmit(onSubmit)}>
