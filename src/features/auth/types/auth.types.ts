@@ -12,5 +12,4 @@ export type signInProps = {
   error?: AuthError | undefined
   link: (url: string) => void
   logging: () => Promise<UserCredential | undefined>
-  userName: null | string | undefined
 }

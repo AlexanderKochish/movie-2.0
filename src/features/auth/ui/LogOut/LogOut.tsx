@@ -9,13 +9,12 @@ import { auth } from '../../../../../firebase'
 type Props = {}
 
 export const LogOut = (props: Props) => {
-  const router = useRouter()
+  const { push } = useRouter()
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
+        void push('/auth/sign-in')
         toast.success('Done You Log out!')
-        router.push('/auth/sign-in')
       })
       .catch(error => {
         // An error happened.

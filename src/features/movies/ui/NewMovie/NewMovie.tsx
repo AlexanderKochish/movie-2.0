@@ -1,5 +1,6 @@
 import { MovieArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
+import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaStar } from 'react-icons/fa6'
@@ -13,7 +14,11 @@ type Props = {
 
 export const NewMovie = ({ data }: Props) => {
   return (
-    <Slider className={s.sliderContainer} slidesPerView={3} spaceBetween={30}>
+    <Slider
+      className={clsx(s['single-slider'], s.sliderContainer)}
+      slidesPerView={3}
+      spaceBetween={30}
+    >
       {data?.results &&
         data.results?.map((movie: MovieArgs) => (
           <SwiperSlide key={movie.id}>

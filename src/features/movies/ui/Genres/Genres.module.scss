@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
 
-  padding: 10px 0 0 50px;
+  padding: 0 0 0 50px;
 
   -ms-overflow-style: none;
 }
@@ -26,5 +26,31 @@
 
   &:hover {
     background-color: var(--dark-500);
+  }
+}
+
+.block {
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 44%);
+    margin: 10px;
+    font-weight: bold;
+    color: var(--dark-900);
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    padding: 5px;
+
+    font-size: var(--font-size-xxl);
+
+    opacity: 0.6;
+    background-color: var(--light-500);
+    border-radius: 6px;
+
+    &:hover {
+      opacity: 0.9;
+      background-color: var(--light-900);
+    }
   }
 }

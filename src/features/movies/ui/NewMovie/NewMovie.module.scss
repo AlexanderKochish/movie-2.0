@@ -52,8 +52,7 @@
 }
 
 .sliderContainer {
-  min-height: 90vh;
-  padding: 70px 0 0;
+  min-height: 85vh;
 }
 
 .img {
@@ -61,4 +60,30 @@
   z-index: -1;
   inset: 0;
   border-radius: 10px;
+}
+
+.single-slider {
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 44%);
+    margin: 10px;
+    font-weight: bold;
+    color: var(--dark-900);
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    padding: 15px;
+
+    font-size: var(--font-size-xxl);
+
+    opacity: 0.6;
+    background-color: var(--light-500);
+    border-radius: 6px;
+
+    &:hover {
+      opacity: 0.9;
+      background-color: var(--light-900);
+    }
+  }
 }

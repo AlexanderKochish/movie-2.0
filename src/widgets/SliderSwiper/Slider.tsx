@@ -5,7 +5,7 @@ import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperProps } from 'swiper/react'
 
 // eslint-disable-next-line import/extensions
-import './Slider.scss'
+// import './Slider.scss'
 // eslint-disable-next-line import/extensions
 import 'swiper/css'
 // eslint-disable-next-line import/extensions
@@ -19,7 +19,7 @@ export const Slider = ({ children, className, slidesPerView, spaceBetween }: Pro
   return (
     <Swiper
       centeredSlides
-      className={clsx('single-slider', className)}
+      className={className}
       effect={'slide'}
       loop
       modules={[Navigation, A11y]}

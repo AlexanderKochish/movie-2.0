@@ -70,7 +70,6 @@ export const SignUpForm = () => {
               error: githubError,
               link: push,
               logging: signInWithGithub,
-              userName: userGithub?.user.displayName,
             })
           }
         >
@@ -82,7 +81,6 @@ export const SignUpForm = () => {
               error: googleError,
               link: push,
               logging: signInWithGoogle,
-              userName: userGoogle?.user.displayName,
             })
           }
         >

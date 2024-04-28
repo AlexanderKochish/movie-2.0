@@ -3,20 +3,19 @@
   flex-direction: column;
 
   width: 100%;
-  max-width: 1460px;
   height: 100%;
   margin: 0 auto;
+  padding: 0 0 0 50px;
 
   color: var(--light-100);
 
-  & > div > h2 {
-    padding: 0 0 0 30px;
+  & > h3 {
+    padding: 10px 0;
   }
 }
 
 .sliderContainer {
   display: flex;
   width: 100%;
-  margin-top: -50px;
-  padding: 70px 0 0;
+  margin-bottom: 25px;
 }
