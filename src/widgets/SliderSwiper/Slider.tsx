@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 
-import clsx from 'clsx'
 import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperProps } from 'swiper/react'
 
@@ -11,13 +10,27 @@ import 'swiper/css'
 // eslint-disable-next-line import/extensions
 import 'swiper/css/navigation'
 
+type BreakPoints = {
+  [key: string]: {
+    slidesPerView: number
+    spaceBetween: number
+  }
+}
 type Props = {
+  breakpoints?: BreakPoints
   children: ReactNode
 } & SwiperProps
 
-export const Slider = ({ children, className, slidesPerView, spaceBetween }: Props) => {
+export const Slider = ({
+  breakpoints,
+  children,
+  className,
+  slidesPerView,
+  spaceBetween,
+}: Props) => {
   return (
     <Swiper
+      breakpoints={breakpoints}
       centeredSlides
       className={className}
       effect={'slide'}

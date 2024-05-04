@@ -1,23 +1,30 @@
-.DialogOverlay {
+.overlay {
   position: fixed;
   z-index: 99;
   inset: 0;
-
-  min-height: 100vh;
 
   background-color: rgb(0 0 0 / 90%);
 
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: var(--dark-300);
+  border: 1px solid var(--dark-100);
+  border-radius: 2px;
+
+  animation: contentshow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .btn {
   color: var(--light-100);
   background-color: inherit;
   border: none;
-  outline: none;
-}
-
-.DialogContent:focus {
   outline: none;
 }
 
@@ -34,7 +41,7 @@
   height: 40px;
 }
 
-.IconButton {
+.iconBtn {
   cursor: pointer;
 
   position: absolute;
@@ -52,7 +59,7 @@
   font-family: inherit;
   color: var(--light-100);
 
-  background-color: inherit;
+  background-color: rgb(0 0 0 / 10%);
   border: none;
 }
 

@@ -1,4 +1,20 @@
 import { useState } from 'react'
+import {
+  EmailIcon,
+  EmailShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  ViberIcon,
+  ViberShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  XIcon,
+} from 'react-share'
+import { toast } from 'react-toastify'
 import YouTube from 'react-youtube'
 
 import {
@@ -14,9 +30,12 @@ import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
 import Image from 'next/image'
 import Link from 'next/link'
+import { AiOutlineLink } from 'react-icons/ai'
 import { FaRegStar } from 'react-icons/fa'
+import { FaStar } from 'react-icons/fa6'
 import { GoShareAndroid } from 'react-icons/go'
 import { GrFavorite } from 'react-icons/gr'
+import { IoMdClose } from 'react-icons/io'
 import { SwiperSlide } from 'swiper/react'
 
 import s from './MovieById.module.scss'
@@ -29,6 +48,8 @@ export const MovieById = ({ id }: Props) => {
   const { data, isLoading } = useGetMovieByIdQuery(id as string)
   const { data: video, isLoading: isVideoLoad } = useGetVideoByIdQuery(id as string)
   const { data: credits } = useGetMovieCreditsByIdQuery(id as string)
+  const [openShare, setOpenShare] = useState(false)
+  const [openRating, setOpenRating] = useState(false)
 
   function secondsToHMS(seconds: number) {
     const date = new Date(seconds * 1000)
@@ -36,6 +57,17 @@ export const MovieById = ({ id }: Props) => {
     const minutes = date.getUTCMinutes()
 
     return `${hours} h ${minutes} min`
+  }
+
+  const copyUrlToClipboard = async () => {
+    try {
+      const url = window.location.href
+
+      await navigator.clipboard.writeText(url)
+      toast.success('URL скопирован: ' + url)
+    } catch (err) {
+      toast.error('Не удалось скопировать URL')
+    }
   }
 
   const opts = {
@@ -47,86 +79,147 @@ export const MovieById = ({ id }: Props) => {
     zIndex: 100,
   }
 
+  if (isLoading) {
+    return <Preloader className={s.load} />
+  }
+
   return (
     <>
-      {isLoading ? (
-        <Preloader className={s.load} />
-      ) : (
-        data && (
-          <div className={s.block}>
-            <div className={s.img}>
-              <Image
-                alt={'poster'}
-                fill
-                // sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
-                src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
-              />
-              <div className={s.content}>
-                <div className={s.container}>
-                  <div className={s.title}>
-                    <h1>{data?.title || data?.original_title}</h1>
-                    <ul className={s.titleTop}>
-                      <li>{data?.vote_average.toFixed(1)}</li>
-                      <li>{data?.release_date.substring(0, 4)}</li>
-                      <li>{secondsToHMS(data?.runtime)}</li>
-                    </ul>
-                    <div className={s.actors}>
-                      <span>crew: </span>
-                      {credits?.crew
-                        .slice(0, 3)
-                        .map((a: Crew) => <span key={a.name}>{a.name}</span>)}
-                    </div>
-                    <div className={s.actors}>
-                      <span>actors: </span>
-                      {credits?.cast
-                        .slice(0, 3)
-                        .map((a: Cast) => <span key={a.name}>{a.name}</span>)}
-                    </div>
-                    <p>{data?.overview}</p>
-                    <ul className={s.titleBottom}>
-                      <li>
-                        <Button onClick={() => setOpen(true)} variant={'primary'}>
-                          Watch video
-                        </Button>
-                      </li>
-                      <li>
-                        <Button className={s.favorite} variant={'outline'}>
-                          <GrFavorite />
-                        </Button>
-                      </li>
-                      <li>
-                        <Button className={s.favorite} variant={'outline'}>
-                          <FaRegStar />
-                        </Button>
-                      </li>
-                      <li>
-                        <Button className={s.favorite} variant={'outline'}>
-                          <GoShareAndroid />
-                        </Button>
-                      </li>
-                    </ul>
+      {data && (
+        <div className={s.block}>
+          <div className={s.img}>
+            <Image
+              alt={'poster'}
+              fill
+              // sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
+            />
+            <div className={s.content}>
+              <div className={s.container}>
+                <div className={s.title}>
+                  <h1>{data?.title || data?.original_title}</h1>
+                  <ul className={s.titleTop}>
+                    <li>{data?.vote_average.toFixed(1)}</li>
+                    <li>{data?.release_date.substring(0, 4)}</li>
+                    <li>{secondsToHMS(data?.runtime)}</li>
+                  </ul>
+                  <div className={s.actors}>
+                    <span>crew: </span>
+                    {credits?.crew.slice(0, 3).map((a: Crew) => <span key={a.name}>{a.name}</span>)}
                   </div>
+                  <div className={s.actors}>
+                    <span>actors: </span>
+                    {credits?.cast.slice(0, 3).map((a: Cast) => <span key={a.name}>{a.name}</span>)}
+                  </div>
+                  <p>{data?.overview}</p>
+                  <ul className={s.titleBottom}>
+                    <li>
+                      <Button onClick={() => setOpen(true)} variant={'primary'}>
+                        Watch video
+                      </Button>
+                    </li>
+                    <li>
+                      <Button className={s.favorite} variant={'outline'}>
+                        <GrFavorite />
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        className={s.favorite}
+                        onClick={() => setOpenRating(true)}
+                        variant={'outline'}
+                      >
+                        <FaRegStar />
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        className={s.favorite}
+                        onClick={() => setOpenShare(true)}
+                        variant={'outline'}
+                      >
+                        <GoShareAndroid />
+                      </Button>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <ul>
-              <Slider className={s.castList} slidesPerView={7} spaceBetween={30}>
-                {credits?.cast &&
-                  credits.cast.map(actor => (
-                    <SwiperSlide className={s.item} key={actor.id}>
-                      <Link href={`/actors/${actor.id}`}>
-                        <CastItem actor={actor} />
-                      </Link>
-                    </SwiperSlide>
-                  ))}
-              </Slider>
-            </ul>
           </div>
-        )
+          <ul>
+            <Slider className={s.castList} slidesPerView={7} spaceBetween={30}>
+              {credits?.cast &&
+                credits.cast.map(actor => (
+                  <SwiperSlide className={s.item} key={actor.id}>
+                    <Link href={`/actors/${actor.id}`}>
+                      <CastItem actor={actor} />
+                    </Link>
+                  </SwiperSlide>
+                ))}
+            </Slider>
+          </ul>
+        </div>
       )}
-      <Modal className={s.blockYoutube} disabled={false} onClose={setOpen} open={open}>
+      <Modal btn className={s.modalContent} disabled={false} onClose={setOpen} open={open}>
         <div onClick={() => setOpen(false)}>
           <YouTube opts={opts} videoId={video?.results[0].key || video?.results[1].key} />
+        </div>
+      </Modal>
+      <Modal className={s.modalOverlay} disabled={false} onClose={setOpenShare} open={openShare}>
+        <div className={s.share}>
+          <div className={s.shareTitle}>
+            <h2>Share</h2>
+            <button aria-label={'Close'} className={s.closeBtn} onClick={() => setOpenShare(false)}>
+              <IoMdClose className={s.closeIcon} />
+            </button>
+          </div>
+          <div className={s.shareIcons}>
+            <EmailShareButton url={`http://localhost:3000/movies/${id}`}>
+              <EmailIcon round />
+            </EmailShareButton>
+            <LinkedinShareButton url={`http://localhost:3000/movies/${id}`}>
+              <LinkedinIcon round />
+            </LinkedinShareButton>
+            <TelegramShareButton url={`http://localhost:3000/movies/${id}`}>
+              <TelegramIcon round />
+            </TelegramShareButton>
+            <TwitterShareButton url={`http://localhost:3000/movies/${id}`}>
+              <TwitterIcon round />
+            </TwitterShareButton>
+            <ViberShareButton url={`http://localhost:3000/movies/${id}`}>
+              <ViberIcon round />
+            </ViberShareButton>
+            <WhatsappShareButton url={`http://localhost:3000/movies/${id}`}>
+              <WhatsappIcon round />
+            </WhatsappShareButton>
+          </div>
+          <Button className={s.blockCopyLink} onClick={copyUrlToClipboard} variant={'text'}>
+            <AiOutlineLink className={s.shareBtn} />
+            <p>Copy link</p>
+          </Button>
+        </div>
+      </Modal>
+      <Modal className={s.modalOverlay} disabled={false} onClose={setOpenRating} open={openRating}>
+        <div className={s.share}>
+          {' '}
+          <div className={s.blockCloseBtn}>
+            <button
+              aria-label={'Close'}
+              className={s.closeBtn}
+              onClick={() => setOpenRating(false)}
+            >
+              <IoMdClose className={s.closeIcon} />
+            </button>
+          </div>
+          <h2 className={s.ratingTitle}>Please rate from 1 to 10</h2>
+          <div className={s.ratingBlock}>
+            <div className={s.starsBlock}>
+              {Array.from({ length: 10 }, (_, i) => (
+                <FaStar className={s.star} key={i} />
+              ))}
+            </div>
+            <Button variant={'primary'}>Give a rating</Button>
+          </div>
         </div>
       </Modal>
     </>

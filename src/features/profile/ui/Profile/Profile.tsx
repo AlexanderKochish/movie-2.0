@@ -8,6 +8,7 @@ import {
 import { Button } from '@/shared/ui/Button/Button'
 import { Card } from '@/shared/ui/Card/Card'
 import { ControlledTextField } from '@/shared/ui/ControlInput/ControlledInput'
+import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import { doc } from '@firebase/firestore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
@@ -35,7 +36,7 @@ export const Profile = () => {
   const [snapshot, loading, error] = useDocument(docRef)
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Preloader />
   }
   if (error) {
     return <div>Error: {error.message}</div>

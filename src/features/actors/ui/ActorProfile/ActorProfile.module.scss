@@ -1,7 +1,6 @@
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 70px 0;
 }
 
 .actor {
@@ -26,7 +25,16 @@
 
 .img {
   position: relative;
-  width: 340px;
-  height: 360px;
+
+  overflow: hidden;
+
+  width: 300px;
+  height: 320px;
   margin-right: 30px;
+}
+
+@media (width <= 768px) {
+  .actor {
+    flex-direction: column;
+  }
 }
