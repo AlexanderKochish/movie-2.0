@@ -25,7 +25,7 @@ export const NewMovie = ({ data }: Props) => {
           spaceBetween: 20,
         },
         1200: {
-          slidesPerView: 3,
+          slidesPerView: 2.2,
           spaceBetween: 30,
         },
       }}
@@ -45,6 +45,7 @@ export const NewMovie = ({ data }: Props) => {
                     fill
                     src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.poster_path}`}
                   />
+
                   <div className={s.info}>
                     <h4>{movie.title || movie.original_title}</h4>
                     <ul className={s.infoRating}>

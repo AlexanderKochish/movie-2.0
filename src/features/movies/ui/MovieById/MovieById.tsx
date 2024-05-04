@@ -146,6 +146,7 @@ export const MovieById = ({ id }: Props) => {
               </div>
             </div>
           </div>
+          <h2>Актёры и создатели</h2>
           <ul>
             <Slider className={s.castList} slidesPerView={7} spaceBetween={30}>
               {credits?.cast &&

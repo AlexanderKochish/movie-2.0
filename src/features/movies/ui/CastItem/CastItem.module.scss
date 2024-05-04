@@ -8,15 +8,19 @@
   justify-content: space-between;
 
   min-width: 200px;
-  min-height: 250px;
+  min-height: 230px;
   padding: 10px;
 }
 
 .img {
   position: relative;
+
   overflow: hidden;
+
   width: 180px;
-  height: 200px;
+  height: 180px;
+
+  border-radius: 50%;
 }
 
 .name {
