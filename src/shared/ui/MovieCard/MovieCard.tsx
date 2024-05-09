@@ -5,24 +5,29 @@ import Link from 'next/link'
 import s from './MovieCard.module.scss'
 
 type Props = {
+  cardClassName: string
   movie: MovieArgs
+  sizes?: boolean
 }
-export const MovieCard = ({ movie }: Props) => {
+export const MovieCard = ({ cardClassName, movie, sizes }: Props) => {
   return (
     <Link href={`/movies/${movie.id}`} key={movie.id}>
-      <li className={s.card}>
+      <li className={cardClassName}>
         <Image
           alt={movie.title || 'poster'}
           className={s.img}
-          height={300}
-          src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path}`}
-          width={200}
+          fill
+          src={
+            sizes
+              ? `${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.poster_path}`
+              : `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path}`
+          }
         />
         <div className={s.cardInfo}>
           <div className={s.cardRating}>{movie.vote_average.toFixed(1)}</div>
           <div className={s.infoFooter}>
             <div>{movie.title || movie.original_title}</div>
-            <div className={s.year}>{movie.release_date.substring(0, 4)}</div>
+            <div className={s.year}>{movie.release_date?.substring(0, 4)}</div>
           </div>
         </div>
       </li>

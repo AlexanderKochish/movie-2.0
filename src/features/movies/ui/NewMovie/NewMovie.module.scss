@@ -14,7 +14,13 @@
   border: 1px solid var(--dark-300);
   border-radius: 10px;
 
-  transition: all 0.5s;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 5px 5px rgb(255 255 255 / 15%);
+    transition: all 0.3s;
+  }
 }
 
 .info {
@@ -30,6 +36,11 @@
   background: linear-gradient(to right, rgb(0 0 0 / 60%), rgb(0 0 0 / 10%), rgb(0 0 0 / 0%)),
     linear-gradient(to bottom, rgb(0 0 0 / 60%), rgb(0 0 0 / 10%), rgb(0 0 0 / 0%));
   border-radius: 10px;
+
+  &:hover {
+    background: linear-gradient(to right, rgb(0 0 0 / 10%), rgb(0 0 0 / 5%), rgb(0 0 0 / 10%)),
+      linear-gradient(to bottom, rgb(0 0 0 / 10%), rgb(0 0 0 / 5%), rgb(0 0 0 / 10%));
+  }
 
   & > h4 {
     font-size: var(--font-size-xxl);
@@ -60,11 +71,19 @@
 }
 
 .sliderContainer {
-  min-height: 85vh;
+  min-height: 90vh;
+  padding: 30px 0;
 }
 
 .img {
   position: relative;
   z-index: -1;
   inset: 0;
+}
+
+@media (width > 280px) {
+  .sliderContainer {
+    min-height: 50vh;
+    padding: 30px 0;
+  }
 }

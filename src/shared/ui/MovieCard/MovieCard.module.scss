@@ -15,26 +15,6 @@
   min-height: 100vh;
 }
 
-.card {
-  cursor: pointer;
-
-  position: relative;
-
-  overflow: hidden;
-
-  width: 200px;
-  height: 300px;
-
-  border: 1px solid var(--dark-500);
-  border-radius: 10px;
-
-  transition: all 0.3s;
-
-  &:hover {
-    transform: scale(1.02);
-  }
-}
-
 .cardInfo {
   position: absolute;
   top: 0;
@@ -71,9 +51,35 @@
 .img {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: auto;
 }
 
 .year {
   font-size: var(--font-size-s);
   color: var(--light-900);
 }
+
+//.card {
+//  width: 17%;
+//
+//  @media (width <= 1400px) {
+//    width: 18%;
+//  }
+//
+//  @media (width <= 1300px) {
+//    width: 250px;
+//  }
+//
+//  @media (width <= 1024px) {
+//    width: 25%;
+//  }
+//
+//  @media (width <= 768px) {
+//    width: 30%;
+//  }
+//
+//  @media (width <= 576px) {
+//    width: 38%;
+//  }
+//}

@@ -13,6 +13,23 @@ type Props = {
   query?: any
 }
 const options = [
+  { label: 'Genre', value: 'Genre' },
+  { label: 'All Genres', value: 'All Genres' },
+  { label: 'Chocolate', value: 'chocolate' },
+  { label: 'Strawberry', value: 'strawberry' },
+  { label: 'Vanilla', value: 'vanilla' },
+]
+const options1 = [
+  { label: 'Rating', value: 'Rating' },
+  { label: 'Rating more ten', value: 'Rating more ten' },
+  { label: 'Chocolate', value: 'chocolate' },
+  { label: 'Strawberry', value: 'strawberry' },
+  { label: 'Vanilla', value: 'vanilla' },
+]
+
+const options2 = [
+  { label: 'Year of release', value: 'Year of release' },
+  { label: 'All years', value: 'All years' },
   { label: 'Chocolate', value: 'chocolate' },
   { label: 'Strawberry', value: 'strawberry' },
   { label: 'Vanilla', value: 'vanilla' },
@@ -29,21 +46,30 @@ export const MoviesOfGenres = ({ data, query }: Props) => {
             <h2>Фильмы: {query.genre}</h2>
           </div>
           <div className={s.selects}>
-            <MySelect
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={options}
-            />
-            <MySelect
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={options}
-            />
-            <MySelect
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={options}
-            />
+            <div className={s.firstBlock}>
+              <MySelect
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+              />
+              <MySelect
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options1}
+              />
+              <MySelect
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options2}
+              />
+            </div>
+            <div>
+              <MySelect
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+              />
+            </div>
           </div>
         </>
       )}

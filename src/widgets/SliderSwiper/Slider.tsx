@@ -1,12 +1,18 @@
 import { ReactNode } from 'react'
 
-import { A11y, Navigation } from 'swiper/modules'
-import { Swiper, SwiperProps } from 'swiper/react'
+import { MovieArgs } from '@/features/movies/types/movies.types'
+import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
+import clsx from 'clsx'
+import { A11y, EffectCoverflow, Navigation } from 'swiper/modules'
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'
+import { SwiperModule } from 'swiper/types'
 
 // eslint-disable-next-line import/extensions
-// import './Slider.scss'
+import './Slider.scss'
 // eslint-disable-next-line import/extensions
 import 'swiper/css'
+// eslint-disable-next-line import/extensions
+import 'swiper/css/effect-coverflow'
 // eslint-disable-next-line import/extensions
 import 'swiper/css/navigation'
 
@@ -18,13 +24,19 @@ type BreakPoints = {
 }
 type Props = {
   breakpoints?: BreakPoints
-  children: ReactNode
+  cardClassName: string
+  data?: MovieArgs[]
+  moduleSlider: SwiperModule
+  sizes?: boolean
 } & SwiperProps
 
 export const Slider = ({
   breakpoints,
-  children,
+  cardClassName,
   className,
+  data,
+  moduleSlider,
+  sizes,
   slidesPerView,
   spaceBetween,
 }: Props) => {
@@ -32,17 +44,27 @@ export const Slider = ({
     <Swiper
       breakpoints={breakpoints}
       centeredSlides
-      className={className}
-      effect={'slide'}
+      className={clsx('single-slider', className)}
+      coverflowEffect={{
+        depth: 100,
+        modifier: 1,
+        rotate: 50,
+        slideShadows: true,
+        stretch: 0,
+      }}
+      effect={'coverflow'}
       loop
-      modules={[Navigation, A11y]}
+      modules={[Navigation, moduleSlider]}
       navigation
-      // onSlideChange={() => console.log('slide change')}
-      // onSwiper={swiper => console.log(swiper)}
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
     >
-      {children}
+      {data &&
+        data.map(movie => (
+          <SwiperSlide key={movie.id}>
+            <MovieCard cardClassName={cardClassName} movie={movie} sizes={sizes} />
+          </SwiperSlide>
+        ))}
     </Swiper>
   )
 }

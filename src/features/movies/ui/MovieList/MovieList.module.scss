@@ -1,21 +1,44 @@
 .block {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 0 0 50px;
+  overflow: hidden;
+  display: block;
 
-  color: var(--light-100);
+  max-width: 1700px;
+  min-height: 100%;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-left: auto;
+  padding-right: 60px;
+  padding-left: 96px;
 
   & > h3 {
     padding: 10px 0;
   }
 }
 
-.sliderContainer {
-  display: flex;
-  width: 100%;
-  margin-bottom: 25px;
+.slider {
+  position: relative;
+  overflow: visible;
+}
+
+.card {
+  cursor: pointer;
+
+  position: relative;
+
+  display: block;
+
+  width: 200px;
+  height: 220px;
+  padding-top: 250px;
+
+  border: 1px solid var(--dark-500);
+  border-radius: 10px;
+
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }

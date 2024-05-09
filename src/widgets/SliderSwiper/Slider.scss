@@ -1,7 +1,7 @@
 .single-slider {
   .swiper-button-prev,
   .swiper-button-next {
-    margin: 20px;
+    margin: 0 20px;
     font-weight: bold;
     color: var(--dark-900);
   }
@@ -13,12 +13,7 @@
     font-size: var(--font-size-xxl);
 
     opacity: 0.6;
-    background-color: var(--light-500);
+    background: rgb(255 255 255 / 90%);
     border-radius: 6px;
-
-    &:hover {
-      opacity: 0.9;
-      background-color: var(--light-900);
-    }
   }
 }

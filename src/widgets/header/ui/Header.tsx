@@ -40,6 +40,10 @@ export const Header = () => {
     setScroll(currentScroll)
   }
 
+  // useEffect(() => {
+  //   !navBar ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'visible')
+  // }, [])
+
   useEffect(() => {
     document.addEventListener('scroll', scrollTop)
 
@@ -53,14 +57,14 @@ export const Header = () => {
       <div className={s.container}>
         <ul className={s.nav}>
           <li>
-            <h1>
+            <h1 className={s.logo}>
               <Link href={'/'}>
                 <RiMovie2Line />
               </Link>
             </h1>
           </li>
           <li>
-            <ul className={navBar ? s.navBar : clsx(s.navBar, s.active)}>
+            <ul className={!navBar ? s.navBar : clsx(s.navBar, s.active)}>
               <li className={activePath('/')}>
                 <Link href={'/'}>Главная</Link>
               </li>
@@ -127,7 +131,7 @@ export const Header = () => {
             )}
           </li>
           <li>
-            {navBar ? (
+            {!navBar ? (
               <GiHamburgerMenu className={s.burgerMenu} onClick={() => setNavBar(prev => !prev)} />
             ) : (
               <IoMdClose className={s.burgerMenu} onClick={() => setNavBar(prev => !prev)} />

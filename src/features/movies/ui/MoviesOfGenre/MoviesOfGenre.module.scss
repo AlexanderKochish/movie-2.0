@@ -18,9 +18,18 @@
 
 .selects {
   position: relative;
+
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
   padding: 30px;
+}
+
+.firstBlock {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .list {
