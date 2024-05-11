@@ -24,26 +24,23 @@ type BreakPoints = {
 }
 type Props = {
   breakpoints?: BreakPoints
-  cardClassName: string
-  data?: MovieArgs[]
+  className?: string
+  loop?: boolean
   moduleSlider: SwiperModule
-  sizes?: boolean
 } & SwiperProps
 
 export const Slider = ({
   breakpoints,
-  cardClassName,
+  children,
   className,
-  data,
+  loop,
   moduleSlider,
-  sizes,
   slidesPerView,
   spaceBetween,
 }: Props) => {
   return (
     <Swiper
       breakpoints={breakpoints}
-      centeredSlides
       className={clsx('single-slider', className)}
       coverflowEffect={{
         depth: 100,
@@ -53,18 +50,13 @@ export const Slider = ({
         stretch: 0,
       }}
       effect={'coverflow'}
-      loop
+      loop={loop}
       modules={[Navigation, moduleSlider]}
       navigation
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
     >
-      {data &&
-        data.map(movie => (
-          <SwiperSlide key={movie.id}>
-            <MovieCard cardClassName={cardClassName} movie={movie} sizes={sizes} />
-          </SwiperSlide>
-        ))}
+      {children}
     </Swiper>
   )
 }

@@ -9,7 +9,7 @@
   margin-right: auto;
   margin-bottom: 20px;
   margin-left: auto;
-  padding-right: 60px;
+  padding-right: 96px;
   padding-left: 96px;
 
   & > h3 {
@@ -27,6 +27,7 @@
 
   position: relative;
 
+  overflow: hidden;
   display: block;
 
   width: 200px;
@@ -40,5 +41,6 @@
 
   &:hover {
     transform: scale(1.02);
+    transition: all 0.3s;
   }
 }

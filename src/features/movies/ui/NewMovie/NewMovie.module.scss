@@ -33,13 +33,20 @@
   height: 100%;
   padding: 20px;
 
-  background: linear-gradient(to right, rgb(0 0 0 / 60%), rgb(0 0 0 / 10%), rgb(0 0 0 / 0%)),
+  background: linear-gradient(to right, rgb(0 0 0 / 60%), rgb(0 0 0 / 10%), rgb(0 0 0 / 60%)),
     linear-gradient(to bottom, rgb(0 0 0 / 60%), rgb(0 0 0 / 10%), rgb(0 0 0 / 0%));
   border-radius: 10px;
 
+  transition: all 0.3s;
+
   &:hover {
-    background: linear-gradient(to right, rgb(0 0 0 / 10%), rgb(0 0 0 / 5%), rgb(0 0 0 / 10%)),
-      linear-gradient(to bottom, rgb(0 0 0 / 10%), rgb(0 0 0 / 5%), rgb(0 0 0 / 10%));
+    background: linear-gradient(to right, rgb(0 0 0 / 5%), rgb(0 0 0 / 0%), rgb(0 0 0 / 5%)),
+      linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0 / 5%), rgb(0 0 0 / 0%));
+    transition: all 0.3s;
+  }
+
+  &.active {
+    background: none;
   }
 
   & > h4 {

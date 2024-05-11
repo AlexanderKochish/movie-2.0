@@ -1,13 +1,14 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import Select, { GroupBase, OptionsOrGroups } from 'react-select'
+import Select, { ActionMeta, GroupBase, OptionsOrGroups, SingleValue } from 'react-select'
 
 type Props = {
   defaultValue: null | string | string[]
-  onChange: Dispatch<SetStateAction<null | string | string[]>>
-  options: { label: string; value: string }[]
+  onChange: Dispatch<SetStateAction<string>>
+  options: { label: string; value: number }[] | undefined
   styles?: any
+  value: null | string | string[]
 }
-export const MySelect = ({ defaultValue, onChange, options, styles }: Props) => {
+export const MySelect = ({ defaultValue, onChange, options, styles, value }: Props) => {
   const [open, setOpen] = useState(false)
   const customStyles = {
     control: (base: any, state: any) => ({
@@ -64,10 +65,11 @@ export const MySelect = ({ defaultValue, onChange, options, styles }: Props) => 
       onChange={onChange}
       onMenuClose={() => setOpen(false)}
       onMenuOpen={() => setOpen(true)}
-      options={options || optionsTest}
-      // defaultValue={[options[0], options[1]] || ''}
-      placeholder={options[0].label}
+      options={options}
+      placeholder={!options ? '' : options[0]?.label}
       styles={styles || customStyles}
+      // defaultValue={[options[0], options[1]] || ''}
+      value={value}
     />
   )
 }

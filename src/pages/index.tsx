@@ -58,11 +58,11 @@ const Home: Page = () => {
         <Preloader />
       ) : (
         <>
-          <MovieList data={comedy} title={'Комедийные фильмы'} />
-          <MovieList data={nowPlaying} title={'Новые фильмы'} />
-          <MovieList data={family} title={'Смотрим всей семьей'} />
-          <MovieList data={upComing} title={'Скоро выйдут'} />
-          <MovieList data={fantasy} title={'Фантастика'} />
+          <MovieList data={comedy?.results} title={'Комедийные фильмы'} />
+          <MovieList data={nowPlaying?.results} title={'Новые фильмы'} />
+          <MovieList data={family?.results} title={'Смотрим всей семьей'} />
+          <MovieList data={upComing?.results} title={'Скоро выйдут'} />
+          <MovieList data={fantasy?.results} title={'Фантастика'} />
         </>
       )}
       <div style={{ lineHeight: 1.4, margin: '0 auto', maxWidth: '1400px', padding: '20px 0' }}>

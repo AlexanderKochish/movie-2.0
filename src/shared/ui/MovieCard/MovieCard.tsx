@@ -4,23 +4,24 @@ import Link from 'next/link'
 
 import s from './MovieCard.module.scss'
 
+import avatar from '../../../../public/avatar-1577909_1280.webp'
+
 type Props = {
-  cardClassName: string
   movie: MovieArgs
-  sizes?: boolean
 }
-export const MovieCard = ({ cardClassName, movie, sizes }: Props) => {
+
+export const MovieCard = ({ movie }: Props) => {
   return (
     <Link href={`/movies/${movie.id}`} key={movie.id}>
-      <li className={cardClassName}>
+      <li className={s.imgWrapper}>
         <Image
           alt={movie.title || 'poster'}
           className={s.img}
           fill
           src={
-            sizes
-              ? `${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.poster_path}`
-              : `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path}`
+            !movie.poster_path
+              ? avatar
+              : `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`
           }
         />
         <div className={s.cardInfo}>

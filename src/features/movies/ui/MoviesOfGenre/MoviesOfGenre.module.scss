@@ -7,7 +7,7 @@
   max-width: 1460px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 20px;
+  padding: 70px 20px 20px;
 
   color: var(--light-100);
 
@@ -30,6 +30,16 @@
   display: flex;
   gap: 15px;
   align-items: center;
+}
+
+.pagination {
+  overflow: hidden;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  width: 100%;
+  padding: 20px 0;
 }
 
 .list {

@@ -36,6 +36,7 @@ import { FaStar } from 'react-icons/fa6'
 import { GoShareAndroid } from 'react-icons/go'
 import { GrFavorite } from 'react-icons/gr'
 import { IoMdClose } from 'react-icons/io'
+import { A11y } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
 import s from './MovieById.module.scss'
@@ -148,7 +149,13 @@ export const MovieById = ({ id }: Props) => {
           </div>
           <h2>Актёры и создатели</h2>
           <ul>
-            <Slider className={s.castList} slidesPerView={7} spaceBetween={30}>
+            <Slider
+              className={s.castList}
+              loop
+              moduleSlider={A11y}
+              slidesPerView={7}
+              spaceBetween={30}
+            >
               {credits?.cast &&
                 credits.cast.map(actor => (
                   <SwiperSlide className={s.item} key={actor.id}>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { useGetActorByIdQuery, useGetActorMoviesByIdQuery } from '@/features/actors/api/actors-api'
+import { MovieList } from '@/features/movies/ui/MovieList/MovieList'
 import { MoviesOfGenres } from '@/features/movies/ui/MoviesOfGenre/MoviesOfGenre'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
@@ -57,7 +58,7 @@ export const ActorProfile = () => {
       <div className={s.name}>
         <h3>Movies with: {actor?.name}</h3>
       </div>
-      <div>{data?.cast && <MoviesOfGenres data={total} />}</div>
+      <div>{data?.cast && <MovieList data={total} />}</div>
       <Pagination data={data} item={12} onTotal={setTotal} />
     </div>
   )

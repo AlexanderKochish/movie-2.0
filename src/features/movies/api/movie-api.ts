@@ -44,9 +44,18 @@ const movieApi = baseApi.injectEndpoints({
         url: `/movie/${id}/credits?language=en`,
       }),
     }),
-    getMoviesOfGenres: builder.query<MoviesResponseArgs, string>({
-      query: id => ({
-        url: `/discover/movie?sort_by=popularity.desc&with_genres=${id}`,
+    getMoviesOfGenres: builder.query<
+      MoviesResponseArgs,
+      { id: string; popular: string; vote: string; year: string }
+    >({
+      query: ({ id, popular, vote, year }) => ({
+        params: {
+          sort_by: popular,
+          'vote_average.lte': vote,
+          with_genres: id,
+          year,
+        },
+        url: `/discover/movie`,
       }),
     }),
     getNowPlaying: builder.query<MoviesResponseArgs, void>({

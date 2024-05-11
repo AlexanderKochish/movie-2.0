@@ -84,6 +84,7 @@ export const Header = () => {
         <ul className={s.auth}>
           <li>
             <Modal
+              btn
               className={s.dialog}
               disabled={false}
               onClose={setOpen}
