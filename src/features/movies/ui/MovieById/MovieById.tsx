@@ -20,16 +20,21 @@ import YouTube from 'react-youtube'
 import {
   useGetMovieByIdQuery,
   useGetMovieCreditsByIdQuery,
+  useGetSimilarMoviesQuery,
   useGetVideoByIdQuery,
 } from '@/features/movies/api/movie-api'
 import { Cast, Crew } from '@/features/movies/types/movies.types'
 import { CastItem } from '@/features/movies/ui/CastItem/CastItem'
 import { Button } from '@/shared/ui/Button/Button'
 import Modal from '@/shared/ui/Modal/Modal'
+import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
+import { CustomTabs } from '@/shared/ui/Tabs/Tabs'
 import { Slider } from '@/widgets/SliderSwiper/Slider'
+import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+import { act } from 'react-dom/test-utils'
 import { AiOutlineLink } from 'react-icons/ai'
 import { FaRegStar } from 'react-icons/fa'
 import { FaStar } from 'react-icons/fa6'
@@ -48,6 +53,7 @@ export const MovieById = ({ id }: Props) => {
   const [open, setOpen] = useState(false)
   const { data, isLoading } = useGetMovieByIdQuery(id as string)
   const { data: video, isLoading: isVideoLoad } = useGetVideoByIdQuery(id as string)
+  const { data: similar, isLoading: isSimilarLoad } = useGetSimilarMoviesQuery(id as string)
   const { data: credits } = useGetMovieCreditsByIdQuery(id as string)
   const [openShare, setOpenShare] = useState(false)
   const [openRating, setOpenRating] = useState(false)
@@ -92,7 +98,7 @@ export const MovieById = ({ id }: Props) => {
             <Image
               alt={'poster'}
               fill
-              // sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
+              sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
               src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
             />
             <div className={s.content}>
@@ -102,8 +108,11 @@ export const MovieById = ({ id }: Props) => {
                   <ul className={s.titleTop}>
                     <li>{data?.vote_average.toFixed(1)}</li>
                     <li>{data?.release_date.substring(0, 4)}</li>
+                    <li>{data?.status}</li>
+                    <li>{data?.production_countries[0].name}</li>
                     <li>{secondsToHMS(data?.runtime)}</li>
                   </ul>
+                  <p className={s.overview}>{data?.overview}</p>
                   <div className={s.actors}>
                     <span>crew: </span>
                     {credits?.crew.slice(0, 3).map((a: Crew) => <span key={a.name}>{a.name}</span>)}
@@ -112,7 +121,6 @@ export const MovieById = ({ id }: Props) => {
                     <span>actors: </span>
                     {credits?.cast.slice(0, 3).map((a: Cast) => <span key={a.name}>{a.name}</span>)}
                   </div>
-                  <p>{data?.overview}</p>
                   <ul className={s.titleBottom}>
                     <li>
                       <Button onClick={() => setOpen(true)} variant={'primary'}>
@@ -147,25 +155,55 @@ export const MovieById = ({ id }: Props) => {
               </div>
             </div>
           </div>
-          <h2>Актёры и создатели</h2>
-          <ul>
-            <Slider
-              className={s.castList}
-              loop
-              moduleSlider={A11y}
-              slidesPerView={7}
-              spaceBetween={30}
-            >
-              {credits?.cast &&
-                credits.cast.map(actor => (
-                  <SwiperSlide className={s.item} key={actor.id}>
-                    <Link href={`/actors/${actor.id}`}>
-                      <CastItem actor={actor} />
-                    </Link>
-                  </SwiperSlide>
-                ))}
-            </Slider>
-          </ul>
+          <div className={s.container}>
+            <CustomTabs
+              tabs={[
+                {
+                  content: <p className={s.tabsOverview}>{data?.overview}</p> || '',
+                  label: 'Description',
+                },
+                {
+                  content:
+                    (
+                      <Slider
+                        className={s.similarWrapper}
+                        moduleSlider={A11y}
+                        nav
+                        slidesPerView={7}
+                        spaceBetween={10}
+                      >
+                        {similar &&
+                          similar.results.map(movie => (
+                            <SwiperSlide className={s.cardS} key={movie.id}>
+                              <MovieCard movie={movie} />
+                            </SwiperSlide>
+                          ))}
+                      </Slider>
+                    ) || '',
+                  label: 'Recommendations',
+                },
+              ]}
+            />
+            <h2>Actors and creators</h2>
+            <ul>
+              <Slider
+                className={s.castList}
+                loop={false}
+                moduleSlider={A11y}
+                slidesPerView={9}
+                spaceBetween={10}
+              >
+                {credits?.cast &&
+                  credits.cast.map(actor => (
+                    <SwiperSlide className={s.item} key={actor.id}>
+                      <Link href={`/actors/${actor.id}`}>
+                        <CastItem actor={actor} />
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+              </Slider>
+            </ul>
+          </div>
         </div>
       )}
       <Modal btn className={s.modalContent} disabled={false} onClose={setOpen} open={open}>

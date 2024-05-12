@@ -15,7 +15,7 @@ export const MovieList = ({ data, title }: Props) => {
   return (
     <ul className={s.block}>
       <h3>{title}</h3>
-      <Slider className={s.slider} moduleSlider={FreeMode} slidesPerView={6} spaceBetween={20}>
+      <Slider className={s.slider} moduleSlider={FreeMode} nav slidesPerView={6} spaceBetween={20}>
         {data &&
           data.map((movie: MovieArgs) => (
             <SwiperSlide className={s.card} key={movie.id}>

@@ -8,7 +8,7 @@
   justify-content: space-between;
 
   min-width: 200px;
-  min-height: 230px;
+  min-height: 180px;
   padding: 10px;
 }
 
@@ -17,10 +17,16 @@
 
   overflow: hidden;
 
-  width: 180px;
-  height: 180px;
+  width: 123px;
+  height: 120px;
 
   border-radius: 50%;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 4px 4px rgb(255 255 255 / 70%);
+    transition: all 0.3s;
+  }
 }
 
 .name {

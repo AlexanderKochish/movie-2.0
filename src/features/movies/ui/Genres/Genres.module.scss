@@ -1,17 +1,25 @@
 .block {
-  scrollbar-width: none;
+  position: relative;
 
-  overflow: scroll hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
 
-  padding: 0 0 0 50px;
+  padding: 20px 0 20px 50px;
+}
 
-  -ms-overflow-style: none;
+.slide {
+  position: relative;
+  overflow: visible;
 }
 
 .item {
   cursor: pointer;
+
+  position: relative;
+
+  overflow: visible;
+  display: block;
 
   margin-right: 20px;
   padding: 10px 15px;
@@ -26,31 +34,5 @@
 
   &:hover {
     background-color: var(--dark-500);
-  }
-}
-
-.block {
-  .swiper-button-prev,
-  .swiper-button-next {
-    top: var(--swiper-navigation-top-offset, 44%);
-    margin: 10px;
-    font-weight: bold;
-    color: var(--dark-900);
-  }
-
-  .swiper-button-prev::after,
-  .swiper-button-next::after {
-    padding: 5px;
-
-    font-size: var(--font-size-xxl);
-
-    opacity: 0.6;
-    background-color: var(--light-500);
-    border-radius: 6px;
-
-    &:hover {
-      opacity: 0.9;
-      background-color: var(--light-900);
-    }
   }
 }

@@ -27,6 +27,7 @@ type Props = {
   className?: string
   loop?: boolean
   moduleSlider: SwiperModule
+  nav?: boolean
 } & SwiperProps
 
 export const Slider = ({
@@ -35,6 +36,7 @@ export const Slider = ({
   className,
   loop,
   moduleSlider,
+  nav,
   slidesPerView,
   spaceBetween,
 }: Props) => {
@@ -52,7 +54,7 @@ export const Slider = ({
       effect={'coverflow'}
       loop={loop}
       modules={[Navigation, moduleSlider]}
-      navigation
+      navigation={nav}
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
     >

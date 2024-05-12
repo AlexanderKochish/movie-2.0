@@ -37,6 +37,7 @@ export const NewMovie = ({ data }: Props) => {
       className={clsx(s['single-slider'], s.sliderContainer)}
       loop
       moduleSlider={EffectCoverflow}
+      nav
       slidesPerView={3}
       spaceBetween={30}
     >

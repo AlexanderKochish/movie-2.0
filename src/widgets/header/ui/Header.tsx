@@ -66,16 +66,16 @@ export const Header = () => {
           <li>
             <ul className={!navBar ? s.navBar : clsx(s.navBar, s.active)}>
               <li className={activePath('/')}>
-                <Link href={'/'}>Главная</Link>
+                <Link href={'/'}>Home</Link>
               </li>
               <li className={activePath('/movies')}>
-                <Link href={'/movies'}>Фильмы</Link>
+                <Link href={'/movies'}>Movies</Link>
               </li>
               <li className={activePath('/series')}>
-                <Link href={'/series'}>Сериалы</Link>
+                <Link href={'/series'}>Serials</Link>
               </li>
               <li className={activePath('/cartoons')}>
-                <Link href={'/cartoons'}>Мультфильмы</Link>
+                <Link href={'/cartoons'}>Cartoons</Link>
               </li>
             </ul>
           </li>

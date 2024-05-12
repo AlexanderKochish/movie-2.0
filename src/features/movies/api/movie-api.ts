@@ -68,6 +68,11 @@ const movieApi = baseApi.injectEndpoints({
         url: '/trending/all/day',
       }),
     }),
+    getSimilarMovies: builder.query<MoviesResponseArgs, string>({
+      query: id => ({
+        url: `movie/${id}/recommendations?language=en-US&page=1`,
+      }),
+    }),
     getTopRating: builder.query<MoviesResponseArgs, void>({
       query: () => ({
         url: `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1`,
@@ -97,6 +102,7 @@ export const {
   useGetMoviesOfGenresQuery,
   useGetNowPlayingQuery,
   useGetPopularQuery,
+  useGetSimilarMoviesQuery,
   useGetTopRatingQuery,
   useGetUpComingQuery,
   useGetVideoByIdQuery,
@@ -110,6 +116,7 @@ export const {
   getGenres,
   getNowPlaying,
   getPopular,
+  getSimilarMovies,
   getTopRating,
   getUpComing,
 } = movieApi.endpoints
