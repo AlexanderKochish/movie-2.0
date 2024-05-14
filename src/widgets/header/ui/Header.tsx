@@ -25,9 +25,21 @@ export const Header = () => {
   const [user, loading, error] = useAuthState(auth)
   const [navBar, setNavBar] = useState(false)
 
-  const { pathname } = useRouter()
+  const { events, pathname } = useRouter()
 
-  const activePath = (path: string) => (pathname === path ? `${s.navItem} ${s.active}` : s.navItem)
+  useEffect(() => {
+    events.on('routeChangeComplete', () => {
+      setNavBar(false)
+    })
+
+    return () => {
+      events.off('routeChangeComplete', () => {
+        setNavBar(false)
+      })
+    }
+  }, [events])
+
+  const activePath = (path: string) => (pathname === path ? clsx(s.navItem, s.active) : s.navItem)
   const scrollTop = () => {
     const currentScroll = window.scrollY
 
@@ -39,10 +51,6 @@ export const Header = () => {
 
     setScroll(currentScroll)
   }
-
-  // useEffect(() => {
-  //   !navBar ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'visible')
-  // }, [])
 
   useEffect(() => {
     document.addEventListener('scroll', scrollTop)

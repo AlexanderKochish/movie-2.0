@@ -26,11 +26,12 @@ import {
 import { Cast, Crew } from '@/features/movies/types/movies.types'
 import { CastItem } from '@/features/movies/ui/CastItem/CastItem'
 import { Button } from '@/shared/ui/Button/Button'
+import { Card } from '@/shared/ui/Card/Card'
 import Modal from '@/shared/ui/Modal/Modal'
 import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
+import { Slider } from '@/shared/ui/SliderSwiper/Slider'
 import { CustomTabs } from '@/shared/ui/Tabs/Tabs'
-import { Slider } from '@/widgets/SliderSwiper/Slider'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -106,13 +107,19 @@ export const MovieById = ({ id }: Props) => {
                 <div className={s.title}>
                   <h1>{data?.title || data?.original_title}</h1>
                   <ul className={s.titleTop}>
-                    <li>{data?.vote_average.toFixed(1)}</li>
+                    <li
+                      className={
+                        Number(data?.vote_average.toFixed(1)) > 7 ? s.vote : clsx(s.vote, s.min)
+                      }
+                    >
+                      {data?.vote_average.toFixed(1)}
+                    </li>
                     <li>{data?.release_date.substring(0, 4)}</li>
                     <li>{data?.status}</li>
-                    <li>{data?.production_countries[0].name}</li>
+                    <li>{data?.production_countries[0]?.name || ''}</li>
                     <li>{secondsToHMS(data?.runtime)}</li>
                   </ul>
-                  <p className={s.overview}>{data?.overview}</p>
+                  <p className={s.overview}>{data?.overview || 'No description'}</p>
                   <div className={s.actors}>
                     <span>crew: </span>
                     {credits?.crew.slice(0, 3).map((a: Crew) => <span key={a.name}>{a.name}</span>)}
@@ -159,7 +166,7 @@ export const MovieById = ({ id }: Props) => {
             <CustomTabs
               tabs={[
                 {
-                  content: <p className={s.tabsOverview}>{data?.overview}</p> || '',
+                  content: <p className={s.tabsOverview}>{data?.overview || 'No description'}</p>,
                   label: 'Description',
                 },
                 {
@@ -172,12 +179,13 @@ export const MovieById = ({ id }: Props) => {
                         slidesPerView={7}
                         spaceBetween={10}
                       >
-                        {similar &&
-                          similar.results.map(movie => (
-                            <SwiperSlide className={s.cardS} key={movie.id}>
-                              <MovieCard movie={movie} />
-                            </SwiperSlide>
-                          ))}
+                        {!similar?.results.length
+                          ? 'No recommendations'
+                          : similar.results.map(movie => (
+                              <SwiperSlide className={s.cardS} key={movie.id}>
+                                <MovieCard movie={movie} />
+                              </SwiperSlide>
+                            ))}
                       </Slider>
                     ) || '',
                   label: 'Recommendations',
@@ -208,7 +216,11 @@ export const MovieById = ({ id }: Props) => {
       )}
       <Modal btn className={s.modalContent} disabled={false} onClose={setOpen} open={open}>
         <div onClick={() => setOpen(false)}>
-          <YouTube opts={opts} videoId={video?.results[0].key || video?.results[1].key} />
+          {!video?.results.length ? (
+            <Card className={s.videoNotification}>No video trailer</Card>
+          ) : (
+            <YouTube opts={opts} videoId={video?.results[0]?.key || video?.results[1]?.key} />
+          )}
         </div>
       </Modal>
       <Modal className={s.modalOverlay} disabled={false} onClose={setOpenShare} open={openShare}>

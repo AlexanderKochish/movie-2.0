@@ -18,18 +18,16 @@
 
 .selects {
   position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
   padding: 30px;
 }
 
 .firstBlock {
   display: flex;
   gap: 15px;
-  align-items: center;
+
+  & > div:last-child {
+    margin-left: auto;
+  }
 }
 
 .pagination {
@@ -113,4 +111,104 @@
 .year {
   font-size: var(--font-size-s);
   color: var(--light-900);
+}
+
+.filtersTitle {
+  display: none;
+}
+
+.filtersMenu {
+  display: none;
+}
+
+.filtersTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+}
+
+.selectedBtn {
+  display: none;
+}
+
+.closeFiltered {
+  display: none;
+}
+
+@media (width <= 780px) {
+  .selects {
+    display: none;
+  }
+
+  .selects.active {
+    position: fixed;
+    z-index: 99;
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100vh;
+
+    background-color: var(--dark-900);
+  }
+
+  .closeFiltered {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    display: block;
+
+    width: 30px;
+    height: 30px;
+  }
+
+  .filtersMenu {
+    display: block;
+    width: 30px;
+    height: 30px;
+  }
+
+  .firstBlock.active {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+
+    width: 100%;
+    padding: 20px;
+  }
+
+  .selectedBtn {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .firstBlock {
+    & > div {
+      width: 100%;
+      border-top: 1px solid var(--dark-500);
+
+      & > div {
+        width: 100%;
+        height: 70px;
+
+        font-size: var(--font-size-xl);
+
+        background-color: inherit;
+        border: none;
+      }
+    }
+
+    & > div:nth-child(4) {
+      margin: 0;
+      border-bottom: 1px solid var(--dark-500);
+    }
+  }
 }

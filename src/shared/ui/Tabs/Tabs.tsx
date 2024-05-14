@@ -19,10 +19,15 @@ export const CustomTabs = ({ className, tabs }: TabsProps) => {
   return (
     <Tabs className={clsx(s.tabs, className)} selectedTabClassName={s.selected}>
       <TabList className={s.list}>
-        {tabs && tabs.map((tab: TabItem) => <Tab className={s.tab}>{tab.label}</Tab>)}
+        {tabs &&
+          tabs.map((tab: TabItem) => (
+            <Tab className={s.tab} key={tab.label}>
+              {tab.label}
+            </Tab>
+          ))}
       </TabList>
 
-      {tabs && tabs.map((tab: TabItem) => <TabPanel>{tab.content}</TabPanel>)}
+      {tabs && tabs.map((tab: TabItem) => <TabPanel key={tab.label}>{tab.content}</TabPanel>)}
     </Tabs>
   )
 }

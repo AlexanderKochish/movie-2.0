@@ -1,6 +1,6 @@
 .header {
   position: fixed;
-  z-index: 100;
+  z-index: 98;
   top: 0;
   left: 0;
   transform: translateY(0);
@@ -23,7 +23,7 @@
 
 .title {
   position: absolute;
-  top: -75px;
+  top: -40px;
   left: 1px;
 
   font-size: var(--font-size-xxl);
@@ -228,5 +228,15 @@
     height: 30px;
 
     transition: all 0.3s;
+  }
+}
+
+@media (width <= 640px) {
+  .title {
+    top: -45px;
+  }
+
+  .dialog {
+    top: 20%;
   }
 }

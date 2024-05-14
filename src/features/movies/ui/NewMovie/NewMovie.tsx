@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 
 import { MovieArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
-import { Slider } from '@/widgets/SliderSwiper/Slider'
+import { Slider } from '@/shared/ui/SliderSwiper/Slider'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ export const NewMovie = ({ data }: Props) => {
   return (
     <Slider
       breakpoints={{
-        340: {
+        140: {
           slidesPerView: 1,
           spaceBetween: 10,
         },

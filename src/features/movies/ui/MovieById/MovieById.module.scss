@@ -92,13 +92,21 @@
 
   & > li {
     margin-right: 30px;
-
-    &:first-child {
-      padding: 2px 7px;
-      background: rgb(255 255 255 / 20%);
-      border-radius: 3px;
-    }
   }
+}
+
+.vote {
+  padding: 2px 7px;
+  background: #12b77c;
+  border-radius: 3px;
+
+  &.min {
+    background: #c4d02c;
+  }
+}
+
+.videoNotification {
+  padding: 10px;
 }
 
 .titleBottom {

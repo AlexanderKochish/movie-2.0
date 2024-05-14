@@ -6,8 +6,11 @@ import { GenresArgs, MoviesResponseArgs } from '@/features/movies/types/movies.t
 import { Button } from '@/shared/ui/Button/Button'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { MySelect } from '@/shared/ui/Select/Select'
+import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+import { IoMdClose } from 'react-icons/io'
+import { VscSettings } from 'react-icons/vsc'
 
 import s from './MoviesOfGenre.module.scss'
 
@@ -48,6 +51,7 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
   const [selectedGenre, setSelectedGenre] = useState('Genre')
   const [selectedPopular, setSelectedPopular] = useState('Genre')
   const [selectedRating, setSelectedRating] = useState('Genre')
+  const [isFilteredMenu, setIsFilteredMenu] = useState(false)
 
   const genreList = genre?.genres.map((gen: GenresArgs, i) => ({
     label: i === 0 ? 'Genres' : gen.name,
@@ -69,11 +73,16 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
     <div className={s.block}>
       {query && (
         <>
-          <div>
-            <h2>Фильмы: {query.genre || selectedGenre.label}</h2>
+          <div className={s.filtersTitle}>
+            <h2>Фильмы {query.genre || selectedGenre.label}</h2>
+            <VscSettings
+              className={s.filtersMenu}
+              onClick={() => setIsFilteredMenu(prev => !prev)}
+            />
           </div>
-          <div className={s.selects}>
-            <div className={s.firstBlock}>
+          <div className={!isFilteredMenu ? s.selects : clsx(s.selects, s.active)}>
+            <IoMdClose className={s.closeFiltered} onClick={() => setIsFilteredMenu(false)} />
+            <div className={!isFilteredMenu ? s.firstBlock : clsx(s.firstBlock, s.active)}>
               <MySelect
                 defaultValue={selectedGenre}
                 onChange={setSelectedGenre}
@@ -92,14 +101,15 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
                 options={years}
                 value={selectedYear}
               />
-            </div>
-            <div>
               <MySelect
                 defaultValue={selectedPopular}
                 onChange={setSelectedPopular}
                 options={sortBy}
                 value={selectedPopular}
               />
+              <Button className={s.selectedBtn} fullWidth variant={'primary'}>
+                Show results
+              </Button>
             </div>
           </div>
         </>

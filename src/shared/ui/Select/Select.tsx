@@ -32,6 +32,9 @@ export const MySelect = ({ defaultValue, onChange, options, styles, value }: Pro
       transform: open ? 'rotate(-180deg)' : 'rotate(0deg)',
       transition: 'all .2s ease',
     }),
+    indicatorSeparator: (base: any, state: any) => ({
+      display: 'none',
+    }),
     menu: (base: any) => ({
       ...base,
       border: 'none',

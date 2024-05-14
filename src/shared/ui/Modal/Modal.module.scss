@@ -22,7 +22,11 @@
 }
 
 .btn {
+  position: relative;
+  z-index: 99;
+
   color: var(--light-100);
+
   background-color: inherit;
   border: none;
   outline: none;
@@ -90,5 +94,11 @@
   to {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+  }
+}
+
+@media (width <= 640px) {
+  .iconBtn {
+    right: 20px;
   }
 }

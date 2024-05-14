@@ -68,7 +68,7 @@ const movieApi = baseApi.injectEndpoints({
         url: '/trending/all/day',
       }),
     }),
-    getSimilarMovies: builder.query<MoviesResponseArgs, string>({
+    getSimilarMovies: builder.query<MoviesResponseArgs | undefined, string>({
       query: id => ({
         url: `movie/${id}/recommendations?language=en-US&page=1`,
       }),
