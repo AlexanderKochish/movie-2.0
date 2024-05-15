@@ -26,21 +26,25 @@ export const MovieList = ({ data, title }: Props) => {
             slidesPerView: 3,
             spaceBetween: 10,
           },
-          740: {
-            slidesPerView: 4,
+          780: {
+            slidesPerView: 3,
             spaceBetween: 10,
           },
-          980: {
+          920: {
             slidesPerView: 4,
             spaceBetween: 10,
           },
           1200: {
+            slidesPerView: 5,
+            spaceBetween: 10,
+          },
+          1300: {
             slidesPerView: 6,
-            spaceBetween: 20,
+            spaceBetween: 10,
           },
           1400: {
             slidesPerView: 7,
-            spaceBetween: 20,
+            spaceBetween: 10,
           },
         }}
         className={s.slider}

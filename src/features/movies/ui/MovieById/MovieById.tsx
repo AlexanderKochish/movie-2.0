@@ -128,36 +128,31 @@ export const MovieById = ({ id }: Props) => {
                     <span>actors: </span>
                     {credits?.cast.slice(0, 3).map((a: Cast) => <span key={a.name}>{a.name}</span>)}
                   </div>
-                  <ul className={s.titleBottom}>
-                    <li>
-                      <Button onClick={() => setOpen(true)} variant={'primary'}>
-                        Watch video
-                      </Button>
-                    </li>
-                    <li>
-                      <Button className={s.favorite} variant={'outline'}>
-                        <GrFavorite />
-                      </Button>
-                    </li>
-                    <li>
-                      <Button
-                        className={s.favorite}
-                        onClick={() => setOpenRating(true)}
-                        variant={'outline'}
-                      >
-                        <FaRegStar />
-                      </Button>
-                    </li>
-                    <li>
-                      <Button
-                        className={s.favorite}
-                        onClick={() => setOpenShare(true)}
-                        variant={'outline'}
-                      >
-                        <GoShareAndroid />
-                      </Button>
-                    </li>
-                  </ul>
+                  <div className={s.titleBottom}>
+                    <Button onClick={() => setOpen(true)} variant={'primary'}>
+                      Watch video
+                    </Button>
+
+                    <Button className={s.favorite} variant={'outline'}>
+                      <GrFavorite />
+                    </Button>
+
+                    <Button
+                      className={s.favorite}
+                      onClick={() => setOpenRating(true)}
+                      variant={'outline'}
+                    >
+                      <FaRegStar />
+                    </Button>
+
+                    <Button
+                      className={s.favorite}
+                      onClick={() => setOpenShare(true)}
+                      variant={'outline'}
+                    >
+                      <GoShareAndroid />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

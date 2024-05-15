@@ -17,6 +17,7 @@ import {
   useGetUpComingQuery,
 } from '@/features/movies/api/movie-api'
 import { Genres } from '@/features/movies/ui/Genres/Genres'
+import { MainText } from '@/features/movies/ui/MainText/MainText'
 import { MovieList } from '@/features/movies/ui/MovieList/MovieList'
 import { NewMovie } from '@/features/movies/ui/NewMovie/NewMovie'
 import { Page } from '@/shared/types/layout'
@@ -63,26 +64,9 @@ const Home: Page = () => {
           <MovieList data={family?.results} title={'Смотрим всей семьей'} />
           <MovieList data={upComing?.results} title={'Скоро выйдут'} />
           <MovieList data={fantasy?.results} title={'Фантастика'} />
+          <MainText />
         </>
       )}
-      <div style={{ lineHeight: 1.4, margin: '0 auto', maxWidth: '1400px', padding: '20px 0' }}>
-        <h2 style={{ marginBottom: 15 }}>
-          Добро пожаловать на Movie 2.0 - онлайн кинотеатр с более чем 960 тысячами фильмов!
-        </h2>
-        <p style={{ fontSize: 18 }}>
-          У нас вы можете легко и быстро найти интересующий вас фильм благодаря нашему удобному
-          <br />
-          поиску. Мы предлагаем широкий выбор кинокартин различных жанров и направлений - от
-          классики
-          <br />
-          до новинок, от драм до боевиков. На Movie 2.0 вы сможете насладиться просмотром любимых
-          <br />
-          фильмов в высоком качестве в любое время и в любом месте. Регистрируйтесь на нашем сайте и
-          <br />
-          начните погружаться в увлекательный мир кино!
-          <br />
-        </p>
-      </div>
     </>
   )
 }
