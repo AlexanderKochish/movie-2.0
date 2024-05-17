@@ -127,3 +127,8 @@ export type VideoResponse = {
   id: number
   results: MovieTrailerVideo[]
 }
+export type FilterTypes = {
+  label: string
+  name: string
+  value: string
+}

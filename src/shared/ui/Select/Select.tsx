@@ -2,13 +2,23 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import Select, { ActionMeta, GroupBase, OptionsOrGroups, SingleValue } from 'react-select'
 
 type Props = {
-  defaultValue: null | string | string[]
-  onChange: Dispatch<SetStateAction<string>>
-  options: { label: string; value: number }[] | undefined
+  defaultValue: string | undefined
+  handleFilterChange: (label: string, value: string) => void
+  onChange: (data: { label: string; name: string; value: string }) => void
+  options: OptionsOrGroups<string, GroupBase<string>> | undefined
+  placeholder: string | undefined
   styles?: any
   value: null | string | string[]
 }
-export const MySelect = ({ defaultValue, onChange, options, styles, value }: Props) => {
+export const MySelect = ({
+  defaultValue,
+  handleFilterChange,
+  onChange,
+  options,
+  placeholder,
+  styles,
+  value,
+}: Props) => {
   const [open, setOpen] = useState(false)
   const customStyles = {
     control: (base: any, state: any) => ({
@@ -63,13 +73,18 @@ export const MySelect = ({ defaultValue, onChange, options, styles, value }: Pro
     }),
   }
 
+  const handler = (data: any) => {
+    onChange(data)
+    handleFilterChange(data.name, data.label)
+  }
+
   return (
     <Select
-      onChange={onChange}
+      onChange={handler}
       onMenuClose={() => setOpen(false)}
       onMenuOpen={() => setOpen(true)}
       options={options}
-      placeholder={!options ? '' : options[0]?.label}
+      placeholder={placeholder}
       styles={styles || customStyles}
       // defaultValue={[options[0], options[1]] || ''}
       value={value}

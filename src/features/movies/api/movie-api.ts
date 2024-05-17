@@ -46,17 +46,26 @@ const movieApi = baseApi.injectEndpoints({
     }),
     getMoviesOfGenres: builder.query<
       MoviesResponseArgs,
-      { id: string; popular: string; vote: string; year: string }
-    >({
-      query: ({ id, popular, vote, year }) => ({
+      {
+        genreId: string
         params: {
-          sort_by: popular,
-          'vote_average.lte': vote,
-          with_genres: id,
-          year,
-        },
-        url: `/discover/movie`,
-      }),
+          popular?: string | undefined
+          vote?: string | undefined
+          year?: string | undefined
+        }
+      }
+    >({
+      query: ({ genreId, params }) => {
+        return {
+          params: {
+            sort_by: params.popular,
+            'vote_average.lte': params.vote,
+            with_genres: genreId,
+            year: params.year,
+          },
+          url: `/discover/movie`,
+        }
+      },
     }),
     getNowPlaying: builder.query<MoviesResponseArgs, void>({
       query: () => ({

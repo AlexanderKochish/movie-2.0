@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Select from 'react-select'
 
+import { ParsedUrlQuery } from 'node:querystring'
+
 import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
-import { GenresArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
+import { FilterTypes, GenresArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
+import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import { MySelect } from '@/shared/ui/Select/Select'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { IoMdClose } from 'react-icons/io'
 import { VscSettings } from 'react-icons/vsc'
 
@@ -16,65 +20,74 @@ import s from './MoviesOfGenre.module.scss'
 
 import ava from '../../../../../public/avatar-1577909_1280.webp'
 type Props = {
-  gen?: any
-  query?: any
+  gen?: GenresArgs
+  query?: ParsedUrlQuery
 }
 
-const years = [
-  { label: 'Year of release', value: 'Year of release' },
-  { label: 'All years', value: 'All years' },
-  { label: '2024', value: '2024' },
-  { label: '2023', value: '2023' },
-  { label: '2022', value: '2022' },
-  { label: '2021', value: '2021' },
-  { label: '2020', value: '2020' },
-  { label: '2019', value: '2019' },
-  { label: '2018', value: '2018' },
-  { label: '2017', value: '2017' },
-  { label: '2016', value: '2016' },
-  { label: '2015', value: '2015' },
-  { label: '2014', value: '2014' },
-  { label: '2013', value: '2013' },
-]
-
 const sortBy = [
-  { label: 'popularity.desc', value: 'popularity.desc' },
-  { label: 'popularity.asc', value: 'popularity.asc' },
-  { label: 'revenue.desc', value: 'revenue.desc' },
-  { label: 'revenue.asc', value: 'revenue.asc' },
-  { label: 'title.desc', value: 'title.desc' },
+  { label: 'popularity.desc', name: 'popular', value: 'popularity.desc' },
+  { label: 'popularity.asc', name: 'popular', value: 'popularity.asc' },
+  { label: 'revenue.desc', name: 'popular', value: 'revenue.desc' },
+  { label: 'revenue.asc', name: 'popular', value: 'revenue.asc' },
+  { label: 'title.desc', name: 'popular', value: 'title.desc' },
 ]
 
 export const MoviesOfGenres = ({ gen, query }: Props) => {
   const { data: genre } = useGetGenresQuery()
-  const [selectedYear, setSelectedYear] = useState('Genre')
-  const [selectedGenre, setSelectedGenre] = useState('Genre')
-  const [selectedPopular, setSelectedPopular] = useState('Genre')
-  const [selectedRating, setSelectedRating] = useState('Genre')
+  const router = useRouter()
+  const [selectedYear, setSelectedYear] = useState<FilterTypes | null>(null)
+  const [selectedGenre, setSelectedGenre] = useState<FilterTypes | null>(null)
+  const [selectedPopular, setSelectedPopular] = useState<FilterTypes | null>(null)
+  const [selectedRating, setSelectedRating] = useState<FilterTypes | null>(null)
   const [isFilteredMenu, setIsFilteredMenu] = useState(false)
+  const genObj = genre?.genres.find(genre => genre.name == router.query.genre)
+
+  const { data, isLoading } = useGetMoviesOfGenresQuery({
+    genreId: String(!genObj?.id || 28),
+    params: router.query,
+  })
 
   const genreList = genre?.genres.map((gen: GenresArgs, i) => ({
     label: i === 0 ? 'Genres' : gen.name,
+    name: 'genre',
     value: String(gen.id),
   }))
 
   const rating = Array.from({ length: 10 }, (_, i) => ({
     label: i === 0 ? 'All ratings' : i,
+    name: 'rating',
     value: String(i + 1),
   }))
-  const { data } = useGetMoviesOfGenresQuery({
-    id: String(selectedGenre.value || 28),
-    popular: selectedPopular.value,
-    vote: selectedRating.value,
-    year: selectedYear.value,
-  })
+  const date = new Date()
+  const years = Array.from({ length: date.getFullYear() - 1950 }, (_, i) => ({
+    label: i === 0 ? 'All years' : String(1950 + i + 1),
+    name: 'year',
+    value: String(1950 + i + 1),
+  }))
+
+  const handleFilterChange = (filterName: string, filterValue: string) => {
+    const currentQuery = router.query
+    const updatedQuery = {
+      ...currentQuery,
+      [filterName]: filterValue,
+    }
+
+    void router.push({
+      pathname: router.pathname,
+      query: updatedQuery,
+    })
+  }
+
+  if (isLoading) {
+    return <Preloader />
+  }
 
   return (
     <div className={s.block}>
       {query && (
         <>
           <div className={s.filtersTitle}>
-            <h2>Фильмы {query.genre || selectedGenre.label}</h2>
+            <h2>Фильмы {query.genre || selectedGenre?.label}</h2>
             <VscSettings
               className={s.filtersMenu}
               onClick={() => setIsFilteredMenu(prev => !prev)}
@@ -84,28 +97,36 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
             <IoMdClose className={s.closeFiltered} onClick={() => setIsFilteredMenu(false)} />
             <div className={!isFilteredMenu ? s.firstBlock : clsx(s.firstBlock, s.active)}>
               <MySelect
-                defaultValue={selectedGenre}
-                onChange={setSelectedGenre}
-                options={genreList}
-                value={selectedGenre}
-              />
-              <MySelect
-                defaultValue={selectedRating}
-                onChange={setSelectedRating}
-                options={rating}
-                value={selectedRating}
-              />
-              <MySelect
-                defaultValue={selectedYear}
+                defaultValue={selectedYear?.label}
+                handleFilterChange={handleFilterChange}
                 onChange={setSelectedYear}
                 options={years}
-                value={selectedYear}
+                placeholder={selectedYear?.label}
+                value={selectedYear?.value || ''}
               />
               <MySelect
-                defaultValue={selectedPopular}
+                defaultValue={selectedGenre?.label}
+                handleFilterChange={handleFilterChange}
+                onChange={setSelectedGenre}
+                options={genreList}
+                placeholder={selectedGenre?.label}
+                value={selectedGenre?.value || ''}
+              />
+              <MySelect
+                defaultValue={selectedRating?.label}
+                handleFilterChange={handleFilterChange}
+                onChange={setSelectedRating}
+                options={rating}
+                placeholder={selectedRating?.label}
+                value={selectedRating?.value || ''}
+              />
+              <MySelect
+                defaultValue={selectedPopular?.label}
+                handleFilterChange={handleFilterChange}
                 onChange={setSelectedPopular}
                 options={sortBy}
-                value={selectedPopular}
+                placeholder={selectedPopular?.label}
+                value={selectedPopular?.value || ''}
               />
               <Button className={s.selectedBtn} fullWidth variant={'primary'}>
                 Show results
