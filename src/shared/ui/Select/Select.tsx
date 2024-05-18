@@ -67,6 +67,10 @@ export const MySelect = ({
       color: 'var(--light-100)',
       cursor: 'pointer',
     }),
+    placeholder: (styles: any) => ({
+      ...styles,
+      color: 'white',
+    }),
     singleValue: (styles: any) => ({
       ...styles,
       color: 'white',

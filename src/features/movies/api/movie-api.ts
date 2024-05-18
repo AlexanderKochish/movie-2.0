@@ -47,7 +47,7 @@ const movieApi = baseApi.injectEndpoints({
     getMoviesOfGenres: builder.query<
       MoviesResponseArgs,
       {
-        genreId: string
+        genreId?: string | undefined
         params: {
           popular?: string | undefined
           vote?: string | undefined

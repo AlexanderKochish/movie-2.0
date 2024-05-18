@@ -25,7 +25,7 @@
   display: flex;
   gap: 15px;
 
-  & > div:last-child {
+  & > div:nth-child(4) {
     margin-left: auto;
   }
 }
@@ -41,12 +41,9 @@
 }
 
 .list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
   min-height: 100vh;
 }
 
@@ -57,8 +54,7 @@
 
   overflow: hidden;
 
-  width: 200px;
-  height: 300px;
+  min-height: 300px;
 
   border: 1px solid var(--dark-500);
   border-radius: 10px;
@@ -210,5 +206,51 @@
       margin: 0;
       border-bottom: 1px solid var(--dark-500);
     }
+  }
+}
+
+@media (width <= 700px) {
+  .card {
+    min-height: 380px;
+  }
+}
+
+@media (width <= 585px) {
+  .list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .card {
+    min-height: 350px;
+  }
+}
+
+@media (width <= 565px) {
+  .list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .card {
+    min-height: 300px;
+  }
+}
+
+@media (width <= 465px) {
+  .list {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+
+  .card {
+    min-height: 240px;
+  }
+}
+
+@media (width <= 410px) {
+  .list {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .card {
+    min-height: 250px;
   }
 }

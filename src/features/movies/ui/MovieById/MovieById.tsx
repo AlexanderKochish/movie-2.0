@@ -99,8 +99,9 @@ export const MovieById = ({ id }: Props) => {
             <Image
               alt={'poster'}
               fill
-              sizes={'(max-width: 100vh) 100vw, (max-width: 1024px) 50vw, 800px'}
+              sizes={'100vw'}
               src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
+              style={{ objectFit: 'cover' }}
             />
             <div className={s.content}>
               <div className={s.container}>
@@ -116,7 +117,7 @@ export const MovieById = ({ id }: Props) => {
                     </li>
                     <li>{data?.release_date.substring(0, 4)}</li>
                     <li>{data?.status}</li>
-                    <li>{data?.production_countries[0]?.name || ''}</li>
+                    <li className={s.country}>{data?.production_countries[0]?.name || ''}</li>
                     <li>{secondsToHMS(data?.runtime)}</li>
                   </ul>
                   <p className={s.overview}>{data?.overview || 'No description'}</p>
@@ -168,6 +169,33 @@ export const MovieById = ({ id }: Props) => {
                   content:
                     (
                       <Slider
+                        // breakpoints={{
+                        //   0: { slidesPerView: 2, spaceBetween: 5 },
+                        //   460: {
+                        //     slidesPerView: 2.4,
+                        //     spaceBetween: 5,
+                        //   },
+                        //   640: {
+                        //     slidesPerView: 4.5,
+                        //     spaceBetween: 5,
+                        //   },
+                        //   785: {
+                        //     slidesPerView: 6,
+                        //     spaceBetween: 5,
+                        //   },
+                        //   945: {
+                        //     slidesPerView: 7,
+                        //     spaceBetween: 5,
+                        //   },
+                        //   1200: {
+                        //     slidesPerView: 9,
+                        //     spaceBetween: 5,
+                        //   },
+                        //   1400: {
+                        //     slidesPerView: 10,
+                        //     spaceBetween: 5,
+                        //   },
+                        // }}
                         className={s.similarWrapper}
                         moduleSlider={A11y}
                         nav
@@ -190,6 +218,33 @@ export const MovieById = ({ id }: Props) => {
             <h2>Actors and creators</h2>
             <ul>
               <Slider
+                breakpoints={{
+                  0: { slidesPerView: 2.5, spaceBetween: 5 },
+                  480: {
+                    slidesPerView: 3.5,
+                    spaceBetween: 5,
+                  },
+                  640: {
+                    slidesPerView: 4.5,
+                    spaceBetween: 5,
+                  },
+                  785: {
+                    slidesPerView: 6,
+                    spaceBetween: 5,
+                  },
+                  945: {
+                    slidesPerView: 7,
+                    spaceBetween: 5,
+                  },
+                  1200: {
+                    slidesPerView: 9,
+                    spaceBetween: 5,
+                  },
+                  1400: {
+                    slidesPerView: 10,
+                    spaceBetween: 5,
+                  },
+                }}
                 className={s.castList}
                 loop={false}
                 moduleSlider={A11y}

@@ -43,7 +43,7 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
   const genObj = genre?.genres.find(genre => genre.name == router.query.genre)
 
   const { data, isLoading } = useGetMoviesOfGenresQuery({
-    genreId: String(!genObj?.id || 28),
+    genreId: String(genObj?.id || 28),
     params: router.query,
   })
 
@@ -63,7 +63,7 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
     label: i === 0 ? 'All years' : String(1950 + i + 1),
     name: 'year',
     value: String(1950 + i + 1),
-  }))
+  })).reverse()
 
   const handleFilterChange = (filterName: string, filterValue: string) => {
     const currentQuery = router.query
@@ -97,27 +97,27 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
             <IoMdClose className={s.closeFiltered} onClick={() => setIsFilteredMenu(false)} />
             <div className={!isFilteredMenu ? s.firstBlock : clsx(s.firstBlock, s.active)}>
               <MySelect
-                defaultValue={selectedYear?.label}
-                handleFilterChange={handleFilterChange}
-                onChange={setSelectedYear}
-                options={years}
-                placeholder={selectedYear?.label}
-                value={selectedYear?.value || ''}
-              />
-              <MySelect
                 defaultValue={selectedGenre?.label}
                 handleFilterChange={handleFilterChange}
                 onChange={setSelectedGenre}
                 options={genreList}
-                placeholder={selectedGenre?.label}
+                placeholder={router.query.genre || 'Genre'}
                 value={selectedGenre?.value || ''}
+              />
+              <MySelect
+                defaultValue={selectedYear?.label}
+                handleFilterChange={handleFilterChange}
+                onChange={setSelectedYear}
+                options={years}
+                placeholder={router.query.year || 'Year'}
+                value={selectedYear?.value || ''}
               />
               <MySelect
                 defaultValue={selectedRating?.label}
                 handleFilterChange={handleFilterChange}
                 onChange={setSelectedRating}
                 options={rating}
-                placeholder={selectedRating?.label}
+                placeholder={router.query.rating || 'Rating'}
                 value={selectedRating?.value || ''}
               />
               <MySelect
@@ -144,13 +144,12 @@ export const MoviesOfGenres = ({ gen, query }: Props) => {
                 <Image
                   alt={movie.title || 'poster'}
                   className={s.img}
-                  height={300}
+                  fill
                   src={
                     movie.poster_path
                       ? `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`
                       : ava
                   }
-                  width={200}
                 />
                 <div className={s.cardInfo}>
                   <div className={s.cardRating}>{movie.vote_average.toFixed(1)}</div>
