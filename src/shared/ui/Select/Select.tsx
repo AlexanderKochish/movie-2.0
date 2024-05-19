@@ -1,17 +1,25 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import Select, { ActionMeta, GroupBase, OptionsOrGroups, SingleValue } from 'react-select'
+import Select, {
+  ActionMeta,
+  ControlProps,
+  GroupBase,
+  OptionsOrGroups,
+  PropsValue,
+  SingleValue,
+  StylesConfig,
+} from 'react-select'
+
+import { Option } from '@/features/movies/types/movies.types'
 
 type Props = {
-  defaultValue: string | undefined
   handleFilterChange: (label: string, value: string) => void
   onChange: (data: { label: string; name: string; value: string }) => void
-  options: OptionsOrGroups<string, GroupBase<string>> | undefined
-  placeholder: string | undefined
+  options: OptionsOrGroups<Option, GroupBase<Option>> | undefined
+  placeholder: string | string[] | undefined
   styles?: any
-  value: null | string | string[]
+  value: PropsValue<Option> | undefined
 }
 export const MySelect = ({
-  defaultValue,
   handleFilterChange,
   onChange,
   options,
@@ -20,8 +28,8 @@ export const MySelect = ({
   value,
 }: Props) => {
   const [open, setOpen] = useState(false)
-  const customStyles = {
-    control: (base: any, state: any) => ({
+  const customStyles: StylesConfig<Option, false, GroupBase<Option>> = {
+    control: (base: any, state: ControlProps<Option, false, GroupBase<Option>>) => ({
       ...base,
       '&:placeholder': {
         color: 'var(--light-100)',
@@ -90,7 +98,6 @@ export const MySelect = ({
       options={options}
       placeholder={placeholder}
       styles={styles || customStyles}
-      // defaultValue={[options[0], options[1]] || ''}
       value={value}
     />
   )

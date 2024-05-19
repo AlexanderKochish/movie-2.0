@@ -1,22 +1,30 @@
 import { ReactElement } from 'react'
 
-import {
-  useGetGenresQuery,
-  useGetMoviesOfGenresQuery,
-  useGetPopularQuery,
-} from '@/features/movies/api/movie-api'
-import { GenresArgs } from '@/features/movies/types/movies.types'
+import { wrapper } from '@/app/store/store'
+import { getMoviesOfGenres, getRunningQueriesThunk } from '@/features/movies/api/movie-api'
 import { MoviesOfGenres } from '@/features/movies/ui/MoviesOfGenre/MoviesOfGenre'
 import { Page } from '@/shared/types/layout'
 import Layout from '@/widgets/layout/ui/layout'
 import { useRouter } from 'next/router'
 
-const Movies: Page = (context: any) => {
-  const { data: genres } = useGetGenresQuery()
-  const { query } = useRouter()
-  const gen = genres?.genres.find((el: GenresArgs) => el.name === query.genre)
+export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async context => {
+  dispatch(
+    getMoviesOfGenres.initiate({
+      genreId: '',
+      params: context.query,
+    })
+  )
+  await Promise.all(dispatch(getRunningQueriesThunk()))
 
-  return <MoviesOfGenres gen={gen} query={query} />
+  return {
+    props: {},
+  }
+})
+
+const Movies: Page = () => {
+  const { query } = useRouter()
+
+  return <MoviesOfGenres query={query} />
 }
 
 export default Movies

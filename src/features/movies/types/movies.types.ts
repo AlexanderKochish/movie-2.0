@@ -132,3 +132,8 @@ export type FilterTypes = {
   name: string
   value: string
 }
+export type Option = {
+  label: number | string
+  name: string
+  value: string
+}

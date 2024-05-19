@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
 import { useGetActorByIdQuery, useGetActorMoviesByIdQuery } from '@/features/actors/api/actors-api'
+import { useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
+import { GenresArgs } from '@/features/movies/types/movies.types'
 import { MovieList } from '@/features/movies/ui/MovieList/MovieList'
 import { MoviesOfGenres } from '@/features/movies/ui/MoviesOfGenre/MoviesOfGenre'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
@@ -11,6 +13,7 @@ import { useRouter } from 'next/router'
 import s from './ActorProfile.module.scss'
 
 import ava from '../../../../../public/avatar-1577909_1280.webp'
+
 export const ActorProfile = () => {
   const { query } = useRouter()
   const { data: actor, isLoading } = useGetActorByIdQuery(Number(query.id))
@@ -58,7 +61,7 @@ export const ActorProfile = () => {
       <div className={s.name}>
         <h3>Movies with: {actor?.name}</h3>
       </div>
-      <div>{data?.cast && <MovieList data={total} />}</div>
+      <div>{data?.cast && <MoviesOfGenres data={total} />}</div>
       <Pagination data={data} item={12} onTotal={setTotal} />
     </div>
   )

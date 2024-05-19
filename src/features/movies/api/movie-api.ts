@@ -50,7 +50,7 @@ const movieApi = baseApi.injectEndpoints({
         genreId?: string | undefined
         params: {
           popular?: string | undefined
-          vote?: string | undefined
+          rating?: string | undefined
           year?: string | undefined
         }
       }
@@ -59,7 +59,7 @@ const movieApi = baseApi.injectEndpoints({
         return {
           params: {
             sort_by: params.popular,
-            'vote_average.lte': params.vote,
+            'vote_average.lte': params.rating,
             with_genres: genreId,
             year: params.year,
           },
@@ -123,6 +123,7 @@ export const {
   getFamily,
   getFantasy,
   getGenres,
+  getMoviesOfGenres,
   getNowPlaying,
   getPopular,
   getSimilarMovies,
