@@ -1,10 +1,89 @@
-.paginationBtn {
-  margin-left: 10px;
-  color: var(--info-500);
-  border: 1px solid var(--info-500);
+.container {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin: 5px;
 }
 
-.paginationBtn.active {
-  color: var(--light-100);
-  background: var(--info-500);
+.pagination {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  .item {
+    cursor: pointer;
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 15px;
+
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    outline: none;
+
+    transition: all 0.2s linear;
+
+    &.dots:hover {
+      cursor: default;
+      color: var(--light-100);
+      background-color: transparent;
+    }
+
+    &:hover {
+      background-color: var(--dark-500);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-900);
+    }
+
+    &.selected {
+      cursor: pointer;
+      color: var(--dark-900);
+      background-color: var(--info-500);
+    }
+
+    &.disabled {
+      pointer-events: none;
+      color: var(--dark-300);
+
+      &:hover {
+        cursor: default;
+        background-color: transparent;
+      }
+
+      .left,
+      .right {
+        cursor: default;
+        color: var(--dark-100);
+      }
+    }
+  }
 }
+
+.selectContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+
+  & .select {
+    width: 3.2rem;
+  }
+}
+
+// @include tablet {
+//   .container {
+//     flex-direction: column-reverse;
+//     justify-content: center;
+//   }
+
+//   .pagination {
+//     gap: 3px;
+//   }
+// }

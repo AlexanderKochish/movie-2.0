@@ -47,17 +47,21 @@ const movieApi = baseApi.injectEndpoints({
     getMoviesOfGenres: builder.query<
       MoviesResponseArgs,
       {
-        genreId?: string | undefined
+        genreId: string | undefined
+        page: number | undefined
         params: {
+          genre?: number | undefined
+          page?: number | undefined
           popular?: string | undefined
           rating?: string | undefined
           year?: string | undefined
         }
       }
     >({
-      query: ({ genreId, params }) => {
+      query: ({ genreId, page, params }) => {
         return {
           params: {
+            page: page,
             sort_by: params.popular,
             'vote_average.lte': params.rating,
             with_genres: genreId,

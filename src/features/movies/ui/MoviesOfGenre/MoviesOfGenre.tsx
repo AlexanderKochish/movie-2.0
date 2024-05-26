@@ -1,22 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ParsedUrlQuery } from 'node:querystring'
 
 import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
 import { GenresArgs } from '@/features/movies/types/movies.types'
 import { MoviesFilter } from '@/features/movies/ui/MoviesFilter/MoviesFilter'
+import { Button } from '@/shared/ui/Button/Button'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa'
 import { IoMdClose } from 'react-icons/io'
 import { VscSettings } from 'react-icons/vsc'
 
 import s from './MoviesOfGenre.module.scss'
 
 import ava from '../../../../../public/avatar-1577909_1280.webp'
+
 type Props = {
   query?: ParsedUrlQuery
 }
@@ -25,11 +28,12 @@ export const MoviesOfGenres = ({ query }: Props) => {
   const [isFilteredMenu, setIsFilteredMenu] = useState(false)
   const router = useRouter()
   const { data: genre } = useGetGenresQuery()
-
+  const [currentPage, setCurrentPage] = useState(1)
   const genObj = genre?.genres.find(genre => genre.name == router.query.genre)
   const date = new Date()
   const { data, isLoading } = useGetMoviesOfGenresQuery({
     genreId: String(genObj?.id || 28),
+    page: currentPage,
     params: router.query,
   })
 
@@ -51,8 +55,8 @@ export const MoviesOfGenres = ({ query }: Props) => {
     value: String(1950 + i + 1),
   })).reverse()
 
-  if (isLoading) {
-    return <Preloader />
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
   }
 
   return (
@@ -103,8 +107,19 @@ export const MoviesOfGenres = ({ query }: Props) => {
               </li>
             </Link>
           ))}
-        {/*<Pagination data={data} item={data?.total_results || 160} onTotal={data?.total_pages} />*/}
       </ul>
+      <div
+        style={{ alignItems: 'center', display: 'flex', gap: 10, padding: '20px 0', width: '100%' }}
+      >
+        {data && (
+          <Pagination
+            currentPage={currentPage}
+            onChangePage={handlePageChange}
+            pageSize={20}
+            totalCount={data?.total_pages}
+          />
+        )}
+      </div>
     </div>
   )
 }

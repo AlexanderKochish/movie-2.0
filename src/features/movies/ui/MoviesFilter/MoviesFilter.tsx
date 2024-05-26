@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { useGetGenresQuery } from '@/features/movies/api/movie-api'
 import { Option } from '@/features/movies/types/movies.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { MySelect } from '@/shared/ui/Select/Select'

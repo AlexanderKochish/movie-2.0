@@ -12,8 +12,9 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  list-style: none;
+
   text-decoration: none;
+  list-style: none;
 }
 
 input,
@@ -32,11 +33,14 @@ option {
 a:visited {
   color: inherit;
 }
+
 a {
   color: inherit;
 }
 
 body {
+  scroll-behavior: smooth;
+
   margin: 0;
   padding: 0;
 
@@ -46,6 +50,7 @@ body {
 
   background-color: var(--dark-900);
 }
+
 * {
   scrollbar-color: var(--info-500) var(--dark-500);
   scrollbar-width: thin;
