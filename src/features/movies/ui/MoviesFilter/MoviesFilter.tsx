@@ -37,10 +37,18 @@ export const MoviesFilter = ({ genreList, isFilteredMenu, rating, years }: Props
       [filterName]: filterValue,
     }
 
-    void router.push({
-      pathname: router.pathname,
-      query: updatedQuery,
-    })
+    if (updatedQuery.genre !== router.query.genre) {
+      void router.push(`/movies?genre=${filterValue}`)
+      router.query = {}
+      setSelectedPopular(null)
+      setSelectedRating(null)
+      setSelectedYear(null)
+    } else {
+      void router.push({
+        pathname: router.pathname,
+        query: updatedQuery,
+      })
+    }
   }
 
   return (

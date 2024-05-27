@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import { ParsedUrlQuery } from 'node:querystring'
 
@@ -6,6 +6,7 @@ import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/
 import { GenresArgs } from '@/features/movies/types/movies.types'
 import { MoviesFilter } from '@/features/movies/ui/MoviesFilter/MoviesFilter'
 import { Button } from '@/shared/ui/Button/Button'
+import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import clsx from 'clsx'
@@ -33,7 +34,7 @@ export const MoviesOfGenres = ({ query }: Props) => {
   const date = new Date()
   const { data, isLoading } = useGetMoviesOfGenresQuery({
     genreId: String(genObj?.id || 28),
-    page: currentPage,
+    page: Number(router.query.page) || currentPage,
     params: router.query,
   })
 
@@ -59,12 +60,20 @@ export const MoviesOfGenres = ({ query }: Props) => {
     setCurrentPage(pageNumber)
   }
 
+  useEffect(() => {
+    if (router.query.page) {
+      setCurrentPage(Number(router.query.page))
+    } else {
+      setCurrentPage(1)
+    }
+  }, [router.query.page])
+
   return (
     <div className={s.block}>
       {query && (
         <>
           <div className={s.filtersTitle}>
-            <h2>Фильмы {query.genre || router.query.genre}</h2>
+            <h2>Movies{router.query.genre && `: ${router.query.genre}`}</h2>
             <VscSettings
               className={s.filtersMenu}
               onClick={() => setIsFilteredMenu(prev => !prev)}
@@ -83,30 +92,7 @@ export const MoviesOfGenres = ({ query }: Props) => {
       )}
 
       <ul className={s.list}>
-        {data &&
-          data.results.map((movie: any) => (
-            <Link href={`/movies/${movie.id}`} key={movie.id}>
-              <li className={s.card}>
-                <Image
-                  alt={movie.title || 'poster'}
-                  className={s.img}
-                  fill
-                  src={
-                    movie.poster_path
-                      ? `${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`
-                      : ava
-                  }
-                />
-                <div className={s.cardInfo}>
-                  <div className={s.cardRating}>{movie.vote_average.toFixed(1)}</div>
-                  <div className={s.infoFooter}>
-                    <div>{movie.title || movie.original_title}</div>
-                    <div className={s.year}>{movie.release_date?.substring(0, 4) || ''}</div>
-                  </div>
-                </div>
-              </li>
-            </Link>
-          ))}
+        {data && data.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
       </ul>
       <div
         style={{ alignItems: 'center', display: 'flex', gap: 10, padding: '20px 0', width: '100%' }}

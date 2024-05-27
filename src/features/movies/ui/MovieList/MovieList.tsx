@@ -55,7 +55,7 @@ export const MovieList = ({ data, title }: Props) => {
       >
         {data &&
           data.map((movie: MovieArgs) => (
-            <SwiperSlide className={s.card} key={movie.id}>
+            <SwiperSlide key={movie.id}>
               <MovieCard movie={movie} />
             </SwiperSlide>
           ))}

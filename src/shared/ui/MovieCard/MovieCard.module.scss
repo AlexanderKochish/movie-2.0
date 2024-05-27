@@ -32,9 +32,12 @@
 
   opacity: 0;
 
+  transition: all 0.3s;
+
   &:hover {
     opacity: 1;
     background: rgb(0 0 0 / 80%);
+    transition: all 0.3s;
   }
 }
 
@@ -60,26 +63,21 @@
   color: var(--light-900);
 }
 
-//.card {
-//  width: 17%;
-//
-//  @media (width <= 1400px) {
-//    width: 18%;
-//  }
-//
-//  @media (width <= 1300px) {
-//    width: 250px;
-//  }
-//
-//  @media (width <= 1024px) {
-//    width: 25%;
-//  }
-//
-//  @media (width <= 768px) {
-//    width: 30%;
-//  }
-//
-//  @media (width <= 576px) {
-//    width: 38%;
-//  }
-//}
+.card {
+  cursor: pointer;
+
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 300px;
+
+  border: 1px solid var(--dark-500);
+  border-radius: 10px;
+
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}

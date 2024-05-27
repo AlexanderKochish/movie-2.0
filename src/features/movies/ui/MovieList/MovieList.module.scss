@@ -21,26 +21,3 @@
   position: relative;
   overflow: visible;
 }
-
-.card {
-  cursor: pointer;
-
-  position: relative;
-
-  overflow: hidden;
-  display: block;
-
-  width: 240px;
-  height: 260px;
-  padding-top: 250px;
-
-  border: 1px solid var(--dark-500);
-  border-radius: 10px;
-
-  transition: all 0.3s;
-
-  &:hover {
-    transform: scale(1.02);
-    transition: all 0.3s;
-  }
-}

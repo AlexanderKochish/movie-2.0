@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
+
 import clsx from 'clsx'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
@@ -32,6 +33,7 @@ export const Pagination = ({
 
   const handleClickPrev = (name: string, page: number) => {
     onChangePage(currentPage - 1)
+
     const currentQuery = router?.query
     const updatedQuery = {
       ...currentQuery,
@@ -46,6 +48,7 @@ export const Pagination = ({
 
   const handleClickNext = (name: string, page: number) => {
     onChangePage(currentPage + 1)
+
     const currentQuery = router?.query
     const updatedQuery = {
       ...currentQuery,
@@ -83,6 +86,7 @@ export const Pagination = ({
 
           const handleChangePage = (name: string, page: string | string[] | undefined) => {
             onChangePage(num)
+
             const currentQuery = router?.query
             const updatedQuery = {
               ...currentQuery,
@@ -99,7 +103,7 @@ export const Pagination = ({
             <button
               className={clsx(s.item, { [s.selected]: isCurrentPage })}
               key={i}
-              onClick={() => handleChangePage('page', num)}
+              onClick={() => handleChangePage('page', String(num))}
             >
               <span>{num}</span>
             </button>

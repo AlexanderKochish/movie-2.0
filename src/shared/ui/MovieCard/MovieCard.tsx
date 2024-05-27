@@ -13,7 +13,7 @@ type Props = {
 export const MovieCard = ({ movie }: Props) => {
   return (
     <Link href={`/movies/${movie.id}`} key={movie.id}>
-      <li className={s.imgWrapper}>
+      <li className={s.card}>
         <Image
           alt={movie.title || 'poster'}
           className={s.img}

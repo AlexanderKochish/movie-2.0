@@ -55,5 +55,5 @@ export const usePagination = ({
     const middleRange = range(leftSiblingIndex, rightSiblingIndex)
 
     return [firstPageIndex, 0, ...middleRange, 0, lastPageIndex]
-  }, [pageSize, siblingCount, currentPage])
+  }, [totalCount, pageSize, siblingCount, currentPage])
 }
