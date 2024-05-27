@@ -137,3 +137,9 @@ export type Option = {
   name: string
   value: string
 }
+export type GenerateSelectArgs = {
+  defaultName: string
+  length: number
+  name: string
+  opts?: number | undefined
+}

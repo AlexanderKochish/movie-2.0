@@ -1,25 +1,18 @@
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ParsedUrlQuery } from 'node:querystring'
 
 import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
-import { GenresArgs } from '@/features/movies/types/movies.types'
+import { GenerateSelectArgs, GenresArgs } from '@/features/movies/types/movies.types'
 import { MoviesFilter } from '@/features/movies/ui/MoviesFilter/MoviesFilter'
-import { Button } from '@/shared/ui/Button/Button'
 import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
-import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import clsx from 'clsx'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa'
 import { IoMdClose } from 'react-icons/io'
 import { VscSettings } from 'react-icons/vsc'
 
 import s from './MoviesOfGenre.module.scss'
-
-import ava from '../../../../../public/avatar-1577909_1280.webp'
 
 type Props = {
   query?: ParsedUrlQuery
@@ -44,17 +37,21 @@ export const MoviesOfGenres = ({ query }: Props) => {
     value: String(gen.id),
   }))
 
-  const rating = Array.from({ length: 10 }, (_, i) => ({
-    label: i === 0 ? 'All ratings' : i + 1,
-    name: 'rating',
-    value: String(i + 1),
-  })).reverse()
+  const generateArr = ({ defaultName, length, name, opts }: GenerateSelectArgs) => {
+    return Array.from({ length }, (_, i) => ({
+      label: i === 0 ? defaultName : String(opts ? opts + i + 1 : i + 1),
+      name,
+      value: String(opts ? opts + i + 1 : i + 1),
+    })).reverse()
+  }
 
-  const years = Array.from({ length: date.getFullYear() - 1950 }, (_, i) => ({
-    label: i === 0 ? 'All years' : String(1950 + i + 1),
+  const years = generateArr({
+    defaultName: 'All',
+    length: date.getFullYear() - 1950,
     name: 'year',
-    value: String(1950 + i + 1),
-  })).reverse()
+    opts: 1950,
+  })
+  const rating = generateArr({ defaultName: 'All', length: 10, name: 'rating' })
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -94,9 +91,7 @@ export const MoviesOfGenres = ({ query }: Props) => {
       <ul className={s.list}>
         {data && data.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
       </ul>
-      <div
-        style={{ alignItems: 'center', display: 'flex', gap: 10, padding: '20px 0', width: '100%' }}
-      >
+      <div className={s.pagination}>
         {data && (
           <Pagination
             currentPage={currentPage}

@@ -35,7 +35,7 @@ import { CustomTabs } from '@/shared/ui/Tabs/Tabs'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
-import { act } from 'react-dom/test-utils'
+import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
 import { FaRegStar } from 'react-icons/fa'
 import { FaStar } from 'react-icons/fa6'
@@ -46,6 +46,8 @@ import { A11y } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
 import s from './MovieById.module.scss'
+
+import { casts, recommendations } from '../../breakpoints/breakpoints'
 
 type Props = {
   id: string | string[] | undefined
@@ -58,6 +60,7 @@ export const MovieById = ({ id }: Props) => {
   const { data: credits } = useGetMovieCreditsByIdQuery(id as string)
   const [openShare, setOpenShare] = useState(false)
   const [openRating, setOpenRating] = useState(false)
+  const router = useRouter()
 
   function secondsToHMS(seconds: number) {
     const date = new Date(seconds * 1000)
@@ -72,9 +75,9 @@ export const MovieById = ({ id }: Props) => {
       const url = window.location.href
 
       await navigator.clipboard.writeText(url)
-      toast.success('URL скопирован: ' + url)
+      toast.success('URL copied: ' + url)
     } catch (err) {
-      toast.error('Не удалось скопировать URL')
+      toast.error('Failed to copy URL')
     }
   }
 
@@ -169,33 +172,7 @@ export const MovieById = ({ id }: Props) => {
                   content:
                     (
                       <Slider
-                        // breakpoints={{
-                        //   0: { slidesPerView: 2, spaceBetween: 5 },
-                        //   460: {
-                        //     slidesPerView: 2.4,
-                        //     spaceBetween: 5,
-                        //   },
-                        //   640: {
-                        //     slidesPerView: 4.5,
-                        //     spaceBetween: 5,
-                        //   },
-                        //   785: {
-                        //     slidesPerView: 6,
-                        //     spaceBetween: 5,
-                        //   },
-                        //   945: {
-                        //     slidesPerView: 7,
-                        //     spaceBetween: 5,
-                        //   },
-                        //   1200: {
-                        //     slidesPerView: 9,
-                        //     spaceBetween: 5,
-                        //   },
-                        //   1400: {
-                        //     slidesPerView: 10,
-                        //     spaceBetween: 5,
-                        //   },
-                        // }}
+                        breakpoints={recommendations}
                         className={s.similarWrapper}
                         moduleSlider={A11y}
                         nav
@@ -205,7 +182,7 @@ export const MovieById = ({ id }: Props) => {
                         {!similar?.results.length
                           ? 'No recommendations'
                           : similar.results.map(movie => (
-                              <SwiperSlide className={s.cardS} key={movie.id}>
+                              <SwiperSlide key={movie.id}>
                                 <MovieCard movie={movie} />
                               </SwiperSlide>
                             ))}
@@ -218,33 +195,7 @@ export const MovieById = ({ id }: Props) => {
             <h2>Actors and creators</h2>
             <ul>
               <Slider
-                breakpoints={{
-                  0: { slidesPerView: 2.5, spaceBetween: 5 },
-                  480: {
-                    slidesPerView: 3.5,
-                    spaceBetween: 5,
-                  },
-                  640: {
-                    slidesPerView: 4.5,
-                    spaceBetween: 5,
-                  },
-                  785: {
-                    slidesPerView: 6,
-                    spaceBetween: 5,
-                  },
-                  945: {
-                    slidesPerView: 7,
-                    spaceBetween: 5,
-                  },
-                  1200: {
-                    slidesPerView: 9,
-                    spaceBetween: 5,
-                  },
-                  1400: {
-                    slidesPerView: 10,
-                    spaceBetween: 5,
-                  },
-                }}
+                breakpoints={casts}
                 className={s.castList}
                 loop={false}
                 moduleSlider={A11y}
@@ -282,22 +233,22 @@ export const MovieById = ({ id }: Props) => {
             </button>
           </div>
           <div className={s.shareIcons}>
-            <EmailShareButton url={`http://localhost:3000/movies/${id}`}>
+            <EmailShareButton url={`${router.pathname}/movies/${id}`}>
               <EmailIcon round />
             </EmailShareButton>
-            <LinkedinShareButton url={`http://localhost:3000/movies/${id}`}>
+            <LinkedinShareButton url={`${router.pathname}/movies/${id}`}>
               <LinkedinIcon round />
             </LinkedinShareButton>
-            <TelegramShareButton url={`http://localhost:3000/movies/${id}`}>
+            <TelegramShareButton url={`${router.pathname}/movies/${id}`}>
               <TelegramIcon round />
             </TelegramShareButton>
-            <TwitterShareButton url={`http://localhost:3000/movies/${id}`}>
+            <TwitterShareButton url={`${router.pathname}/movies/${id}`}>
               <TwitterIcon round />
             </TwitterShareButton>
-            <ViberShareButton url={`http://localhost:3000/movies/${id}`}>
+            <ViberShareButton url={`${router.pathname}/movies/${id}`}>
               <ViberIcon round />
             </ViberShareButton>
-            <WhatsappShareButton url={`http://localhost:3000/movies/${id}`}>
+            <WhatsappShareButton url={`${router.pathname}/movies/${id}`}>
               <WhatsappIcon round />
             </WhatsappShareButton>
           </div>

@@ -6,6 +6,8 @@ import { SwiperSlide } from 'swiper/react'
 
 import s from './MovieList.module.scss'
 
+import { movieList } from '../../breakpoints/breakpoints'
+
 type Props = {
   data: MovieArgs[] | undefined
   title?: string
@@ -16,37 +18,7 @@ export const MovieList = ({ data, title }: Props) => {
     <ul className={s.block}>
       <h3>{title}</h3>
       <Slider
-        breakpoints={{
-          140: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          440: { slidesPerView: 2, spaceBetween: 10 },
-          640: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-          },
-          780: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-          },
-          920: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-          },
-          1200: {
-            slidesPerView: 5,
-            spaceBetween: 10,
-          },
-          1300: {
-            slidesPerView: 6,
-            spaceBetween: 10,
-          },
-          1400: {
-            slidesPerView: 7,
-            spaceBetween: 10,
-          },
-        }}
+        breakpoints={movieList}
         className={s.slider}
         moduleSlider={FreeMode}
         nav
