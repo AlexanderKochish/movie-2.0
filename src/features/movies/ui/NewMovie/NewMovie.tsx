@@ -35,6 +35,8 @@ export const NewMovie = ({ data }: Props) => {
                     alt={movie.title || 'poster'}
                     className={s.img}
                     fill
+                    loading={'lazy'}
+                    sizes={'100vw'}
                     src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.poster_path}`}
                   />
                   <div className={isActive ? s.info : clsx(s.info, s.active)}>

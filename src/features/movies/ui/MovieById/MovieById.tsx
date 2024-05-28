@@ -54,13 +54,17 @@ type Props = {
 }
 export const MovieById = ({ id }: Props) => {
   const [open, setOpen] = useState(false)
-  const { data, isLoading } = useGetMovieByIdQuery(id as string)
-  const { data: video, isLoading: isVideoLoad } = useGetVideoByIdQuery(id as string)
-  const { data: similar, isLoading: isSimilarLoad } = useGetSimilarMoviesQuery(id as string)
-  const { data: credits } = useGetMovieCreditsByIdQuery(id as string)
   const [openShare, setOpenShare] = useState(false)
   const [openRating, setOpenRating] = useState(false)
+
   const router = useRouter()
+
+  const { data, isLoading } = useGetMovieByIdQuery(id as string, { skip: !id })
+  const { data: video, isLoading: isVideoLoad } = useGetVideoByIdQuery(id as string, { skip: !id })
+  const { data: similar, isLoading: isSimilarLoad } = useGetSimilarMoviesQuery(id as string, {
+    skip: !id,
+  })
+  const { data: credits } = useGetMovieCreditsByIdQuery(id as string, { skip: !id })
 
   function secondsToHMS(seconds: number) {
     const date = new Date(seconds * 1000)
@@ -102,6 +106,7 @@ export const MovieById = ({ id }: Props) => {
             <Image
               alt={'poster'}
               fill
+              loading={'lazy'}
               sizes={'100vw'}
               src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${data?.backdrop_path || data?.poster_path}`}
               style={{ objectFit: 'cover' }}

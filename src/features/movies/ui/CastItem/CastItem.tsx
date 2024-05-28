@@ -17,7 +17,14 @@ export const CastItem = ({ actor }: Props) => {
     <li>
       <figure className={s.item}>
         <div className={s.img}>
-          <Image alt={'actor image'} fill src={img} />
+          <Image
+            alt={'actor image'}
+            fill
+            loading={'lazy'}
+            sizes={'100vw'}
+            src={img}
+            style={{ objectFit: 'cover' }}
+          />
         </div>
         <figcaption className={s.name}>{actor.name.split('')}</figcaption>
       </figure>

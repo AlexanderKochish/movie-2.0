@@ -1,5 +1,5 @@
 import { useGetMovieByNameQuery } from '@/features/movies'
-import { Preloader } from '@/shared/ui/Preloader/Preloader'
+import { useDebounce } from '@/shared/hooks/useDebounce'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -12,7 +12,8 @@ type Props = {
 }
 
 export const SearchMovie = ({ name, onOpen, open }: Props) => {
-  const { data, isLoading } = useGetMovieByNameQuery(name)
+  const { debounceValue } = useDebounce(name, 500)
+  const { data, isLoading } = useGetMovieByNameQuery(debounceValue)
 
   return (
     <ul className={s.moviesList}>
@@ -25,6 +26,8 @@ export const SearchMovie = ({ name, onOpen, open }: Props) => {
                   <Image
                     alt={'poster'}
                     fill
+                    loading={'lazy'}
+                    sizes={'100vw'}
                     src={`${process.env.NEXT_PUBLIC_IMAGE_342}${movie.poster_path || movie.backdrop_path}`}
                   />
                 </div>

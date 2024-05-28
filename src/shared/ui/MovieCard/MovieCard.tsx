@@ -18,6 +18,8 @@ export const MovieCard = ({ movie }: Props) => {
           alt={movie.title || 'poster'}
           className={s.img}
           fill
+          loading={'lazy'}
+          sizes={'100vw'}
           src={
             !movie.poster_path
               ? avatar

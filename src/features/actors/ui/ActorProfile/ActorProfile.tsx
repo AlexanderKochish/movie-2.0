@@ -1,10 +1,9 @@
 import { useState } from 'react'
 
 import { useGetActorByIdQuery, useGetActorMoviesByIdQuery } from '@/features/actors/api/actors-api'
-import { useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
-import { GenresArgs } from '@/features/movies/types/movies.types'
 import { MovieList } from '@/features/movies/ui/MovieList/MovieList'
 import { MoviesOfGenres } from '@/features/movies/ui/MoviesOfGenre/MoviesOfGenre'
+import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import Image from 'next/image'
@@ -18,7 +17,7 @@ export const ActorProfile = () => {
   const { query } = useRouter()
   const { data: actor, isLoading } = useGetActorByIdQuery(Number(query.id))
   const { data } = useGetActorMoviesByIdQuery(Number(query.id), { skip: !actor })
-  const [total, setTotal] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   if (isLoading) {
     return <Preloader />
@@ -31,7 +30,7 @@ export const ActorProfile = () => {
           <Image
             alt={'actor profile'}
             height={320}
-            layout={'responsive'}
+            loading={'lazy'}
             sizes={'(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 800px'}
             src={
               actor?.profile_path
@@ -61,8 +60,15 @@ export const ActorProfile = () => {
       <div className={s.name}>
         <h3>Movies with: {actor?.name}</h3>
       </div>
-      <div>{data?.cast && <MoviesOfGenres data={total} />}</div>
-      <Pagination data={data} item={12} onTotal={setTotal} />
+      <ul className={s.list}>
+        {data?.cast && data.cast.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+      </ul>
+      {/* <Pagination
+        currentPage={currentPage}
+        onChangePage={setCurrentPage}
+        pageSize={5}
+        totalCount={data?.cast.length || 1}
+      /> */}
     </div>
   )
 }

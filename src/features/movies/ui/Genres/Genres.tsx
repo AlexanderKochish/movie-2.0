@@ -7,6 +7,8 @@ import { SwiperSlide } from 'swiper/react'
 
 import s from './Genres.module.scss'
 
+import { genreList } from '../../breakpoints/breakpoints'
+
 export const Genres = () => {
   const { data } = useGetGenresQuery()
   const { push } = useRouter()
@@ -18,29 +20,7 @@ export const Genres = () => {
   return (
     <ul className={s.block}>
       <Slider
-        breakpoints={{
-          0: { slidesPerView: 1, spaceBetween: 5 },
-          340: {
-            slidesPerView: 2,
-            spaceBetween: 5,
-          },
-          640: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-          },
-          780: {
-            slidesPerView: 5,
-            spaceBetween: 10,
-          },
-          1200: {
-            slidesPerView: 8,
-            spaceBetween: 10,
-          },
-          1400: {
-            slidesPerView: 9,
-            spaceBetween: 10,
-          },
-        }}
+        breakpoints={genreList}
         moduleSlider={A11y}
         nav={false}
         slidesPerView={8.5}

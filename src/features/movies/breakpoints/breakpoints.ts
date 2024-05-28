@@ -73,8 +73,31 @@ export const titleMovie = {
     slidesPerView: 2,
     spaceBetween: 15,
   },
-  1200: {
+  1100: {
     slidesPerView: 3,
     spaceBetween: 20,
+  },
+}
+export const genreList = {
+  0: { slidesPerView: 1, spaceBetween: 5 },
+  340: {
+    slidesPerView: 2,
+    spaceBetween: 5,
+  },
+  640: {
+    slidesPerView: 4,
+    spaceBetween: 10,
+  },
+  780: {
+    slidesPerView: 5,
+    spaceBetween: 10,
+  },
+  1200: {
+    slidesPerView: 8,
+    spaceBetween: 10,
+  },
+  1400: {
+    slidesPerView: 9,
+    spaceBetween: 10,
   },
 }

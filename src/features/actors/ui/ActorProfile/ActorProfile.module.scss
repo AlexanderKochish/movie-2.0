@@ -18,6 +18,15 @@
   color: var(--info-300);
 }
 
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
 .name {
   padding: 0 20px;
   font-size: var(--font-size-xl);
