@@ -63,12 +63,6 @@ export const ActorProfile = () => {
       <ul className={s.list}>
         {data?.cast && data.cast.map(movie => <MovieCard key={movie.id} movie={movie} />)}
       </ul>
-      {/* <Pagination
-        currentPage={currentPage}
-        onChangePage={setCurrentPage}
-        pageSize={5}
-        totalCount={data?.cast.length || 1}
-      /> */}
     </div>
   )
 }
