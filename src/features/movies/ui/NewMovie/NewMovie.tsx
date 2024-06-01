@@ -1,54 +1,54 @@
+import { useEffect, useState } from 'react'
+
 import { MovieArgs, MoviesResponseArgs } from '@/features/movies/types/movies.types'
-import { Slider } from '@/shared/ui/SliderSwiper/Slider'
-import clsx from 'clsx'
+import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import Image from 'next/image'
 import Link from 'next/link'
-import { EffectCoverflow } from 'swiper/modules'
-import { SwiperSlide } from 'swiper/react'
+import { FaStar } from 'react-icons/fa'
 
 import s from './NewMovie.module.scss'
-
-import { titleMovie } from '../../breakpoints/breakpoints'
 
 type Props = {
   data?: MoviesResponseArgs
 }
 
 export const NewMovie = ({ data }: Props) => {
+  const [movie, setMovie] = useState<MovieArgs | undefined>(undefined)
+
+  useEffect(() => {
+    setMovie(data?.results[Math.floor(Math.random() * data.results.length)])
+  }, [data])
+
   return (
-    <Slider
-      breakpoints={titleMovie}
-      className={clsx(s['single-slider'], s.sliderContainer)}
-      loop
-      moduleSlider={EffectCoverflow}
-      nav
-      slidesPerView={3}
-      spaceBetween={30}
-    >
-      {data &&
-        data.results.map((movie: MovieArgs) => (
-          <SwiperSlide key={movie.id}>
-            {({ isActive }) => (
-              <Link href={`/movies/${movie.id}`}>
-                <li className={s.imgWrapper}>
-                  <Image
-                    alt={movie.title || 'poster'}
-                    className={s.img}
-                    fill
-                    loading={'lazy'}
-                    sizes={'100vw'}
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.poster_path}`}
-                  />
-                  <div className={isActive ? s.info : clsx(s.info, s.active)}>
-                    <div className={s.infoRating}>{movie.vote_average.toFixed(1)}</div>
-                    <div>{movie.title || movie.original_title}</div>
-                    <div className={s.year}>{movie.release_date?.substring(0, 4)}</div>
+    <>
+      {!movie ? (
+        <Preloader />
+      ) : (
+        <Link href={`/movies/${movie.id}`}>
+          <li className={s.imgWrapper}>
+            <Image
+              alt={movie.title || 'poster'}
+              fill
+              sizes={'100vw'}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_ORIGIN}${movie.backdrop_path}`}
+              style={{ objectFit: 'cover' }}
+            />
+            <div className={s.info}>
+              <div className={s.blockInfo}>
+                <div className={s.infoTitle}>{movie.title || movie.original_title}</div>
+                <p>{movie.overview}</p>
+                <div>
+                  <div>{movie.genre_ids.join(' | ')}</div>
+                  <div className={s.infoRating}>
+                    <FaStar /> {movie.vote_average.toFixed(1)}
                   </div>
-                </li>
-              </Link>
-            )}
-          </SwiperSlide>
-        ))}
-    </Slider>
+                </div>
+                <div className={s.year}>{movie.release_date?.substring(0, 4)}</div>
+              </div>
+            </div>
+          </li>
+        </Link>
+      )}
+    </>
   )
 }

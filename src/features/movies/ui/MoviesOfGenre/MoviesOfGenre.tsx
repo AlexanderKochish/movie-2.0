@@ -25,11 +25,14 @@ export const MoviesOfGenres = ({ query }: Props) => {
   const [currentPage, setCurrentPage] = useState(1)
   const genObj = genre?.genres.find(genre => genre.name == router.query.genre)
   const date = new Date()
-  const { data, isLoading } = useGetMoviesOfGenresQuery({
-    genreId: String(genObj?.id || 28),
-    page: Number(router.query.page) || currentPage,
-    params: router.query,
-  })
+  const { data, isLoading } = useGetMoviesOfGenresQuery(
+    {
+      genreId: String(genObj?.id || 28),
+      page: Number(router.query.page) || currentPage,
+      params: router.query,
+    },
+    { skip: !genObj?.id }
+  )
 
   const genreList = genre?.genres.map((gen: GenresArgs, i) => ({
     label: i === 0 ? 'Genres' : gen.name,
