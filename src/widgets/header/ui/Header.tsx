@@ -22,7 +22,6 @@ import { auth } from '../../../../firebase'
 
 export const Header = () => {
   const [name, setName] = useState('')
-  const [scrollDirection, setScrollDirection] = useState(false)
   const [open, setOpen] = useState(false)
   const [user, loading, error] = useAuthState(auth)
   const [navBar, setNavBar] = useState(false)
@@ -44,66 +43,67 @@ export const Header = () => {
   const activePath = (path: string) => (pathname === path ? clsx(s.navItem, s.active) : s.navItem)
 
   return (
-    <header className={scrollDirection ? clsx(s.header, s.active) : s.header}>
-      <ul className={s.nav}>
-        <li>
-          <Link href={'/'}>
-            <h1 className={s.logo}>MD</h1>
-          </Link>
-        </li>
-        <li>
-          <ul className={!navBar ? s.navBar : clsx(s.navBar, s.active)}>
-            <li className={activePath('/')}>
-              <Link href={'/'}>
-                <ImHome className={s.icon} />
-              </Link>
-            </li>
-            <li className={activePath('/movies')}>
-              <Link href={'/movies'}>
-                <MdOutlineLocalMovies className={s.icon} />
-              </Link>
-            </li>
-            <li className={activePath('/series')}>
-              <Link href={'/series'}>
-                <MdOutlineLiveTv className={s.icon} />
-              </Link>
-            </li>
-            <li className={activePath('/cartoons')}>
-              <Link href={'/cartoons'}>
-                <TbCards className={s.icon} />
-              </Link>
-            </li>
-            <li>
-              <Modal
-                btn
-                className={s.dialog}
-                disabled={false}
-                onClose={setOpen}
-                open={open}
-                trigger={<IoSearch className={s.icon} onClick={() => setOpen(!open)} />}
-              >
-                <div>
-                  <form className={s.searchForm}>
-                    <h2 className={s.title}>Search</h2>
-                    <label className={s.label} htmlFor={'search'}>
-                      Movies, serials, cartoons
-                    </label>
-                    <input
-                      className={s.search}
-                      id={'search'}
-                      onChange={e => setName(e.target.value)}
-                      type={'text'}
-                    />
-                  </form>
-                  <SearchMovie name={name} onOpen={setOpen} open={open} />
-                </div>
-              </Modal>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
+    <div>
+      <header className={!navBar ? s.header : clsx(s.header, s.active)}>
+        <ul className={s.nav}>
+          <li>
+            <Link href={'/'}>
+              <h1 className={s.logo}>MD</h1>
+            </Link>
+          </li>
+          <li>
+            <ul className={s.navBar}>
+              <li className={activePath('/')}>
+                <Link href={'/'}>
+                  <ImHome className={s.icon} />
+                </Link>
+              </li>
+              <li className={activePath('/movies')}>
+                <Link href={'/movies'}>
+                  <MdOutlineLocalMovies className={s.icon} />
+                </Link>
+              </li>
+              <li className={activePath('/series')}>
+                <Link href={'/series'}>
+                  <MdOutlineLiveTv className={s.icon} />
+                </Link>
+              </li>
+              <li className={activePath('/cartoons')}>
+                <Link href={'/cartoons'}>
+                  <TbCards className={s.icon} />
+                </Link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </header>
       <div className={s.auth}>
+        <div>
+          <Modal
+            btn
+            className={s.dialog}
+            disabled={false}
+            onClose={setOpen}
+            open={open}
+            trigger={<IoSearch className={s.icon} onClick={() => setOpen(!open)} />}
+          >
+            <div>
+              <form className={s.searchForm}>
+                <h2 className={s.title}>Search</h2>
+                <label className={s.label} htmlFor={'search'}>
+                  Movies, serials, cartoons
+                </label>
+                <input
+                  className={s.search}
+                  id={'search'}
+                  onChange={e => setName(e.target.value)}
+                  type={'text'}
+                />
+              </form>
+              <SearchMovie name={name} onOpen={setOpen} open={open} />
+            </div>
+          </Modal>
+        </div>
         <>
           {user ? (
             <div>
@@ -112,10 +112,10 @@ export const Header = () => {
                 <Image
                   alt={'profile'}
                   className={s.img}
-                  height={30}
+                  height={35}
                   loading={'lazy'}
                   src={user?.photoURL || ''}
-                  width={30}
+                  width={35}
                 />
               </Link>
             </div>
@@ -135,6 +135,6 @@ export const Header = () => {
           )}
         </>
       </div>
-    </header>
+    </div>
   )
 }

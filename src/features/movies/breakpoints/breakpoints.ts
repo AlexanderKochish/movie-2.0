@@ -45,7 +45,7 @@ export const movieList = {
     slidesPerView: 1,
     spaceBetween: 10,
   },
-  440: { slidesPerView: 2, spaceBetween: 10 },
+  440: { slidesPerView: 2, spaceBetween: 5 },
   640: {
     slidesPerView: 3,
     spaceBetween: 10,

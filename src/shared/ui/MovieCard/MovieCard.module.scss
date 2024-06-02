@@ -81,3 +81,9 @@
     transform: scale(1.02);
   }
 }
+
+@media (width <= 640px) {
+  .card {
+    min-height: 270px;
+  }
+}

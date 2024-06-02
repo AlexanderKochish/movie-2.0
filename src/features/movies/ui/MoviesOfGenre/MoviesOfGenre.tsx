@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react'
 
 import { ParsedUrlQuery } from 'node:querystring'
 
-import { useGetGenresQuery, useGetMoviesOfGenresQuery } from '@/features/movies/api/movie-api'
+import {
+  useGetGenresQuery,
+  useGetMoviesOfGenresQuery,
+  useGetPopularQuery,
+} from '@/features/movies/api/movie-api'
 import { GenerateSelectArgs, GenresArgs } from '@/features/movies/types/movies.types'
 import { MoviesFilter } from '@/features/movies/ui/MoviesFilter/MoviesFilter'
 import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
+import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 import { IoMdClose } from 'react-icons/io'
@@ -27,13 +32,14 @@ export const MoviesOfGenres = ({ query }: Props) => {
   const date = new Date()
   const { data, isLoading } = useGetMoviesOfGenresQuery(
     {
-      genreId: String(genObj?.id || 28),
+      genreId: String(genObj?.id),
       page: Number(router.query.page) || currentPage,
       params: router.query,
     },
     { skip: !genObj?.id }
   )
 
+  const { data: popular } = useGetPopularQuery(undefined, { skip: !!genObj?.id })
   const genreList = genre?.genres.map((gen: GenresArgs, i) => ({
     label: i === 0 ? 'Genres' : gen.name,
     name: 'genre',
@@ -68,6 +74,10 @@ export const MoviesOfGenres = ({ query }: Props) => {
     }
   }, [router.query.page])
 
+  if (isLoading) {
+    return <Preloader />
+  }
+
   return (
     <div className={s.block}>
       {query && (
@@ -93,6 +103,7 @@ export const MoviesOfGenres = ({ query }: Props) => {
 
       <ul className={s.list}>
         {data && data.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+        {popular && popular.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
       </ul>
       <div className={s.pagination}>
         {data && (
@@ -101,6 +112,14 @@ export const MoviesOfGenres = ({ query }: Props) => {
             onChangePage={handlePageChange}
             pageSize={20}
             totalCount={data?.total_pages}
+          />
+        )}
+        {popular && (
+          <Pagination
+            currentPage={currentPage}
+            onChangePage={handlePageChange}
+            pageSize={20}
+            totalCount={popular?.total_pages}
           />
         )}
       </div>

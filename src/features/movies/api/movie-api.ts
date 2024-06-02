@@ -47,8 +47,8 @@ const movieApi = baseApi.injectEndpoints({
     getMoviesOfGenres: builder.query<
       MoviesResponseArgs,
       {
-        genreId: string | undefined
-        page: number | undefined
+        genreId?: string | undefined
+        page?: number | undefined
         params: {
           genre?: number | undefined
           page?: number | undefined
