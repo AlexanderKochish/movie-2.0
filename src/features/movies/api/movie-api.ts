@@ -1,8 +1,10 @@
 import {
   CreditsResponse,
   GenreResponse,
+  MovieFilterArgs,
   MoviesResponseArgs,
   SelectMovieResponse,
+  SerialsResponse,
   VideoResponse,
 } from '@/features/movies/types/movies.types'
 import { baseApi } from '@/shared/api/base-api'
@@ -24,9 +26,9 @@ const movieApi = baseApi.injectEndpoints({
         url: `/discover/movie?sort_by=popularity.desc&with_genres=${14}`,
       }),
     }),
-    getGenres: builder.query<GenreResponse, void>({
-      query: () => ({
-        url: '/genre/movie/list?language=en',
+    getGenres: builder.query<GenreResponse, { name: string }>({
+      query: name => ({
+        url: `/genre/${name.name}/list?language=en`,
       }),
     }),
     getMovieById: builder.query<SelectMovieResponse, string>({
@@ -44,20 +46,7 @@ const movieApi = baseApi.injectEndpoints({
         url: `/movie/${id}/credits?language=en`,
       }),
     }),
-    getMoviesOfGenres: builder.query<
-      MoviesResponseArgs,
-      {
-        genreId?: string | undefined
-        page?: number | undefined
-        params: {
-          genre?: number | undefined
-          page?: number | undefined
-          popular?: string | undefined
-          rating?: string | undefined
-          year?: string | undefined
-        }
-      }
-    >({
+    getMoviesOfGenres: builder.query<MoviesResponseArgs, MovieFilterArgs>({
       query: ({ genreId, page, params }) => {
         return {
           params: {
@@ -76,9 +65,20 @@ const movieApi = baseApi.injectEndpoints({
         url: `movie/now_playing?language=en-US&page=1`,
       }),
     }),
+
     getPopular: builder.query<MoviesResponseArgs, void>({
       query: () => ({
         url: '/trending/all/day',
+      }),
+    }),
+    getSeriesById: builder.query<SerialsResponse, string>({
+      query: id => ({
+        url: `/tv/${id}?language=en`,
+      }),
+    }),
+    getSeriesCast: builder.query<CreditsResponse, string>({
+      query: id => ({
+        url: `/tv/${id}/credits?language=en`,
       }),
     }),
     getSimilarMovies: builder.query<MoviesResponseArgs | undefined, string>({
@@ -86,13 +86,30 @@ const movieApi = baseApi.injectEndpoints({
         url: `movie/${id}/recommendations?language=en-US&page=1`,
       }),
     }),
+    getSimilarSeries: builder.query<MoviesResponseArgs | undefined, string>({
+      query: id => ({
+        url: `tv/${id}/recommendations?language=en-US&page=1`,
+      }),
+    }),
     getTopRating: builder.query<MoviesResponseArgs, void>({
       query: () => ({
         url: `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1`,
       }),
     }),
-    getTvShows: builder.query<MoviesResponseArgs, void>({
+    getTv: builder.query<MoviesResponseArgs, void>({
       query: () => ({
+        url: `/discover/tv`,
+      }),
+    }),
+    getTvShows: builder.query<MoviesResponseArgs, MovieFilterArgs>({
+      query: ({ genreId, page, params }) => ({
+        params: {
+          page: page,
+          sort_by: params.popular,
+          'vote_average.lte': params.rating,
+          with_genres: genreId,
+          year: params.year,
+        },
         url: `/discover/tv`,
       }),
     }),
@@ -104,6 +121,11 @@ const movieApi = baseApi.injectEndpoints({
     getVideoById: builder.query<VideoResponse, string>({
       query: id => ({
         url: `/movie/${id}/videos?language=en`,
+      }),
+    }),
+    getVideoSerialById: builder.query<VideoResponse, string>({
+      query: id => ({
+        url: `/tv/${id}/videos?language=en`,
       }),
     }),
   }),
@@ -120,11 +142,16 @@ export const {
   useGetMoviesOfGenresQuery,
   useGetNowPlayingQuery,
   useGetPopularQuery,
+  useGetSeriesByIdQuery,
+  useGetSeriesCastQuery,
   useGetSimilarMoviesQuery,
+  useGetSimilarSeriesQuery,
   useGetTopRatingQuery,
+  useGetTvQuery,
   useGetTvShowsQuery,
   useGetUpComingQuery,
   useGetVideoByIdQuery,
+  useGetVideoSerialByIdQuery,
   util: { getRunningQueriesThunk },
 } = movieApi
 
@@ -136,8 +163,13 @@ export const {
   getMoviesOfGenres,
   getNowPlaying,
   getPopular,
+  getSeriesById,
+  getSeriesCast,
   getSimilarMovies,
+  getSimilarSeries,
   getTopRating,
+  getTv,
   getTvShows,
   getUpComing,
+  getVideoSerialById,
 } = movieApi.endpoints

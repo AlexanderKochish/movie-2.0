@@ -10,10 +10,11 @@ import { movieList } from '../../breakpoints/breakpoints'
 
 type Props = {
   data: MovieArgs[] | undefined
+  pathname?: string
   title?: string
 }
 
-export const MovieList = ({ data, title }: Props) => {
+export const MovieList = ({ data, pathname = 'movies', title }: Props) => {
   return (
     <ul className={s.block}>
       <h3>{title}</h3>
@@ -28,7 +29,7 @@ export const MovieList = ({ data, title }: Props) => {
         {data &&
           data.map((movie: MovieArgs) => (
             <SwiperSlide key={movie.id}>
-              <MovieCard movie={movie} />
+              <MovieCard movie={movie} pathname={pathname} />
             </SwiperSlide>
           ))}
       </Slider>

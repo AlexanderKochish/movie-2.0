@@ -1,6 +1,7 @@
 import { MovieArgs } from '@/features/movies/types/movies.types'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import s from './MovieCard.module.scss'
 
@@ -8,11 +9,12 @@ import avatar from '../../../../public/avatar-1577909_1280.webp'
 
 type Props = {
   movie: MovieArgs
+  pathname: string
 }
 
-export const MovieCard = ({ movie }: Props) => {
+export const MovieCard = ({ movie, pathname }: Props) => {
   return (
-    <Link href={`/movies/${movie.id}`} key={movie.id}>
+    <Link href={`/${pathname}/${movie.id}`} key={movie.id}>
       <li className={s.card}>
         <Image
           alt={movie.title || 'poster'}

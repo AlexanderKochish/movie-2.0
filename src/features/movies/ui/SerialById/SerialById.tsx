@@ -45,18 +45,18 @@ import { IoMdClose } from 'react-icons/io'
 import { A11y } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
-import s from './MovieById.module.scss'
+import s from './SerialById.module.scss'
 
 import { casts, recommendations } from '../../breakpoints/breakpoints'
 
 type Props = {
   cast: CreditsResponse | undefined
-  data: SelectMovieResponse | undefined
+  data: SerialsResponse | undefined
   isLoading: boolean
   similar: MoviesResponseArgs | undefined
   video: any
 }
-export const MovieById = ({ cast, data, isLoading, similar, video }: Props) => {
+export const SerialById = ({ cast, data, isLoading, similar, video }: Props) => {
   const [open, setOpen] = useState(false)
   const [openShare, setOpenShare] = useState(false)
   const [openRating, setOpenRating] = useState(false)
@@ -113,7 +113,7 @@ export const MovieById = ({ cast, data, isLoading, similar, video }: Props) => {
             <div className={s.content}>
               <div className={s.container}>
                 <div className={s.title}>
-                  <h1>{data?.title || data?.original_title}</h1>
+                  <h1>{data?.name || ''}</h1>
                   <ul className={s.titleTop}>
                     <li
                       className={
@@ -122,10 +122,10 @@ export const MovieById = ({ cast, data, isLoading, similar, video }: Props) => {
                     >
                       {data?.vote_average.toFixed(1)}
                     </li>
-                    <li>{data?.release_date.substring(0, 4)}</li>
                     <li>{data?.status}</li>
-                    <li className={s.country}>{data?.production_countries[0]?.name || ''}</li>
-                    <li>{secondsToHMS(data?.runtime)}</li>
+                    <li>{data?.status}</li>
+                    {/* <li className={s.country}>{data?.production_countries[0]?.name || ''}</li> */}
+                    {/* <li>{secondsToHMS(data?.)}</li> */}
                   </ul>
                   <p className={s.overview}>{data?.overview || 'No description'}</p>
                   <div className={s.actors}>

@@ -56,21 +56,25 @@ export const Header = () => {
               <li className={activePath('/')}>
                 <Link href={'/'}>
                   <ImHome className={s.icon} />
+                  <span className={s.linkText}>Home</span>
                 </Link>
               </li>
               <li className={activePath('/movies')}>
                 <Link href={'/movies'}>
                   <MdOutlineLocalMovies className={s.icon} />
+                  <span className={s.linkText}>Movies</span>
                 </Link>
               </li>
               <li className={activePath('/series')}>
                 <Link href={'/series'}>
                   <MdOutlineLiveTv className={s.icon} />
+                  <span className={s.linkText}>TV Shows</span>
                 </Link>
               </li>
               <li className={activePath('/cartoons')}>
                 <Link href={'/cartoons'}>
                   <TbCards className={s.icon} />
+                  <span className={s.linkText}>Cartoons</span>
                 </Link>
               </li>
             </ul>

@@ -9,8 +9,8 @@ import { useRouter } from 'next/router'
 import s from './MoviesFilter.module.scss'
 
 const sortBy = [
-  { label: 'popularity.desc', name: 'popular', value: 'popularity.desc' },
-  { label: 'popularity.asc', name: 'popular', value: 'popularity.asc' },
+  { label: 'High popularity', name: 'popular', value: 'popularity.desc' },
+  { label: 'Less popularity', name: 'popular', value: 'popularity.asc' },
   { label: 'revenue.desc', name: 'popular', value: 'revenue.desc' },
   { label: 'revenue.asc', name: 'popular', value: 'revenue.asc' },
   { label: 'title.desc', name: 'popular', value: 'title.desc' },
@@ -38,7 +38,7 @@ export const MoviesFilter = ({ genreList, isFilteredMenu, rating, years }: Props
     }
 
     if (updatedQuery.genre !== router.query.genre) {
-      void router.push(`/movies?genre=${filterValue}`)
+      void router.push(`/${router.pathname}?genre=${filterValue}`)
       router.query = {}
       setSelectedPopular(null)
       setSelectedRating(null)

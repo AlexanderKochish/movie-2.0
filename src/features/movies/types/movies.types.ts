@@ -1,3 +1,5 @@
+import { number } from 'zod'
+
 export type MoviesResponseArgs = {
   dates?: { maximum: string; minimum: string }
   page: number
@@ -142,4 +144,52 @@ export type GenerateSelectArgs = {
   length: number
   name: string
   opts?: number | undefined
+}
+
+export type MovieFilterArgs = {
+  genreId?: string | undefined
+  page?: number | undefined
+  params: {
+    genre?: number | undefined
+    page?: number | undefined
+    popular?: string | undefined
+    rating?: string | undefined
+    year?: string | undefined
+  }
+}
+export type SerialsResponse = {
+  adult: boolean
+  backdrop_path: string
+  created_by: string[]
+  episode_run_time: number[]
+  first_air_date: string[]
+  genres: number[]
+  homepage: string
+  id: number
+  in_production: boolean
+  languages: string[]
+  last_air_date: string
+  last_episode_to_air: string[]
+  name: string
+  networks: string[]
+  next_episode_to_air: null | number
+
+  number_of_episodes: number
+  number_of_seasons: number
+  origin_country: string[]
+  original_language: string
+  original_name: string
+  overview: string
+  popularity: number
+  poster_path: string
+  production_companies: string
+  production_countries: string[]
+  seasons: string[]
+  spoken_languages: string[]
+  status: string
+  tagline: string
+  type: string
+
+  vote_average: number
+  vote_count: number
 }

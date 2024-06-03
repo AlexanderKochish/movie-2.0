@@ -29,15 +29,15 @@ export const ActorProfile = () => {
         <div className={s.img}>
           <Image
             alt={'actor profile'}
-            height={320}
+            height={340}
             loading={'lazy'}
-            sizes={'(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 800px'}
+            sizes={'(max-width: 600px) 100vw, (max-width: 1024px) 100vw, 100vw'}
             src={
               actor?.profile_path
                 ? `${process.env.NEXT_PUBLIC_IMAGE_342}${actor?.profile_path}`
                 : ava
             }
-            width={300}
+            width={280}
           />
         </div>
         <ul className={s.actorInfo}>
@@ -61,7 +61,8 @@ export const ActorProfile = () => {
         <h3>Movies with: {actor?.name}</h3>
       </div>
       <ul className={s.list}>
-        {data?.cast && data.cast.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+        {data?.cast &&
+          data.cast.map(movie => <MovieCard key={movie.id} movie={movie} pathname={'movies'} />)}
       </ul>
     </div>
   )

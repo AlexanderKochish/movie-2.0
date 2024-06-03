@@ -1,89 +1,47 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { ParsedUrlQuery } from 'node:querystring'
 
-import {
-  useGetGenresQuery,
-  useGetMoviesOfGenresQuery,
-  useGetPopularQuery,
-} from '@/features/movies/api/movie-api'
-import { GenerateSelectArgs, GenresArgs } from '@/features/movies/types/movies.types'
+import { MoviesResponseArgs } from '@/features/movies/types/movies.types'
 import { MoviesFilter } from '@/features/movies/ui/MoviesFilter/MoviesFilter'
+import { useFilterGenerete } from '@/shared/hooks/useFilterGenerete'
 import { MovieCard } from '@/shared/ui/MovieCard/MovieCard'
 import { Pagination } from '@/shared/ui/Pagination/Pagination'
 import { Preloader } from '@/shared/ui/Preloader/Preloader'
 import clsx from 'clsx'
-import { useRouter } from 'next/router'
 import { IoMdClose } from 'react-icons/io'
 import { VscSettings } from 'react-icons/vsc'
 
 import s from './MoviesOfGenre.module.scss'
 
 type Props = {
+  currentPage: number
+  data: MoviesResponseArgs | undefined
+  genreName?: string | string[] | undefined
+  genreType: string
+  onChangePage: (page: number) => void
+  pathname?: string
   query?: ParsedUrlQuery
 }
 
-export const MoviesOfGenres = ({ query }: Props) => {
+export const MoviesOfGenres = ({
+  currentPage,
+  data,
+  genreName,
+  genreType,
+  onChangePage,
+  pathname = 'movies',
+  query,
+}: Props) => {
+  const { genreList, rating, years } = useFilterGenerete({ genreType })
   const [isFilteredMenu, setIsFilteredMenu] = useState(false)
-  const router = useRouter()
-  const { data: genre } = useGetGenresQuery()
-  const [currentPage, setCurrentPage] = useState(1)
-  const genObj = genre?.genres.find(genre => genre.name == router.query.genre)
-  const date = new Date()
-  const { data, isLoading } = useGetMoviesOfGenresQuery(
-    {
-      genreId: String(genObj?.id),
-      page: Number(router.query.page) || currentPage,
-      params: router.query,
-    },
-    { skip: !genObj?.id }
-  )
-
-  const { data: popular } = useGetPopularQuery(undefined, { skip: !!genObj?.id })
-  const genreList = genre?.genres.map((gen: GenresArgs, i) => ({
-    label: i === 0 ? 'Genres' : gen.name,
-    name: 'genre',
-    value: String(gen.id),
-  }))
-
-  const generateArr = ({ defaultName, length, name, opts }: GenerateSelectArgs) => {
-    return Array.from({ length }, (_, i) => ({
-      label: i === 0 ? defaultName : String(opts ? opts + i + 1 : i + 1),
-      name,
-      value: String(opts ? opts + i + 1 : i + 1),
-    })).reverse()
-  }
-
-  const years = generateArr({
-    defaultName: 'All',
-    length: date.getFullYear() - 1950,
-    name: 'year',
-    opts: 1950,
-  })
-  const rating = generateArr({ defaultName: 'All', length: 10, name: 'rating' })
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
-
-  useEffect(() => {
-    if (router.query.page) {
-      setCurrentPage(Number(router.query.page))
-    } else {
-      setCurrentPage(1)
-    }
-  }, [router.query.page])
-
-  if (isLoading) {
-    return <Preloader />
-  }
 
   return (
     <div className={s.block}>
       {query && (
         <>
           <div className={s.filtersTitle}>
-            <h2>Movies{router.query.genre && `: ${router.query.genre}`}</h2>
+            <h2>Movies{genreName && `: ${genreName}`}</h2>
             <VscSettings
               className={s.filtersMenu}
               onClick={() => setIsFilteredMenu(prev => !prev)}
@@ -102,24 +60,16 @@ export const MoviesOfGenres = ({ query }: Props) => {
       )}
 
       <ul className={s.list}>
-        {data && data.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
-        {popular && popular.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+        {data &&
+          data.results.map(movie => <MovieCard key={movie.id} movie={movie} pathname={pathname} />)}
       </ul>
       <div className={s.pagination}>
         {data && (
           <Pagination
             currentPage={currentPage}
-            onChangePage={handlePageChange}
+            onChangePage={onChangePage}
             pageSize={20}
             totalCount={data?.total_pages}
-          />
-        )}
-        {popular && (
-          <Pagination
-            currentPage={currentPage}
-            onChangePage={handlePageChange}
-            pageSize={20}
-            totalCount={popular?.total_pages}
           />
         )}
       </div>
