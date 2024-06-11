@@ -82,8 +82,14 @@
   }
 }
 
+@media (width <= 1260px) {
+  .card {
+    min-height: 60vh;
+  }
+}
+
 @media (width <= 640px) {
   .card {
-    min-height: 270px;
+    min-height: 250px;
   }
 }

@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'

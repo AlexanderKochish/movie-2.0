@@ -204,17 +204,18 @@
     transition: all 0.3s;
   }
 
+  .navItem > a {
+    display: flex;
+    column-gap: 15px;
+    align-items: center;
+  }
+
   .navItem.active {
     &::after {
       bottom: 12px;
       left: -32px;
       transform: rotate(90deg);
       width: 35px;
-    }
-
-    & > a {
-      display: flex;
-      align-items: center;
     }
   }
 
@@ -233,9 +234,7 @@
 
     transition: all 0.3s;
   }
-}
 
-@media (width <= 640px) {
   .header {
     display: none;
   }

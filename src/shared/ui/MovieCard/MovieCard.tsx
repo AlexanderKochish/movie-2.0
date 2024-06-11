@@ -1,7 +1,6 @@
 import { MovieArgs } from '@/features/movies/types/movies.types'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import s from './MovieCard.module.scss'
 

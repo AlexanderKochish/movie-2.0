@@ -70,7 +70,7 @@ const Movies: Page = () => {
       currentPage={currentPage}
       data={data || popular}
       genreName={query?.genre}
-      genreType={'movies'}
+      genreType={'movie'}
       onChangePage={handlePageChange}
       query={query}
     />

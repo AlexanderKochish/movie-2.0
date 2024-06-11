@@ -68,7 +68,7 @@ export const MoviesOfGenres = ({
           <Pagination
             currentPage={currentPage}
             onChangePage={onChangePage}
-            pageSize={20}
+            pageSize={data.results.length}
             totalCount={data?.total_pages}
           />
         )}
