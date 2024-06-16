@@ -42,7 +42,7 @@ const Series: Page = () => {
   const { data, isLoading } = useGetTvShowsQuery(
     {
       genreId: String(genId),
-      page: currentPage,
+      page: Number(query.page) || currentPage,
       params: query,
     },
     { skip: !genId }

@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import Select, {
-  ActionMeta,
   ControlProps,
   GroupBase,
   OptionsOrGroups,
   PropsValue,
-  SingleValue,
   StylesConfig,
 } from 'react-select'
 
 import { Option } from '@/features/movies/types/movies.types'
+
+import s from './Select.module.scss'
 
 type Props = {
   handleFilterChange: (label: string, value: string) => void
@@ -55,6 +55,13 @@ export const MySelect = ({
     }),
     menu: (base: any) => ({
       ...base,
+      '@media (width < 760px)': {
+        bottom: 0,
+        height: '100vh',
+        left: 0,
+        position: 'fixed',
+        width: '100%',
+      },
       border: 'none',
       borderRadius: 0,
       color: 'var(--light-100)',
@@ -97,7 +104,7 @@ export const MySelect = ({
       onMenuOpen={() => setOpen(true)}
       options={options}
       placeholder={placeholder}
-      styles={styles || customStyles}
+      styles={customStyles}
       value={value}
     />
   )
